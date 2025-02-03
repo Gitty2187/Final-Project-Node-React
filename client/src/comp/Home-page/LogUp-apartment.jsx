@@ -14,6 +14,7 @@ import { updateApartment } from '../../Store/ApartmentSlice';
 import { updateAllApar } from '../../Store/AllApartment';
 import { setToken } from '../../Store/Token';
 import { useNavigate } from 'react-router-dom';
+import { updateBuild } from '../../Store/BuildingSlice';
 import { Dropdown } from 'primereact/dropdown';
 
 const Logup = (props) => {
@@ -51,6 +52,7 @@ const Logup = (props) => {
             dispatch(updateApartment(res.data.apartment))
             dispatch(setToken(res.data.token))
             dispatch(updateAllApar(res.data.allApartments))
+            // dispatch(updateBuild(res.data.building))
             confirm2()
             props.setVisible(false)
         }

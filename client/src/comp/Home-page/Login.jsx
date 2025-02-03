@@ -11,8 +11,9 @@ import Logup from './LogUp-apartment';
 import LogUPBuild from "./LogUp-building"
 import { Toast } from 'primereact/toast';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateBuild } from '../../Store/BuildingSlice';
+import { updateAllApar } from '../../Store/AllApartment';
 import { setToken } from '../../Store/Token';
+import { updateBuild } from '../../Store/BuildingSlice';
 import { updateApartment } from '../../Store/ApartmentSlice';
 import { useNavigate } from 'react-router-dom';
 
@@ -49,6 +50,8 @@ const Login = () => {
         try {
             const res = await axios.get(`http://localhost:7000/bulding/${password}`)
             dispatch(updateBuild(res.data.building))
+            dispatch(setToken(res.data.token))
+            dispatch(updateAllApar(res.data.allApartments))
             setHouseNum(res.data.apartmentsNull)
             setVisible(true)
         }
@@ -69,7 +72,7 @@ const Login = () => {
             dispatch(setToken(res.data.token))
             dispatch(updateApartment(res.data.apartment))
             dispatch(updateBuild(res.data.building))
-            dispatch(setToken(res.data.allApartments))
+            dispatch(updateAllApar(res.data.allApartments))
             navigate('/apartment')
         }
         catch (e) {

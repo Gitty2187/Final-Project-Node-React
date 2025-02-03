@@ -26,7 +26,7 @@ const Nav =()=>{
                 {
                     label: '  ניהול דיירים ',
                     icon: 'pi pi-users',
-                    command: () => {navigate('/manager')}
+                    command: () => {navigate('/manager/apartments')}
                 },
             ]
         }

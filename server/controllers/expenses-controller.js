@@ -8,7 +8,6 @@ const add = async (req, res) => {
     //validation
     if (!addExpense.building_id || !addExpense.admin_id || !addExpense.date || !addExpense.type || !addExpense.sum)
         return res.status(400).send("insert required argomets")
-    console.log("validation");
     
     // const build = await Building.findById(addExpense.building_id).lean()
     // if(!build)
@@ -21,7 +20,6 @@ const add = async (req, res) => {
     const newExpense = await Expenses.create(addExpense)
     if (!newExpense)
         return res.status(401).res("failed")
-    console.log("create");
     //return
     try {
         const allExpenses = await Expenses.find({building_id:addExpense.building_id})

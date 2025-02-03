@@ -29,9 +29,11 @@ const add = async (req, res) => {
     try {
         const apartment_sum = await Apartment_sum.create({ admin_last_name,admin_id, date, type, sum, comment, building_id })
         
+        
         for (let id of apartments_id) {
+            
             let apartment = await Apartment.findById(id).exec()
-
+            
             if (apartment.balance < 0)//יש זיכוי
             {
                 if ((-apartment.balance) > apartment_sum.sum) {

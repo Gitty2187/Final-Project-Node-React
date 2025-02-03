@@ -42,7 +42,6 @@ const AddExpenses = (props) => {
             });
             console.log(res.data);
             props.setExpenses(updatedExpenses);
-            dispatch(updateAllApar(updatedExpenses))
             props.setVisible(false)
         }
         catch (e) {

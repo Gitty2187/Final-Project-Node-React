@@ -23,7 +23,7 @@ const login = async (req, res) => {
         return res.status(400).send("apartment not exist")
 
     //if manager return also all the apartments
-    const allApartments =  apartment.is_admin? await Apartment.find({building_id:apartment.building_id,is_active:true}) : null
+    const allApartments =  apartment.is_admin? await Apartment.find({building_id:apartment.building_id,is_active:true}).sort({ number: 1 }) : null
     
     const building = await Building.findOne({_id:apartment.building_id})
 
@@ -62,8 +62,8 @@ const logUp = async (req, res) => {
         newApartment.entered_date = new Date()
 
     //if manager return also all the apartments
-    const allApartments =  newApartment.is_admin? await Apartment.find({building_id:newApartment.building_id,is_active:true}) : null
-
+    const allApartments =  newApartment.is_admin? await Apartment.find({building_id:newApartment.building_id,is_active:true}).sort({ number: 1 }) : null
+    
     // Create the new apartment
     try {
         let apartment = await Apartment.create(newApartment);

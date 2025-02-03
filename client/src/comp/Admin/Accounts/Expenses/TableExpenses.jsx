@@ -62,7 +62,10 @@ const Table = () => {
     useEffect(() => {
         const filtered = expenses.filter(expense => {
             const exYear = new Date(expense.date.split('/').reverse().join('/')).getFullYear();
-            return exYear === selectedYear && selectedBy ? expense.admin_last_name === selectedBy : true;
+            const matchesYear = exYear === selectedYear;
+            const matchesAdmin = selectedBy ? expense.admin_last_name === selectedBy : true;
+        
+            return matchesYear && matchesAdmin;
         });
 
 

@@ -59,8 +59,11 @@ const Table = () => {
 
     useEffect(() => {
         const filtered = sums.filter(sum => {
-            const sumYear = new Date(sum.date.split('/').reverse().join('/')).getFullYear();
-            return sumYear === selectedYear && selectedBy ? sum.admin_last_name === selectedBy : true;
+            const exYear = new Date(sum.date.split('/').reverse().join('/')).getFullYear();
+            const matchesYear = exYear === selectedYear;
+            const matchesAdmin = selectedBy ? sum.admin_last_name === selectedBy : true;
+        
+            return matchesYear && matchesAdmin;
         });
 
 

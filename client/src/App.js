@@ -7,6 +7,7 @@ import Nav from './comp/Nav';
 import Account from "./comp/Admin/Accounts/Accounts"
 import Home  from './comp/Apartments/Home';
 import Start from './comp/Start';
+import AllApartmets from './comp/Admin/Apartments/AllApartments';
 
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
        <Route path="/" element={<Start />} />
        <Route path="/login" element={<Login />} />
        <Route path="/apartment" element={<Home/>} />
-       <Route path="/manager" element={<Nav/>} />
+       <Route path="/manager/apartments" element={<AllApartmets/>} />
        <Route path="/manager/expenses" element={<Account/> } />
      </Routes>
     
