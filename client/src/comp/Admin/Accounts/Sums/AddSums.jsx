@@ -34,7 +34,8 @@ const AddSums = (props) => {
         try {
             // console.log(allapartment);
             const apartments_id = allapartment.map(a=>a._id)
-            data = { ...data, building_id: building._id, admin_id: apartment._id,admin_last_name: apartment.last_name,apartments_id}
+            const is_general = props.is_general ? true : false;
+            data = { ...data, building_id: building._id, admin_id: apartment._id,admin_last_name: apartment.last_name,apartments_id,is_general}
             const res = await axios.post('http://localhost:7000/apartment_sum', data)
             const updatedSums = res.data.allApartments_sum.map((a) => {
                 const updateDay = new Date(a.date);

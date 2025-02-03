@@ -20,14 +20,14 @@ const get_all = async (req, res) => {
 
 const add = async (req, res) => {
     
-    const { apartments_id, admin_id, admin_last_name,date, type, sum, comment, building_id } = req.body
+    const { apartments_id, admin_id, admin_last_name,date, type, sum, comment, building_id ,is_general} = req.body
     let paid = 0
 
     if (!building_id || !apartments_id || !admin_id || !date || !type || !sum)
         return res.status(401).send("must insert required params")
 
     try {
-        const apartment_sum = await Apartment_sum.create({ admin_last_name,admin_id, date, type, sum, comment, building_id })
+        const apartment_sum = await Apartment_sum.create({ admin_last_name,admin_id, date, type, sum, comment, building_id ,is_general})
         
         
         for (let id of apartments_id) {
@@ -50,7 +50,7 @@ const add = async (req, res) => {
                 res.status(400).send("faild")
         }
         const allApartments = await Apartment.find({ building_id: building_id,is_active:true })
-        const allApartments_sum = await Apartment_sum.find({ building_id: building_id })
+        const allApartments_sum = await Apartment_sum.find({ building_id: building_id ,is_general:true})
         return res.json({ allApartments, allApartments_sum })
     }
     catch (e) {

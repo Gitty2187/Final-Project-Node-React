@@ -120,7 +120,8 @@ const Table = () => {
             <Accordion activeIndex={0} style={{ textAlign: "right" }}>
                 <AccordionTab header="טבלת תשלומים לבנין">
                     <DataTable value={filteredSums} tableStyle={{ maxWidth: '50rem', direction: "rtl" }} footerColumnGroup={footerGroup}
-                        dataKey="id" filters={filters} filterDisplay="row" loading={loading} emptyMessage="אין נתונים זמינים להציג">
+                        dataKey="id" filters={filters} filterDisplay="row" loading={loading} emptyMessage="אין נתונים זמינים להציג"
+                        scrollable scrollHeight="400px" virtualScrollerOptions={{ itemSize: 46 }} >
                         <Column style={{ textAlign: "right", minWidth: '12rem', width: "6rem" }} field="date" header="תאריך"
                             showFilterMenu={false} filter filterElement={dateFilterElement} ></Column>
                         <Column style={{ textAlign: "right" }} field="type" header="סוג"></Column>
@@ -134,7 +135,7 @@ const Table = () => {
             <br />
 
             {apartment.is_admin && <Button label="הוספת תשלום לכל הדיירים" rounded style={{ marginLeft: '15px' }} icon="pi pi-plus" onClick={() => { setVisible(true) }} />}
-            {visible && <AddSums visible={visible} setVisible={setVisible} setSums={setSums} />}
+            {visible && <AddSums visible={visible} setVisible={setVisible} setSums={setSums} is_general={true}/>}
         </>
     );
 };

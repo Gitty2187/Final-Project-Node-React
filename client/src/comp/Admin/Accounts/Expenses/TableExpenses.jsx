@@ -127,7 +127,8 @@ const Table = () => {
             <Accordion activeIndex={0} style={{ textAlign: "right" }}>
                 <AccordionTab header="טבלת הוצאות לבנין">
                     <DataTable value={filteredExpenses} tableStyle={{ maxWidth: '50rem', direction: "rtl" }} footerColumnGroup={footerGroup}
-                     dataKey="id" filters={filters} filterDisplay="row" loading={loading} emptyMessage="אין נתונים נוספים ">
+                     dataKey="id" filters={filters} filterDisplay="row" loading={loading} emptyMessage="אין נתונים נוספים "
+                     scrollable scrollHeight="400px" virtualScrollerOptions={{ itemSize: 10}} >
                         <Column style={{ textAlign: "right" , minWidth: '12rem',width:"6rem"}} field="date" header="תאריך"
                          showFilterMenu={false} filter filterElement={dateFilterElement} ></Column>
                         <Column style={{ textAlign: "right" }} field="type" header="סוג"></Column>

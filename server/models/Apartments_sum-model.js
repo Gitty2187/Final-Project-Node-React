@@ -25,6 +25,10 @@ const Apartments_sumSchema = new Schema({
          type:Number,
          required:true
      },
+     is_general:{
+        type:Boolean,
+        default:true
+    },
      comment:{
         type:String,
         default:""
