@@ -18,6 +18,8 @@ const AddExpenses = (props) => {
     const building = useSelector((myStore) => myStore.buildingDetails.building)
     const apartment = useSelector((myStore) => myStore.apartmentDetails.apartment)
     const dispatch = useDispatch()
+    const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);
+
     
     // const options = ['הוצאה חודשית', 'הוצאה חד פעמית'];
     // const [value, setValue] = useState(options[0]);
@@ -31,8 +33,11 @@ const AddExpenses = (props) => {
 
     const onSubmit = async (data) => {
         try {
-            data = { ...data, building_id: building._id, admin_id: apartment._id,admin_last_name: apartment.last_name}
-            const res = await axios.post('http://localhost:7000/expenses', data)
+            const res = await axios.post('http://localhost:7000/expenses', data, {
+                headers: {
+                    Authorization: `Bearer ${ACCESS_TOKEN}` 
+                }
+            });
             const updatedExpenses = res.data.map((a) => {
                 const updateDay = new Date(a.date);
                 return {

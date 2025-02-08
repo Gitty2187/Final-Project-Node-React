@@ -17,8 +17,10 @@ const AddSums = (props) => {
     const toast = useRef(null);
     const building = useSelector((myStore) => myStore.buildingDetails.building)
     const apartment = useSelector((myStore) => myStore.apartmentDetails.apartment)
-    const allapartment = useSelector((myStore) => myStore.AllApartments.Allapartments)
+    const allapartment = useSelector((myStore) => myStore.Allapartments.Allapartments)
     const dispatch = useDispatch()
+    const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);
+
     
     // const options = ['הוצאה חודשית', 'הוצאה חד פעמית'];
     // const [value, setValue] = useState(options[0]);
@@ -36,7 +38,11 @@ const AddSums = (props) => {
             const apartments_id = allapartment.map(a=>a._id)
             const is_general = props.is_general ? true : false;
             data = { ...data, building_id: building._id, admin_id: apartment._id,admin_last_name: apartment.last_name,apartments_id,is_general}
-            const res = await axios.post('http://localhost:7000/apartment_sum', data)
+            const res = await axios.post('http://localhost:7000/apartment_sum', data, {
+                headers: {
+                    Authorization: "Bearer " + ACCESS_TOKEN
+                }
+            });
             const updatedSums = res.data.allApartments_sum.map((a) => {
                 const updateDay = new Date(a.date);
                 return {

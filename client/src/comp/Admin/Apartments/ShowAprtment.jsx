@@ -4,7 +4,7 @@ import { DataScroller } from 'primereact/datascroller';
 import { useSelector } from 'react-redux';
 
 const ShowApartment = (props) => {
-    const allApartment = useSelector((myStore) => myStore.AllApartments.Allapartments);
+    const allApartment = useSelector((myStore) => myStore.Allapartments.Allapartments);
     console.log(allApartment+ "ShowApartment");
     
     const itemTemplate = (data) => {

@@ -4,7 +4,7 @@ const initVal = {
     Allapartments:[]
 }
 
-const allApartmentSlice =createSlice({
+const allApartmentSlice = createSlice({
     name:"Allapartments",
     initialState:initVal,
     reducers:{

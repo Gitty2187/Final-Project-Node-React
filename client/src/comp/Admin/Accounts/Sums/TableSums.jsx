@@ -25,6 +25,7 @@ const Table = () => {
     const building = useSelector((myStore) => myStore.buildingDetails.building)
     const [selectedBy, setSelectedBy] = useState(null);
     const [loading, setLoading] = useState(true);
+    const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);
     const [filters, setFilters] = useState({
         date: { value: null, matchMode: FilterMatchMode.EQUALS },
         comment: { value: null, matchMode: FilterMatchMode.EQUALS },
@@ -34,7 +35,12 @@ const Table = () => {
 
     const getSums = async () => {
         try {
-            const res = await axios.get('http://localhost:7000/apartment_sum?building_id=' + building._id);
+            
+            const res = await axios.get('http://localhost:7000/apartment_sum', {
+                headers: {
+                    Authorization: "Bearer " + ACCESS_TOKEN
+                }
+            });
             console.log(res.data.all);
 
             const updatedSums = res.data.all.map((a) => {
@@ -118,7 +124,7 @@ const Table = () => {
     return (
         <>
             <Accordion activeIndex={0} style={{ textAlign: "right" }}>
-                <AccordionTab header="טבלת תשלומים לבנין">
+                <AccordionTab header=" תשלומים לבנין">
                     <DataTable value={filteredSums} tableStyle={{ maxWidth: '50rem', direction: "rtl" }} footerColumnGroup={footerGroup}
                         dataKey="id" filters={filters} filterDisplay="row" loading={loading} emptyMessage="אין נתונים זמינים להציג"
                         scrollable scrollHeight="400px" virtualScrollerOptions={{ itemSize: 46 }} >

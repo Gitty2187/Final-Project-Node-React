@@ -3,14 +3,9 @@ const Apartment = require("../models/Apartment-model")
 const Apartment_sum_one = require("../models/Apartment_sum_one-model")
 
 const get_all = async (req, res) => {
-
-    const { building_id } = req.query
-
-    if (!building_id)
-        return res.status(401).send("must insert building_id")
-
+    
     try {
-        const all = await Apartment_sum.find({ building_id: building_id})
+        const all = await Apartment_sum.find({ building_id: req.admin.building_id,is_general:true})
         return res.json({all})
     }
     catch (e) {
@@ -20,18 +15,20 @@ const get_all = async (req, res) => {
 
 const add = async (req, res) => {
     
-    const { apartments_id, admin_id, admin_last_name,date, type, sum, comment, building_id ,is_general} = req.body
+    const { apartments_id, date,type, sum, comment ,is_general} = req.body
     let paid = 0
 
-    if (!building_id || !apartments_id || !admin_id || !date || !type || !sum)
+    if (!date || !type || !sum)
         return res.status(401).send("must insert required params")
 
     try {
-        const apartment_sum = await Apartment_sum.create({ admin_last_name,admin_id, date, type, sum, comment, building_id ,is_general})
+        const apartment_sum = await Apartment_sum.create({ admin_last_name:req.admin.last_name,
+            admin_id:req.admin._id, date, type, sum, comment,building_id: req.admin.building_id ,is_general})
         
         
         for (let id of apartments_id) {
             
+            // let apartment = await Apartment.find().populate("apartment")
             let apartment = await Apartment.findById(id).exec()
             
             if (apartment.balance < 0)//יש זיכוי
@@ -49,8 +46,8 @@ const add = async (req, res) => {
             if(!sum_one)
                 res.status(400).send("faild")
         }
-        const allApartments = await Apartment.find({ building_id: building_id,is_active:true })
-        const allApartments_sum = await Apartment_sum.find({ building_id: building_id ,is_general:true})
+        const allApartments = await Apartment.find({ building_id: req.admin.Apartment_sumbuilding_id,is_active:true })
+        const allApartments_sum = await Apartment_sum.find({ building_id: req.admin.building_id ,is_general:true})
         return res.json({ allApartments, allApartments_sum })
     }
     catch (e) {

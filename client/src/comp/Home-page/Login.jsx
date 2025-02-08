@@ -52,6 +52,7 @@ const Login = () => {
             dispatch(updateBuild(res.data.building))
             dispatch(setToken(res.data.token))
             dispatch(updateAllApar(res.data.allApartments))
+            dispatch(updateApartment(res.data.apartment))
             setHouseNum(res.data.apartmentsNull)
             setVisible(true)
         }

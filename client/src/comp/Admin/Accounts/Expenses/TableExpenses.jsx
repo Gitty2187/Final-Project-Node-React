@@ -23,6 +23,7 @@ const Table = () => {
     const [unique_by_to_filter, set_unique_by_to_filter] = useState([]);
     const [filteredExpenses, set_filteredExpenses] = useState([]);
     const apartment = useSelector((myStore) => myStore.apartmentDetails.apartment);
+    const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);
     const [selectedBy, setSelectedBy] = useState(null);
     const [loading, setLoading] = useState(true);
     const [filters, setFilters] = useState({
@@ -34,7 +35,11 @@ const Table = () => {
 
     const getExpenses = async () => {
         try {
-            const res = await axios.get('http://localhost:7000/expenses?id='+apartment.building_id);
+            const res = await axios.get('http://localhost:7000/expenses', {
+                headers: {
+                    Authorization: `Bearer ${ACCESS_TOKEN}` 
+                }
+            });
 
             const updatedExpenses = res.data.map((a) => {
                 const updateDay = new Date(a.date);
@@ -60,6 +65,12 @@ const Table = () => {
     }, [])
 
     useEffect(() => {
+        const uniqueYears = [...new Set(expenses.map((ex) => (new Date(ex.date)).getFullYear()))].sort();
+        set_unique_years_to_filter(uniqueYears);
+
+        const uniqueBy = [...new Set(expenses.map((ex) => ex.admin_last_name))]
+        set_unique_by_to_filter(uniqueBy);
+        
         const filtered = expenses.filter(expense => {
             const exYear = new Date(expense.date.split('/').reverse().join('/')).getFullYear();
             const matchesYear = exYear === selectedYear;
@@ -70,12 +81,6 @@ const Table = () => {
 
 
         set_filteredExpenses(filtered);
-
-        const uniqueYears = [...new Set(expenses.map((ex) => new Date(ex.date).getFullYear()))].sort();
-        set_unique_years_to_filter(uniqueYears);
-
-        const uniqueBy = [...new Set(expenses.map((ex) => ex.admin_last_name))].sort();
-        set_unique_by_to_filter(uniqueBy);
 
     }, [expenses, selectedYear, selectedBy]);
 
@@ -125,7 +130,7 @@ const Table = () => {
     return (
         <>
             <Accordion activeIndex={0} style={{ textAlign: "right" }}>
-                <AccordionTab header="טבלת הוצאות לבנין">
+                <AccordionTab header=" הוצאות לבנין">
                     <DataTable value={filteredExpenses} tableStyle={{ maxWidth: '50rem', direction: "rtl" }} footerColumnGroup={footerGroup}
                      dataKey="id" filters={filters} filterDisplay="row" loading={loading} emptyMessage="אין נתונים נוספים "
                      scrollable scrollHeight="400px" virtualScrollerOptions={{ itemSize: 10}} >

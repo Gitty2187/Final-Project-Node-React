@@ -8,37 +8,55 @@ import { PrimeReactProvider } from 'primereact/api';
 import 'primeflex/primeflex.css';
 import 'primereact/resources/primereact.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
-import { configureStore } from '@reduxjs/toolkit'
-import apartmentDetails from './Store/ApartmentSlice'
-import buildingDetails from './Store/BuildingSlice'
-import token from './Store/Token'
-import AllApartments from './Store/AllApartment'
-import { Provider } from "react-redux"
-import { BrowserRouter } from "react-router-dom"
+import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import { PersistGate } from 'redux-persist/integration/react';
 
-const myStore = configureStore({
-  reducer: {
+// ה-Reducers שלך
+import apartmentDetails from './Store/ApartmentSlice';
+import buildingDetails from './Store/BuildingSlice';
+import token from './Store/Token';
+import Allapartments from './Store/AllApartment';
+
+const rootReducer = combineReducers({
     apartmentDetails,
     buildingDetails,
     token,
-    AllApartments
-  }
-})
+    Allapartments
+});
+
+// יצירת הגדרות persist
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['Allapartments','buildingDetails','apartmentDetails','token'] 
+};
+
+// יצירת Persisted Reducer
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+// יצירת ה-Store
+const myStore = configureStore({
+  reducer : persistedReducer
+});
+
+// יצירת persistor
+const persistor = persistStore(myStore);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // <React.StrictMode>
-    <PrimeReactProvider>
-      <Provider store={myStore}>
+  <PrimeReactProvider>
+    <Provider store={myStore}>
+      <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
           <App />
         </BrowserRouter>
-      </Provider>
-    </PrimeReactProvider>
-  // </React.StrictMode>
+      </PersistGate>
+    </Provider>
+  </PrimeReactProvider>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

@@ -46,7 +46,7 @@ const Logup = (props) => {
     //רישום פרטי דייר חדש
     const onSubmit = async (data) => {
         debugger
-        data = { ...data, is_admin: is_admin, building_id: building._id,number:selectedNum }
+        data = { ...data, is_admin: is_admin, building_id: building._id, number: selectedNum }
         try {
             const res = await axios.post('http://localhost:7000/apartment', data)
             dispatch(updateApartment(res.data.apartment))
@@ -87,8 +87,8 @@ const Logup = (props) => {
                         <label htmlFor="number">*מספר דירה</label>
                     </FloatLabel> */}
                     {/* <div className="card flex justify-content-center"> */}
-                        <Dropdown required={true} value={selectedNum} onChange={(e) => setSelectedNUM(e.value)} options={props.houseNum} optionLabel="name"
-                            placeholder="מספר דירה" className="w-full md:w-14rem flex" style={{ width: '100%' }}/>
+                    <Dropdown required={true} value={selectedNum} onChange={(e) => setSelectedNUM(e.value)} options={props.houseNum} optionLabel="name"
+                        placeholder="מספר דירה" className="w-full md:w-14rem flex" style={{ width: '100%' }} />
                     {/* </div> */}
                     {errors.number && <Message text="יש להזין מספר דירה" severity="error" />}
                     <FloatLabel>
@@ -131,7 +131,7 @@ const Logup = (props) => {
         <ConfirmDialog
             group="apartmentgGroup"
             content={({ headerRef, contentRef, footerRef, hide, message }) => (
-                <div className="flex flex-column align-items-center p-5 surface-overlay border-round" >
+                <div className="flex flex-column align-items-center p-5 surface-overlay border-round gap-1" >
                     <div className="border-circle bg-primary inline-flex justify-content-center align-items-center h-6rem w-6rem -mt-8">
                         <i className="pi pi-check-circle" style={{ fontSize: '2.5rem' }}></i>
                     </div>
@@ -147,6 +147,16 @@ const Logup = (props) => {
                             onClick={(event) => {
                                 hide(event);
                                 navigate('/apartment')
+                            }}
+                            className="w-16rem"
+                        ></Button>
+                    </div>
+                    <div className="flex align-items-center gap-2 mt-4" ref={footerRef}>
+                        <Button
+                            label="חזרה "
+                            onClick={(event) => {
+                                hide(event);
+                                navigate('/login')
                             }}
                             className="w-16rem"
                         ></Button>

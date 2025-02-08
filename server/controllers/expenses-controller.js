@@ -3,11 +3,13 @@ const Building = require("../models/Building-model")
 const Apartment = require("../models/Apartment-model")
 
 const add = async (req, res) => {
-    const addExpense = req.body
+    const add = req.body
     
     //validation
-    if (!addExpense.building_id || !addExpense.admin_id || !addExpense.date || !addExpense.type || !addExpense.sum)
+    if ( !add.date || !add.type || !add.sum)
         return res.status(400).send("insert required argomets")
+    
+    const addExpense = {...add, building_id:req.admin.building_id,admin_id:req.admin._id,admin_last_name:req.admin.last_name}
     
     // const build = await Building.findById(addExpense.building_id).lean()
     // if(!build)
@@ -22,7 +24,7 @@ const add = async (req, res) => {
         return res.status(401).res("failed")
     //return
     try {
-        const allExpenses = await Expenses.find({building_id:addExpense.building_id})
+        const allExpenses = await Expenses.find({building_id:req.admin.building_id})
         return res.status(201).json(allExpenses)
     }
     catch (e) {
@@ -32,10 +34,9 @@ const add = async (req, res) => {
 }
 
 const get = async (req, res) => {
-    const { id } = req.query
-    
+    console.log(req.apartment);
     try {
-        const allExpenses = await Expenses.find({building_id:id})
+        const allExpenses = await Expenses.find({building_id:req.apartment.building_id})
         return res.status(201).json(allExpenses)
     }
     catch (e) {
