@@ -65,7 +65,11 @@ const Table = () => {
     }, [])
 
     useEffect(() => {
-        const uniqueYears = [...new Set(expenses.map((ex) => (new Date(ex.date)).getFullYear()))].sort();
+        const uniqueYears = [...new Set(expenses.map((ex) =>{     
+            const parts = ex.date.split('/');
+            const year = parseInt(parts[2], 10);
+            return year
+        }))].sort();
         set_unique_years_to_filter(uniqueYears);
 
         const uniqueBy = [...new Set(expenses.map((ex) => ex.admin_last_name))]
