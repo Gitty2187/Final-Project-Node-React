@@ -13,6 +13,9 @@ import { Tag } from 'primereact/tag';
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import AddExpenses from "./AddExpenses"
 import { MultiSelect } from "primereact/multiselect";
+import DiagramaExspenses from "./SumsChar";
+import { TabMenu } from 'primereact/tabmenu';
+
 
 
 const Table = () => {
@@ -32,12 +35,13 @@ const Table = () => {
         sum: { value: null, matchMode: FilterMatchMode.EQUALS },
         date: { value: null, matchMode: FilterMatchMode.EQUALS }
     });
+    const [activeIndex, setActiveIndex] = useState(0);
 
     const getExpenses = async () => {
         try {
             const res = await axios.get('http://localhost:7000/expenses', {
                 headers: {
-                    Authorization: `Bearer ${ACCESS_TOKEN}` 
+                    Authorization: `Bearer ${ACCESS_TOKEN}`
                 }
             });
 
@@ -65,7 +69,7 @@ const Table = () => {
     }, [])
 
     useEffect(() => {
-        const uniqueYears = [...new Set(expenses.map((ex) =>{     
+        const uniqueYears = [...new Set(expenses.map((ex) => {
             const parts = ex.date.split('/');
             const year = parseInt(parts[2], 10);
             return year
@@ -74,12 +78,12 @@ const Table = () => {
 
         const uniqueBy = [...new Set(expenses.map((ex) => ex.admin_last_name))]
         set_unique_by_to_filter(uniqueBy);
-        
+
         const filtered = expenses.filter(expense => {
             const exYear = new Date(expense.date.split('/').reverse().join('/')).getFullYear();
             const matchesYear = exYear === selectedYear;
             const matchesAdmin = selectedBy ? expense.admin_last_name === selectedBy : true;
-        
+
             return matchesYear && matchesAdmin;
         });
 
@@ -104,48 +108,69 @@ const Table = () => {
     const dateFilterElement = () => {
         return (<Dropdown value={selectedYear} emptyMessage="אין נתונים נוספים "
             onChange={(e) => setSelectedYear(e.value)} options={unique_years_to_filter.map(year => ({ label: year, value: year }))}
-             editable placeholder="שנה" className="p-column-filter" style={{ width:'12' }} />)
+            editable placeholder="שנה" className="p-column-filter" style={{ width: '12' }} />)
     }
 
     const adminLastNameFilter = (options) => {
-            return (
-                // <MultiSelect
-                //     value={selectedBy}
-                //     options={unique_by_to_filter.map(by => ({ label: by, value: by }))}
-                //     onChange={(e) => setSelectedBy(e.value)}
-                //     placeholder="בחר"
-                //     className="p-column-filter"
-                //     maxSelectedLabels={1}
-                //     style={{width:'10rem' }}
-                //     display="chip"
-                // />
-                <Dropdown 
-                    value={selectedBy} 
-                    options={unique_by_to_filter.map(by => ({ label: by, value: by }))} 
-                    onChange={(e) => {setSelectedBy(e.value)} }
-                    placeholder="בחר" 
-                    className="p-column-filter" 
-                    showClear 
-                    style={{ width: '10rem'}} />
-            );
-        };
+        return (
+            // <MultiSelect
+            //     value={selectedBy}
+            //     options={unique_by_to_filter.map(by => ({ label: by, value: by }))}
+            //     onChange={(e) => setSelectedBy(e.value)}
+            //     placeholder="בחר"
+            //     className="p-column-filter"
+            //     maxSelectedLabels={1}
+            //     style={{width:'10rem' }}
+            //     display="chip"
+            // />
+            <Dropdown
+                value={selectedBy}
+                options={unique_by_to_filter.map(by => ({ label: by, value: by }))}
+                onChange={(e) => { setSelectedBy(e.value) }}
+                placeholder="בחר"
+                className="p-column-filter"
+                showClear
+                style={{ width: '10rem' }} />
+        );
+    };
 
+    const items = [
+        { label: <span style={{margin:'0.5rem' }}><i className="pi pi-table"></i> טבלה</span> },
+        { label: <span style={{margin:'0.5rem' }}><i className="pi pi-chart-line"></i> דיאגרמה</span> }
+    ];
 
+    const renderContent = () => {
+        switch (activeIndex) {
+            case 0:
+                return <DataTable value={filteredExpenses} tableStyle={{ maxWidth: '50rem', direction: "rtl" }} footerColumnGroup={footerGroup}
+                    dataKey="id" filters={filters} filterDisplay="row" loading={loading} emptyMessage="אין נתונים נוספים "
+                    scrollable scrollHeight="400px" virtualScrollerOptions={{ itemSize: 10 }} >
+                    <Column style={{ textAlign: "right", minWidth: '12rem', width: "6rem" }} field="date" header="תאריך"
+                        showFilterMenu={false} filter filterElement={dateFilterElement} ></Column>
+                    <Column style={{ textAlign: "right" }} field="type" header="סוג"></Column>
+                    <Column style={{ textAlign: "right" }} field="comment" header="הערה"></Column>
+                    <Column style={{ textAlign: "right", minWidth: '12rem', width: "6rem" }} field="admin_last_name" header="בוצע על ידי"
+                        showFilterMenu={false} filter filterElement={adminLastNameFilter} showClear></Column>
+                    <Column style={{ textAlign: "right" }} field="sum" header="סכום"></Column>
+                </DataTable>
+            case 1:
+                return <DiagramaExspenses expenses={expenses} years={unique_years_to_filter} />
+                // return <div><DiagramaExspenses expenses={expenses} years={unique_years_to_filter} /></div>
+
+            default:
+                return null;
+        }
+    };
     return (
         <>
             <Accordion activeIndex={0} style={{ textAlign: "right" }}>
-                <AccordionTab header=" הוצאות לבנין">
-                    <DataTable value={filteredExpenses} tableStyle={{ maxWidth: '50rem', direction: "rtl" }} footerColumnGroup={footerGroup}
-                     dataKey="id" filters={filters} filterDisplay="row" loading={loading} emptyMessage="אין נתונים נוספים "
-                     scrollable scrollHeight="400px" virtualScrollerOptions={{ itemSize: 10}} >
-                        <Column style={{ textAlign: "right" , minWidth: '12rem',width:"6rem"}} field="date" header="תאריך"
-                         showFilterMenu={false} filter filterElement={dateFilterElement} ></Column>
-                        <Column style={{ textAlign: "right" }} field="type" header="סוג"></Column>
-                        <Column style={{ textAlign: "right" }} field="comment" header="הערה"></Column>
-                        <Column style={{ textAlign: "right" , minWidth: '12rem',width:"6rem"}} field="admin_last_name" header="בוצע על ידי"
-                        showFilterMenu={false} filter filterElement={adminLastNameFilter} showClear></Column>
-                        <Column style={{ textAlign: "right" }} field="sum" header="סכום"></Column>
-                    </DataTable>
+                <AccordionTab header=" הוצאות לבנין" style={{maxWidth:'50rem'}}>
+                <div>
+                <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} style={{direction:"rtl"}} />
+                <div className="content" style={{}}>
+                        {renderContent()}
+                    </div>
+                </div>
                 </AccordionTab>
             </Accordion>
             <br />

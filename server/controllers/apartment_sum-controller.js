@@ -31,7 +31,7 @@ const add = async (req, res) => {
             // let apartment = await Apartment.find().populate("apartment")
             let apartment = await Apartment.findById(id).exec()
             
-            if (apartment.balance < 0)//יש זיכוי
+            if (apartment.balance < 0)
             {
                 if ((-apartment.balance) > apartment_sum.sum) {
                     paid = apartment_sum.sum
@@ -46,7 +46,7 @@ const add = async (req, res) => {
             if(!sum_one)
                 res.status(400).send("faild")
         }
-        const allApartments = await Apartment.find({ building_id: req.admin.Apartment_sumbuilding_id,is_active:true })
+        const allApartments = await Apartment.find({ building_id: req.admin.building_id,is_active:true }).sort({ number: 1 })
         const allApartments_sum = await Apartment_sum.find({ building_id: req.admin.building_id ,is_general:true})
         return res.json({ allApartments, allApartments_sum })
     }

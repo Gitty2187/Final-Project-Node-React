@@ -26,6 +26,7 @@ const Table = () => {
     const [selectedBy, setSelectedBy] = useState(null);
     const [loading, setLoading] = useState(true);
     const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);
+    const allapartment = useSelector((myStore) => myStore.Allapartments.Allapartments)
     const [filters, setFilters] = useState({
         date: { value: null, matchMode: FilterMatchMode.EQUALS },
         comment: { value: null, matchMode: FilterMatchMode.EQUALS },
@@ -75,7 +76,11 @@ const Table = () => {
 
         set_filteredSums(filtered);
 
-        const uniqueYears = [...new Set(sums.map((ex) => new Date(ex.date).getFullYear()))].sort();
+        const uniqueYears = [...new Set(sums.map((ex) =>{     
+            const parts = ex.date.split('/');
+            const year = parseInt(parts[2], 10);
+            return year
+        }))].sort();
         set_unique_years_to_filter(uniqueYears);
         const uniqueBy = [...new Set(sums.map((ex) => ex.admin_last_name))].sort();
         set_unique_by_to_filter(uniqueBy);
@@ -124,7 +129,9 @@ const Table = () => {
     return (
         <>
             <Accordion activeIndex={0} style={{ textAlign: "right" }}>
+                
                 <AccordionTab header=" תשלומים לבנין">
+                    
                     <DataTable value={filteredSums} tableStyle={{ maxWidth: '50rem', direction: "rtl" }} footerColumnGroup={footerGroup}
                         dataKey="id" filters={filters} filterDisplay="row" loading={loading} emptyMessage="אין נתונים זמינים להציג"
                         scrollable scrollHeight="400px" virtualScrollerOptions={{ itemSize: 46 }} >
@@ -141,7 +148,7 @@ const Table = () => {
             <br />
 
             {apartment.is_admin && <Button label="הוספת תשלום לכל הדיירים" rounded style={{ marginLeft: '15px' }} icon="pi pi-plus" onClick={() => { setVisible(true) }} />}
-            {visible && <AddSums visible={visible} setVisible={setVisible} setSums={setSums} is_general={true}/>}
+            {visible && <AddSums visible={visible} setVisible={setVisible} setSums={setSums} is_general={true} apartments_id={allapartment.map(a=>a._id)}/>}
         </>
     );
 };
