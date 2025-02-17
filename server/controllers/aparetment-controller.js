@@ -2,6 +2,7 @@ const Apartment = require("../models/Apartment-model");
 const Building = require("../models/Building-model");
 const bcrypt = require("bcrypt")
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
 
 
 const login = async (req, res) => {
@@ -16,22 +17,22 @@ const login = async (req, res) => {
     if (!apartment)
         return res.status(400).send("apartment does not exist")
 
-    
+
     // Compare passwords
     const match = await bcrypt.compare(password, apartment.password)
     if (!match)
         return res.status(400).send("apartment not exist")
 
     //if manager return also all the apartments
-    const allApartments =  apartment.is_admin? await Apartment.find({building_id:apartment.building_id,is_active:true}).sort({ number: 1 }) : null
-    
-    const building = await Building.findOne({_id:apartment.building_id})
+    const allApartments = apartment.is_admin ? await Apartment.find({ building_id: apartment.building_id, is_active: true }).sort({ number: 1 }) : null
+
+    const building = await Building.findOne({ _id: apartment.building_id })
 
     //return token
     try {
-        delete apartment.password; 
+        delete apartment.password;
         const accessToken = jwt.sign(apartment, process.env.ACCESS_TOKEN_SECRET);
-        res.json({ token: accessToken, apartment, building, allApartments})
+        res.json({ token: accessToken, apartment, building, allApartments })
     }
     catch (e) {
         return res.status(404).send("not success")
@@ -41,7 +42,7 @@ const login = async (req, res) => {
 
 const logUp = async (req, res) => {
     let newApartment = req.body
-    
+
     // Check for required fields
     if (!newApartment.building_id || !newApartment.number || !newApartment.password || !newApartment.mail || !newApartment.last_name) {
         return res.status(401).json({ message: 'insert fields required' })
@@ -62,15 +63,15 @@ const logUp = async (req, res) => {
         newApartment.entered_date = new Date()
 
     //if manager return also all the apartments
-    const allApartments =  newApartment.is_admin? await Apartment.find({building_id:newApartment.building_id,is_active:true}).sort({ number: 1 }) : null
-    
+    const allApartments = newApartment.is_admin ? await Apartment.find({ building_id: newApartment.building_id, is_active: true }).sort({ number: 1 }) : null
+
     // Create the new apartment
     try {
         let apartment = await Apartment.create(newApartment);
         const apartmentPayload = apartment.toObject();
-        delete apartmentPayload.password; 
+        delete apartmentPayload.password;
         const accessToken = jwt.sign(apartmentPayload, process.env.ACCESS_TOKEN_SECRET);
-        return res.status(201).json({ token: accessToken, allApartments: allApartments,apartment: apartmentPayload});
+        return res.status(201).json({ token: accessToken, allApartments: allApartments, apartment: apartmentPayload });
     }
     catch (e) {
         console.log(e);
@@ -78,4 +79,52 @@ const logUp = async (req, res) => {
     }
 }
 
-module.exports = { login, logUp }
+
+const sendApartmentEmail = async (req, res) => {
+    const { to, subject, text } = req.body;
+    console.log(to + "     ---------------- 1 " + subject + " 1 " + text);
+
+
+    const transporter = nodemailer.createTransport({
+        //   host: "smtp.ethereal.email",
+        //   port: 587,
+        //   secure: false, // true for port 465, false for other ports
+        //   auth: {
+        //     user: "maddison53@ethereal.email",
+        //     pass: "jn7jnAPss4f63QBp6D",
+        //   },
+        service: 'gmail',
+        auth: {
+            user: 'y0504169427@gmail.com',
+            pass: 'qyzwcvhjelxgtslj'
+        }
+    });
+
+    async function main() {
+        const info = await transporter.sendMail({
+            from:  '"מערכת הבית שלך 🏠" <maddison53@ethereal.email>',
+            to,
+            subject,
+            text,
+            // html: "<div><div> <h1>שלום {tenantName},</h1>"+
+            // "<p>המידע לגבי הדירה שלך</p></div><div><div style={styles.row}>"+
+            // "<strong>מספר דירה:</strong> <span>{apartmentNumber}</span></div><div>"+
+            // "<strong>סטטוס תשלום:</strong> <span>{paymentStatus}</span></div><div>"+
+            // "<strong>תאריך תשלום הבא:</strong> <span>{nextPaymentDate}</span></div></div><div>"+
+            // "<p>בברכה,</p><p>צוות הניהול</p></div></div>",
+        });
+
+        console.log("Message sent: %s", info.messageId);
+
+
+    }
+    try {
+        main().catch(console.error);
+
+        res.status(200).send('Email sent successfully');
+    } catch (error) {
+        res.status(500).send('Error sending email :' + error);
+    }
+};
+
+module.exports = { login, logUp, sendApartmentEmail };

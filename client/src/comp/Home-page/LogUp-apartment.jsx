@@ -76,7 +76,7 @@ const Logup = (props) => {
         {/* הוספת בנין */}
         <Dialog
             visible={props.visible}
-            header="הוספת דייר חדש לבנין"
+            header={props.header}
             //modal
             onHide={() => { if (!props.visible) return; props.setVisible(false); }}
         >

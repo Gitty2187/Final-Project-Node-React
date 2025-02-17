@@ -231,7 +231,7 @@ const LogUPBuild = (props) => {
         />
 
         {/* </div> */}
-        {visLogup && <Logup toat={props.toast} is_admin={true} visible={visLogup} setVisible={setVisLOgup} toast={props.toast} houseNum={houseNum} />}
+        {visLogup && <Logup toat={props.toast} is_admin={true} visible={visLogup} setVisible={setVisLOgup} toast={props.toast} houseNum={houseNum} header={"רישום ועד בית"}/>}
     </>
     );
 };

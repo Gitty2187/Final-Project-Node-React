@@ -139,7 +139,7 @@ const Login = () => {
             </div>
         </form>
         
-        <Logup toast={toast} setVisible={setVisible} visible={visible} houseNum={houseNum}/>
+        <Logup toast={toast} setVisible={setVisible} visible={visible} houseNum={houseNum}  header={"רישום דייר חדש "}/>
         {/* </div> */}
         {/* </div> */}
         {/* </div> */}

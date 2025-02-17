@@ -34,8 +34,8 @@ const AddSums = (props) => {
 
     const onSubmit = async (data) => {
         try {
-            // console.log(allapartment);
             const apartments_id = props.apartments_id
+            console.log(apartments_id);
             const is_general = props.is_general
             data = { ...data,apartments_id,is_general}
             const res = await axios.post('http://localhost:7000/apartment_sum', data, {
@@ -50,15 +50,11 @@ const AddSums = (props) => {
                     date: `${updateDay.getDate()}/${updateDay.getMonth() + 1}/${updateDay.getFullYear()}`
                 };
             });
-            // console.log(res.data.allApartments_sum);
             props.setSums && props.setSums(updatedSums);
-            // console.log(updatedSums);
             dispatch(updateAllApar(res.data.allApartments))
             props.setVisible(false)
         }
         catch (e) {
-            console.log(e);
-            
             toast.current.show({
                 severity: 'error',
                 summary: 'שגיאה',
