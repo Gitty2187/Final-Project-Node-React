@@ -6,11 +6,13 @@ import { Tag } from 'primereact/tag';
 import { Divider } from 'primereact/divider';
 import AddSums from '../Accounts/Sums/AddSums';
 import SendMail from './SendMail';
+// import AddApartmentPayment from './AddApartmentPayment';
 
 
 const ShowApartment = (props) => {
     const allApartment = useSelector((myStore) => myStore.Allapartments.Allapartments);
     const [visible, setVisible] = useState(false);
+    const [visibleSum, setVisibleSum] = useState(false);
     const [selectedApartmentId, setSelectedApartmentId] = useState(null);
     const [selectedApartmentMail, setSelectedApartmentMail] = useState(null);
     const [selectedApartmentLastName, setSelectedApartmenLastName] = useState(null);
@@ -45,7 +47,7 @@ const ShowApartment = (props) => {
                         <div className="text-2xl font-bold text-700" style={{ alignContent: 'center', width: '10rem', textAlign: 'center' }}> {data.last_name}</div>
                         <Divider layout="vertical" />
                         <Button
-                            label="הוספת תשלום לדירה "
+                            label="הוספת הוצאת מחיר לדירה "
                             className="p-button-success"
                             onClick={() => {
                                 setSelectedApartmentId(data._id);
@@ -53,8 +55,18 @@ const ShowApartment = (props) => {
                             }}
                             style={{ backgroundColor: 'GrayText', borderBlockColor: 'black' }}
                         />
+                        <Button
+                            label=" דיווח תשלום לדירה"
+                            className="p-button-success"
+                            onClick={() => {
+                                setSelectedApartmentId(data._id);
+                                setVisibleSum(true);
+                            }}
+                            style={{ backgroundColor: 'GrayText', borderBlockColor: 'black' }}
+                        />
                         {sendMail && <SendMail sendMail={sendMail} setSendMail={setSendMail} selectedApartmentMail={selectedApartmentMail} lastName={selectedApartmentLastName} balance={selectedApartmentBalance}/>}
                         {visible && <AddSums visible={visible} setVisible={setVisible} is_general={false} apartments_id={[selectedApartmentId]} />}
+                        {/* {visibleSum && <AddApartmentPayment visible={visibleSum} setVisible={setVisibleSum} apartments_id={[selectedApartmentId]} />} */}
                     </div>
                 </div>
             </div>

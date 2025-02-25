@@ -1,22 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState , useRef } from 'react';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import ReactQuill from 'react-quill';
+import { Toast } from 'primereact/toast';
 import { Editor } from "primereact/editor";
 
 const SendMail = (props) => {
     const [subject, setSubject] = useState('תזכורת לתשלום חשבון ועד הבית');
-    const [text, setText] = useState(`שלום ${props.lastName}, חובך לועד הוא ${props.balance} ש"ח. נא לשלם בהקדם.`);
+    const [text, setText] = useState(`שלום ${props.lastName}<br/>חובך לועד הוא <b>${props.balance}</b>  ש"ח נא להעביר את התשלום בהקדם`);
     const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);
     const [to, setTo] = useState(props.selectedApartmentMail);
+    const toast = useRef(null);
 
     const handleSendEmail = async () => {
         try {
-            const response = await axios.post('http://localhost:7000/apartment/send-email', {
+            await axios.post('http://localhost:7000/apartment/send-email', {
                 to: props.selectedApartmentMail,
                 subject,
                 text
@@ -25,46 +26,71 @@ const SendMail = (props) => {
                     Authorization: "Bearer " + ACCESS_TOKEN
                 }
             });
+            props.setSendMail(false);
+            toast.current.show({
+                severity: 'success',
+                summary: 'הצלחה',
+                detail: 'המייל נשלח בהצלחה',
+                life: 3000,
+            });
 
-            if (response.status === 200) {
-                console.log('המייל נשלח בהצלחה!');
-            } else {
-                console.error('שגיאה בשליחת המייל');
-            }
         } catch (error) {
-            console.error('שגיאה בשליחת המייל:', error);
+            toast.current.show({ 
+                severity: 'error', 
+                summary: 'שגיאה', 
+                detail: 'שגיאה בשליחת המייל' });
         }
     }
+    
+    const renderHeader = () => {
+        return (
+            <span className="ql-formats">
+                <button className="ql-bold" aria-label="Bold"></button>
+                <button className="ql-italic" aria-label="Italic"></button>
+                <button className="ql-underline" aria-label="Underline"></button>
+                <button className="ql-align" value="right" aria-label="Align Right"></button>
+            </span>
+        );
+    };
+
+    const header = renderHeader();
+
     return (<div>
-        <Dialog header="שלח מייל" visible={props.sendMail} onHide={() => props.setSendMail(false)}>
+        <Toast ref={toast} position="top-center" style={{ direction: "rtl" }}></Toast>
+        <Dialog header="שלח מייל" visible={props.sendMail} onHide={() => props.setSendMail(false)} style={{ float: 'right' }}>
             <div className="email-composer">
-                <div className="p-field">
-                    <label htmlFor="to">To</label>
-                    <InputText id="to" value={to} onChange={(e) => setTo(e.target.value)} />
+
+                <label htmlFor="to" style={{ float: 'right' }}>אל</label>
+                <div className="p-inputgroup flex-1">
+                    <InputText placeholder={props.selectedApartmentMail} style={{ direction: 'rtl' }} id="to" value={to} onChange={(e) => setTo(e.target.value)} disabled />
+                    <span className="p-inputgroup-addon">
+                        <i className="pi pi-user"></i>
+                    </span>
                 </div>
-                <div className="p-field">
-                    <label htmlFor="subject">Subject</label>
-                    <InputText id="subject" value={subject} onChange={(e) => setSubject(e.target.value)} />
+                <label htmlFor="subject" style={{ float: 'right' }}>נושא</label>
+                <div className="p-inputgroup flex-1">
+                    <InputText placeholder="תזכורת תשלום לדירה" id="subject" style={{ direction: 'rtl' }} value={subject} onChange={(e) => setSubject(e.target.value)} />
+                    <span className="p-inputgroup-addon">
+                        <i className="pi pi-pencil"></i>
+                    </span>
                 </div>
+
+                <label style={{ float: 'right' }}>תוכן</label>
+
+                <br />
                 <div className="p-field">
-                    <label>Body</label>
-                    {/* <ReactQuill value={text} onChange={setText} /> */}
-                    <Editor value={text} onTextChange={(e) => setText(e.htmlValue)} style={{ height: '320px' }} />
+                    <Editor
+                        value={text}
+                        onTextChange={(e) => setText(e.htmlValue)}
+                        headerTemplate={header} 
+                        style={{ height: '15rem', width: '50rem'}} 
+                     
+                        dir="rtl"
+                    />
                 </div>
-                <Button label="Send Message" icon="pi pi-paper-plane" onClick={handleSendEmail} />
+                <br />
+                <Button label="שלח מייל" icon="pi pi-send" onClick={handleSendEmail} style={{ float: 'right' }} />
             </div>
-            {/* <div className="p-field">
-                <label htmlFor="subject">נושא:</label>
-                <InputText id="subject" value={subject} onChange={(e) => setSubject(e.target.value)} />
-            </div>
-            <div className="p-field">
-                <label htmlFor="text">תוכן:</label>
-                <InputTextarea id="text" value={text} onChange={(e) => setText(e.target.value)} rows={5} />
-            </div>
-            <div className="p-dialog-footer">
-                {/* <Button label="שלח" icon="pi pi-check" onClick={handleSendEmail} /> */}
-            {/* <Button label="סגור" icon="pi pi-times" onClick={() => props.setSendMail(false)} /> */}
-    {/* </div> */} 
         </Dialog >
     </div >
     )

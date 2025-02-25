@@ -82,17 +82,10 @@ const logUp = async (req, res) => {
 
 const sendApartmentEmail = async (req, res) => {
     const { to, subject, text } = req.body;
-    console.log(to + "     ---------------- 1 " + subject + " 1 " + text);
-
-
+    if(!to || !subject || !text)
+        return res.status(400).send("Must insert valid")
+    
     const transporter = nodemailer.createTransport({
-        //   host: "smtp.ethereal.email",
-        //   port: 587,
-        //   secure: false, // true for port 465, false for other ports
-        //   auth: {
-        //     user: "maddison53@ethereal.email",
-        //     pass: "jn7jnAPss4f63QBp6D",
-        //   },
         service: 'gmail',
         auth: {
             user: 'y0504169427@gmail.com',
@@ -100,31 +93,23 @@ const sendApartmentEmail = async (req, res) => {
         }
     });
 
-    async function main() {
-        const info = await transporter.sendMail({
+    // async function main() {
+    try {
+        await transporter.sendMail({
             from:  '"מערכת הבית שלך 🏠" <maddison53@ethereal.email>',
             to,
             subject,
-            text,
-            // html: "<div><div> <h1>שלום {tenantName},</h1>"+
-            // "<p>המידע לגבי הדירה שלך</p></div><div><div style={styles.row}>"+
-            // "<strong>מספר דירה:</strong> <span>{apartmentNumber}</span></div><div>"+
-            // "<strong>סטטוס תשלום:</strong> <span>{paymentStatus}</span></div><div>"+
-            // "<strong>תאריך תשלום הבא:</strong> <span>{nextPaymentDate}</span></div></div><div>"+
-            // "<p>בברכה,</p><p>צוות הניהול</p></div></div>",
+            // text,
+            html:  `<div dir="rtl">${text}</div>`
         });
-
-        console.log("Message sent: %s", info.messageId);
-
-
-    }
-    try {
-        main().catch(console.error);
-
         res.status(200).send('Email sent successfully');
-    } catch (error) {
-        res.status(500).send('Error sending email :' + error);
+    }
+    
+        // main().catch(console.error);
+
+    catch (error) {
+        res.status(400).send('Error sending email :' + error);
     }
 };
 
-module.exports = { login, logUp, sendApartmentEmail };
+module.exports = { login, logUp, sendApartmentEmail }

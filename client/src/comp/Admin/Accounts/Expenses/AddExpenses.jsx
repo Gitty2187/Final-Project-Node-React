@@ -19,7 +19,7 @@ const AddExpenses = (props) => {
     const apartment = useSelector((myStore) => myStore.apartmentDetails.apartment)
     const dispatch = useDispatch()
     const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);
-
+    
     
     // const options = ['הוצאה חודשית', 'הוצאה חד פעמית'];
     // const [value, setValue] = useState(options[0]);

@@ -90,9 +90,6 @@ const Login = () => {
 
     return (<>
         <Toast ref={toast} position="top-center" style={{direction:"rtl"}}/>
-        {/* <div class="formgrid grid"> */}
-        {/* <div class="field col-6"> */}
-        {/* <div className="card w-6"> */}
         <form onSubmit={handleSubmit(onSubmit)} style={{backgroundColor:'rgb(225, 225, 225)' }}>
             <div className="flex flex-column md:flex-row">
                 <div className="w-full md:w-5 flex flex-column align-items-center justify-content-center gap-4 py-5 ">
