@@ -8,10 +8,13 @@ import Account from "./comp/Admin/Accounts/Accounts"
 import Home  from './comp/Apartments/Home';
 import Start from './comp/Start';
 import AllApartmets from './comp/Admin/Apartments/AllApartments';
+import ToastContainer from './comp/Toast/ToastContainer';
+
 
 
 function App() {
   return (<>
+  <ToastContainer />
      <Routes>
        <Route path="/" element={<Start />} />
        <Route path="/login" element={<Login />} />

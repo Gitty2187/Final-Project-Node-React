@@ -148,7 +148,7 @@ const Table = () => {
             <br />
 
             {apartment.is_admin && <Button label="הוספת תשלום לכל הדיירים" rounded style={{ marginLeft: '15px' }} icon="pi pi-plus" onClick={() => { setVisible(true) }} />}
-            {visible && <AddSums visible={visible} setVisible={setVisible} setSums={setSums} is_general={true} apartments_id={allapartment.map(a=>a._id)}/>}
+            {visible && <AddSums visible={visible} setVisible={setVisible} setSums={setSums} is_general={true} apartments_id={allapartment.map(a=>a._id)} sums={sums}/>}
         </>
     );
 };

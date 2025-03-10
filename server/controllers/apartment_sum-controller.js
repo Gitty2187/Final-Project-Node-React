@@ -24,10 +24,8 @@ const add = async (req, res) => {
     try {
         const apartment_sum = await Apartment_sum.create({ admin_last_name:req.admin.last_name,
             admin_id:req.admin._id, date, type, sum, comment,building_id: req.admin.building_id ,is_general})
-        
-        
+        console.log(apartment_sum);
         for (let id of apartments_id) {
-            
             // let apartment = await Apartment.find().populate("apartment")
             let apartment = await Apartment.findById(id).exec()
             
@@ -47,8 +45,8 @@ const add = async (req, res) => {
                 res.status(400).send("faild")
         }
         const allApartments = await Apartment.find({ building_id: req.admin.building_id,is_active:true }).sort({ number: 1 })
-        const allApartments_sum = await Apartment_sum.find({ building_id: req.admin.building_id ,is_general:true})
-        return res.json({ allApartments, allApartments_sum })
+        //const allApartments_sum = await Apartment_sum.find({ building_id: req.admin.building_id ,is_general:true})
+        return res.json({ allApartments, new:[apartment_sum ]})
     }
     catch (e) {
         console.log(e);

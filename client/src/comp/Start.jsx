@@ -7,7 +7,6 @@ const Start = () => {
 
     return (
         <div>
-           
         </div>
     );
 };

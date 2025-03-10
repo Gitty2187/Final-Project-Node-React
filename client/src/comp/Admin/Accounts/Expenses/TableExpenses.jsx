@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react"
-import axios from 'axios'
+import { useEffect, useState } from "react";
+import axios from 'axios';
 import { useSelector } from "react-redux";
-
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { ColumnGroup } from 'primereact/columngroup';
@@ -10,12 +9,12 @@ import { Button } from 'primereact/button';
 import { Accordion, AccordionTab } from 'primereact/accordion';
 import { Dropdown } from 'primereact/dropdown';
 import { Tag } from 'primereact/tag';
-import { FilterMatchMode, FilterOperator } from 'primereact/api';
-import AddExpenses from "./AddExpenses"
+import { FilterMatchMode } from 'primereact/api';
+import AddExpenses from "./AddExpenses";
 import { MultiSelect } from "primereact/multiselect";
 import DiagramaExspenses from "./SumsChar";
 import { TabMenu } from 'primereact/tabmenu';
-
+import ToastService from "../../../Toast/ToastService";
 
 
 const Table = () => {
@@ -33,7 +32,6 @@ const Table = () => {
         date: { value: null, matchMode: FilterMatchMode.EQUALS },
         comment: { value: null, matchMode: FilterMatchMode.EQUALS },
         sum: { value: null, matchMode: FilterMatchMode.EQUALS },
-        date: { value: null, matchMode: FilterMatchMode.EQUALS }
     });
     const [activeIndex, setActiveIndex] = useState(0);
 
@@ -54,29 +52,26 @@ const Table = () => {
             });
 
             setExpenses(updatedExpenses);
-            // const uniqueYears = [...new Set(res.data.map((ex) => new Date(ex.date).getFullYear()))].sort();
-            // set_unique_years_to_filter(uniqueYears);
-            // const uniqueBy = [...new Set(res.data.map((ex) => ex.admin_last_name))].sort();
-            // set_unique_by_to_filter(uniqueBy);
         } catch (e) {
-            console.log(e)
+            console.log(e);
+            ToastService.show('error', 'שגיאה', 'נכשל בהבאת ההוצאות', 3000);
         }
     };
 
     useEffect(() => {
         getExpenses();
         setLoading(false);
-    }, [])
+    }, []);
 
     useEffect(() => {
         const uniqueYears = [...new Set(expenses.map((ex) => {
             const parts = ex.date.split('/');
             const year = parseInt(parts[2], 10);
-            return year
+            return year;
         }))].sort();
         set_unique_years_to_filter(uniqueYears);
 
-        const uniqueBy = [...new Set(expenses.map((ex) => ex.admin_last_name))]
+        const uniqueBy = [...new Set(expenses.map((ex) => ex.admin_last_name))];
         set_unique_by_to_filter(uniqueBy);
 
         const filtered = expenses.filter(expense => {
@@ -87,13 +82,11 @@ const Table = () => {
             return matchesYear && matchesAdmin;
         });
 
-
         set_filteredExpenses(filtered);
-
     }, [expenses, selectedYear, selectedBy]);
 
     const sumTotal = () => {
-        return filteredExpenses.reduce((total, expense) => total + expense.sum, 0)
+        return filteredExpenses.reduce((total, expense) => total + expense.sum, 0);
     };
 
     const footerGroup = (
@@ -111,18 +104,8 @@ const Table = () => {
             editable placeholder="שנה" className="p-column-filter" style={{ width: '12' }} />)
     }
 
-    const adminLastNameFilter = (options) => {
+    const adminLastNameFilter = () => {
         return (
-            // <MultiSelect
-            //     value={selectedBy}
-            //     options={unique_by_to_filter.map(by => ({ label: by, value: by }))}
-            //     onChange={(e) => setSelectedBy(e.value)}
-            //     placeholder="בחר"
-            //     className="p-column-filter"
-            //     maxSelectedLabels={1}
-            //     style={{width:'10rem' }}
-            //     display="chip"
-            // />
             <Dropdown
                 value={selectedBy}
                 options={unique_by_to_filter.map(by => ({ label: by, value: by }))}
@@ -135,8 +118,8 @@ const Table = () => {
     };
 
     const items = [
-        { label: <span style={{margin:'0.5rem' }}><i className="pi pi-table"></i> טבלה</span> },
-        { label: <span style={{margin:'0.5rem' }}><i className="pi pi-chart-line"></i> דיאגרמה</span> }
+        { label: <span style={{ margin: '0.5rem' }}><i className="pi pi-table"></i> טבלה</span> },
+        { label: <span style={{ margin: '0.5rem' }}><i className="pi pi-chart-line"></i> דיאגרמה</span> }
     ];
 
     const renderContent = () => {
@@ -146,7 +129,7 @@ const Table = () => {
                     dataKey="id" filters={filters} filterDisplay="row" loading={loading} emptyMessage="אין נתונים נוספים "
                     scrollable scrollHeight="400px" virtualScrollerOptions={{ itemSize: 10 }} >
                     <Column style={{ textAlign: "right", minWidth: '12rem', width: "6rem" }} field="date" header="תאריך"
-                        showFilterMenu={false} filter filterElement={dateFilterElement} ></Column>
+                        showFilterMenu={false} filter filterElement={dateFilterElement}></Column>
                     <Column style={{ textAlign: "right" }} field="type" header="סוג"></Column>
                     <Column style={{ textAlign: "right" }} field="comment" header="הערה"></Column>
                     <Column style={{ textAlign: "right", minWidth: '12rem', width: "6rem" }} field="admin_last_name" header="בוצע על ידי"
@@ -154,29 +137,27 @@ const Table = () => {
                     <Column style={{ textAlign: "right" }} field="sum" header="סכום"></Column>
                 </DataTable>
             case 1:
-                return <DiagramaExspenses expenses={expenses} years={unique_years_to_filter} />
-                // return <div><DiagramaExspenses expenses={expenses} years={unique_years_to_filter} /></div>
-
+                return <DiagramaExspenses expenses={expenses} years={unique_years_to_filter} />;
             default:
                 return null;
         }
     };
+
     return (
         <>
             <Accordion activeIndex={0} style={{ textAlign: "right" }}>
-                <AccordionTab header=" הוצאות לבנין" style={{maxWidth:'50rem'}}>
-                <div>
-                <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} style={{direction:"rtl"}} />
-                <div className="content" style={{}}>
-                        {renderContent()}
+                <AccordionTab header=" הוצאות לבנין" style={{ maxWidth: '50rem' }}>
+                    <div>
+                        <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} style={{ direction: "rtl" }} />
+                        <div className="content">
+                            {renderContent()}
+                        </div>
                     </div>
-                </div>
                 </AccordionTab>
             </Accordion>
             <br />
-
             {apartment.is_admin && <Button label="הוספת הוצאה" rounded style={{ marginLeft: '15px' }} icon="pi pi-plus" onClick={() => { setVisible(true) }} />}
-            {visible && <AddExpenses visible={visible} setVisible={setVisible} setExpenses={setExpenses} />}
+            {visible && <AddExpenses visible={visible} setVisible={setVisible} setExpenses={setExpenses} expenses={expenses}/>}
         </>
     );
 };

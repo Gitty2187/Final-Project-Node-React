@@ -4,7 +4,6 @@ const Apartment = require("../models/Apartment-model")
 
 const add = async (req, res) => {
     const add = req.body
-    
     //validation
     if ( !add.date || !add.type || !add.sum)
         return res.status(400).send("insert required argomets")
@@ -18,14 +17,13 @@ const add = async (req, res) => {
     // if(!apartment)
     //     return res.status(405).send("apartment_id is worng")
 
-    //create
     const newExpense = await Expenses.create(addExpense)
     if (!newExpense)
         return res.status(401).res("failed")
-    //return
+    
     try {
-        const allExpenses = await Expenses.find({building_id:req.admin.building_id})
-        return res.status(201).json(allExpenses)
+        //const allExpenses = await Expenses.find({building_id:req.admin.building_id})
+        return res.status(201).json([newExpense])
     }
     catch (e) {
         return res.status(402).send(e)
