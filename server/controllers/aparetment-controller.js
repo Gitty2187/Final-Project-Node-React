@@ -51,7 +51,7 @@ const logUp = async (req, res) => {
     // Check for duplicate email
     const duplicate = await Apartment.findOne({ mail: newApartment.mail }).lean()
     if (duplicate) {
-        return res.status(409).json({ message: "Duplicate mail" })
+        return res.status(409).json({ error: "Email already exists." });
     }
 
     // Hashing the password

@@ -32,7 +32,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['Allapartments','buildingDetails','apartmentDetails','token'] 
+  whitelist: ['cx`','buildingDetails','apartmentDetails','token'] 
 };
 
 // יצירת Persisted Reducer

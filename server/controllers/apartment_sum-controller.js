@@ -18,7 +18,7 @@ const add = async (req, res) => {
     const { apartments_id, date,type, sum, comment ,is_general} = req.body
     let paid = 0
 
-    if (!date || !type || !sum)
+    if (!apartments_id || !date || !type || !sum)
         return res.status(401).send("must insert required params")
 
     try {

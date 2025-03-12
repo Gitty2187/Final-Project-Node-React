@@ -6,10 +6,11 @@ import { Tag } from 'primereact/tag';
 import { Divider } from 'primereact/divider';
 import AddSums from '../Accounts/Sums/AddSums';
 import SendMail from './SendMail';
+import AddPayment from './AddPayment';
 // import AddApartmentPayment from './AddApartmentPayment';
 
 
-const ShowApartment = (props) => {
+const ShowApartment = () => {
     const allApartment = useSelector((myStore) => myStore.Allapartments.Allapartments);
     const [visible, setVisible] = useState(false);
     const [visibleSum, setVisibleSum] = useState(false);
@@ -66,7 +67,7 @@ const ShowApartment = (props) => {
                         />
                         {sendMail && <SendMail sendMail={sendMail} setSendMail={setSendMail} selectedApartmentMail={selectedApartmentMail} lastName={selectedApartmentLastName} balance={selectedApartmentBalance}/>}
                         {visible && <AddSums visible={visible} setVisible={setVisible} is_general={false} apartments_id={[selectedApartmentId]} />}
-                        {/* {visibleSum && <AddApartmentPayment visible={visibleSum} setVisible={setVisibleSum} apartments_id={[selectedApartmentId]} />} */}
+                        {visibleSum && <AddPayment visible={visibleSum} setVisible={setVisibleSum} apartment_id={[selectedApartmentId]} />}
                     </div>
                 </div>
             </div>

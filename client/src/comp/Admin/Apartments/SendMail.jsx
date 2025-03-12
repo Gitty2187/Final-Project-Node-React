@@ -74,7 +74,7 @@ const SendMail = (props) => {
                             value={text}
                             onTextChange={(e) => setText(e.htmlValue)}
                             headerTemplate={header} 
-                            style={{ height: '15rem', width: '50rem'}} 
+                            style={{ height: '15rem', width: '50rem',direction:'rtl'}} 
                             dir="rtl"
                         />
                     </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Menubar } from 'primereact/menubar';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { Image } from 'primereact/image';
 
 const Nav =()=>{
     const navigate = useNavigate();

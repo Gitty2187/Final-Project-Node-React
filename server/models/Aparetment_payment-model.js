@@ -10,7 +10,7 @@ const Aparetment_paymentSchema = new Schema({
       type: mongoose.ObjectId,
       required: true
    },
-   apartment_last_name:{
+   admin_last_name:{
       type:String,
       required:true
    },

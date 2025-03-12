@@ -29,14 +29,16 @@ const AddExpenses = (props) => {
                     Authorization: `Bearer ${ACCESS_TOKEN}`
                 }
             });
-            const updatedExpenses = res.data.map((a) => {
+       
+            const newExp = res.data.map((a) => {
                 const updateDay = new Date(a.date);
                 return {
                     ...a,
                     date: `${updateDay.getDate()}/${updateDay.getMonth() + 1}/${updateDay.getFullYear()}`
                 };
             });
-            props.setExpenses([...props.expenses,...res.data]);
+            const updatedExp = [...props.expenses, ...newExp].sort((a, b) => new Date(a.date) - new Date(b.date));
+            props.setExpenses(updatedExp);
             props.setVisible(false);
             ToastService.show('success', 'הצלחה', 'הוצאה נוספה בהצלחה', 3000); 
         } catch (e) {
