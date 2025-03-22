@@ -45,7 +45,7 @@ const add = async (req, res) => {
 
 const getById = async (req,res) => {
     try{
-        const payments = await Aparetment_Payment.find({ apartment_id:req.apartment._id }).lean().sort({date:1});
+        const payments = await Aparetment_Payment.find({ apartment_id:req.apartment._id}).lean().sort({date:1});
         return res.status(200).json(payments)
     }catch(e){
         // console.log(e);

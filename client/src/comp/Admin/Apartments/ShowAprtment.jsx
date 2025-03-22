@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Button } from 'primereact/button';
 import { DataScroller } from 'primereact/datascroller';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Tag } from 'primereact/tag';
 import { Divider } from 'primereact/divider';
 import AddSums from '../Accounts/Sums/AddSums';
 import SendMail from './SendMail';
 import AddPayment from './AddPayment';
+import Leave from './ApartmentLeave';
 // import AddApartmentPayment from './AddApartmentPayment';
 
 
@@ -19,7 +20,7 @@ const ShowApartment = () => {
     const [selectedApartmentLastName, setSelectedApartmenLastName] = useState(null);
     const [selectedApartmentBalance, setSelectedApartmenBalance] = useState(null);
     const [sendMail, setSendMail] = useState(false);
-  
+   
 
 
     const getSeverity = (balance) => {
@@ -66,6 +67,7 @@ const ShowApartment = () => {
                             style={{ backgroundColor: 'GrayText', borderBlockColor: 'black' }}
                         />
                         {sendMail && <SendMail sendMail={sendMail} setSendMail={setSendMail} selectedApartmentMail={selectedApartmentMail} lastName={selectedApartmentLastName} balance={selectedApartmentBalance}/>}
+                        {<Leave apartment_id={[selectedApartmentId]} lastName={selectedApartmentLastName} />}
                         {visible && <AddSums visible={visible} setVisible={setVisible} is_general={false} apartments_id={[selectedApartmentId]} />}
                         {visibleSum && <AddPayment visible={visibleSum} setVisible={setVisibleSum} apartment_id={[selectedApartmentId]} />}
                     </div>

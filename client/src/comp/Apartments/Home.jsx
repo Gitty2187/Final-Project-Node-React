@@ -2,6 +2,7 @@ import TableExpenses from "../Admin/Accounts/Expenses/TableExpenses"
 import Nav from '../Nav';
 import { ScrollPanel } from 'primereact/scrollpanel';
 import TablePayments from "./Payments/TablePayments";
+import ApartmentSumTable from "./ApartmentsSum.jsx/ApartmentSumTable";
 
 const Home = () => {
     return (<>
@@ -10,17 +11,23 @@ const Home = () => {
             <div className="flex flex-column md:flex-row gap-5">
                 <div className="flex-auto">
                     <ScrollPanel style={{ width: '50rem' }} className="custombar1">
-                        <ScrollPanel style={{ width: '50rem' }} className="custombar2">
-                            <TableExpenses />
-                        </ScrollPanel>
-                        <ScrollPanel style={{ width: '50rem' }} className="custombar2">
-                            <TablePayments />
-                        </ScrollPanel>
+                        <div className="flex flex-column md:flex-row gap-5">
+                            <div className="flex-auto">
+                                <ScrollPanel style={{ width: '25rem' }} className="custombar1">
+                                    <TableExpenses />
+                                </ScrollPanel>
+                            </div>
+                            <div className="flex-auto">
+                                <ScrollPanel style={{ width: '25rem' }} className="custombar2">
+                                    <TablePayments />
+                                </ScrollPanel>
+                            </div>
+                        </div>
                     </ScrollPanel>
                 </div>
                 <div className="flex-auto">
                     <ScrollPanel style={{ width: '50rem' }} className="custombar2">
-                        <TablePayments />
+                        <ApartmentSumTable />
                     </ScrollPanel>
                 </div>
             </div>

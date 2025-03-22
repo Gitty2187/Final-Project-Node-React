@@ -19,9 +19,8 @@ const ApartmentSchema = new Schema({
      },
     mail:{
         type:String,
-        required:true,
-        unique:true
-     },
+        required:true
+    },
     last_name:{
         type:String,
         required:true

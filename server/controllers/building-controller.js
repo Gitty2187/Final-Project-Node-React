@@ -3,19 +3,16 @@ const Apartment = require("../models/Apartment-model");
 
 const getBuilding = async (req, res) => {
     const { password } = req.params
-    
-    //check validation
+   
     if (!password)
         return res.status(400).send("password not found")
 
-    //get building
     const building = await Building.findOne({ password: password }).lean()
 
     
     if (!building)
         return res.status(400).send("building not exist")
 
-    //declare apartmentsNull
     let apartmentsNull = []
     for (let i = 0; i < building.apartments_sum; i++) {
         apartmentsNull.push(building.minimum_apartment_number + i)

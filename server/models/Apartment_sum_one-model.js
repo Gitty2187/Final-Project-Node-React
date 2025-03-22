@@ -1,16 +1,17 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
-//const Apartment_sum = require('./Apartments_sum-model')
+// const Apartment_sum = require('./Apartments_sum-model')
 
 const Apartments_sum_oneSchema = new Schema({
-    apartment_sum:{
-        type: mongoose.ObjectId,
-        ref: "Apartment_sum"
+    apartment_sum: {
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "Apartments_sum",
+        required: true
     },
     apartment:{
         type: mongoose.ObjectId,
-        ref: 'Apartment'
+        required:true
     },
      paid:{
          type:Number,

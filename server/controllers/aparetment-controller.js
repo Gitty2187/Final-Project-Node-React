@@ -13,7 +13,7 @@ const login = async (req, res) => {
         return res.status(401).send("must insert mail & passwowrd")
 
     // Find the apartment by email
-    const apartment = await Apartment.findOne({ mail: mail }).lean()
+    const apartment = await Apartment.findOne({ mail: mail ,is_active:true}).lean()
     if (!apartment)
         return res.status(400).send("apartment does not exist")
 
@@ -49,7 +49,7 @@ const logUp = async (req, res) => {
     }
 
     // Check for duplicate email
-    const duplicate = await Apartment.findOne({ mail: newApartment.mail }).lean()
+    const duplicate = await Apartment.findOne({ mail: newApartment.mail,is_active:true }).lean()
     if (duplicate) {
         return res.status(409).json({ error: "Email already exists." });
     }
@@ -82,9 +82,9 @@ const logUp = async (req, res) => {
 
 const sendApartmentEmail = async (req, res) => {
     const { to, subject, text } = req.body;
-    if(!to || !subject || !text)
+    if (!to || !subject || !text)
         return res.status(400).send("Must insert valid")
-    
+
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -96,20 +96,38 @@ const sendApartmentEmail = async (req, res) => {
     // async function main() {
     try {
         await transporter.sendMail({
-            from:  '"מערכת הבית שלך 🏠" <maddison53@ethereal.email>',
+            from: '"מערכת הבית שלך 🏠" <maddison53@ethereal.email>',
             to,
             subject,
             // text,
-            html:  `<div dir="rtl">${text}</div>`
+            html: `<div dir="rtl">${text}</div>`
         });
         res.status(200).send('Email sent successfully');
     }
-    
-        // main().catch(console.error);
+
+    // main().catch(console.error);
 
     catch (error) {
         res.status(400).send('Error sending email :' + error);
     }
 };
 
-module.exports = { login, logUp, sendApartmentEmail }
+const apartmentLeft = async (req, res) => {
+    const {id} = req.body
+    if (!id)
+        return res.status(400).send("Must insert id");
+    try {
+        const apartment = await Apartment.findById(id).exec();
+        if (!apartment)
+            return res.status(400).send("Apartment not exist");
+
+        apartment.is_active = false;
+        await apartment.save()
+        return res.status(200).send("Success!")
+    }
+    catch (e) {
+        return res.status(400).send(e)
+    }
+}
+
+module.exports = { login, logUp, sendApartmentEmail,apartmentLeft }
