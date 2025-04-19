@@ -8,29 +8,24 @@ const nodemailer = require('nodemailer');
 const login = async (req, res) => {
     const { mail, password } = req.query
 
-    //validation
     if (!mail || !password)
         return res.status(401).send("must insert mail & passwowrd")
 
-    // Find the apartment by email
     const apartment = await Apartment.findOne({ mail: mail ,is_active:true}).lean()
     if (!apartment)
         return res.status(400).send("apartment does not exist")
 
-
-    // Compare passwords
     const match = await bcrypt.compare(password, apartment.password)
     if (!match)
         return res.status(400).send("apartment not exist")
 
-    //if manager return also all the apartments
     const allApartments = apartment.is_admin ? await Apartment.find({ building_id: apartment.building_id, is_active: true }).sort({ number: 1 }) : null
 
     const building = await Building.findOne({ _id: apartment.building_id })
-
-    //return token
+    
     try {
         delete apartment.password;
+        delete building.password;
         const accessToken = jwt.sign(apartment, process.env.ACCESS_TOKEN_SECRET);
         res.json({ token: accessToken, apartment, building, allApartments })
     }
@@ -43,31 +38,25 @@ const login = async (req, res) => {
 const logUp = async (req, res) => {
     let newApartment = req.body
 
-    // Check for required fields
     if (!newApartment.building_id || !newApartment.number || !newApartment.password || !newApartment.mail || !newApartment.last_name) {
         return res.status(401).json({ message: 'insert fields required' })
     }
 
-    // Check for duplicate email
     const duplicate = await Apartment.findOne({ mail: newApartment.mail,is_active:true }).lean()
     if (duplicate) {
         return res.status(409).json({ error: "Email already exists." });
     }
 
-    // Hashing the password
     const hashedPwd = await bcrypt.hash(newApartment.password, 10)
     newApartment.password = hashedPwd
 
-    // Set entered_date if not provided
     if (!newApartment.entered_date)
         newApartment.entered_date = new Date()
 
-    //if manager return also all the apartments
-    const allApartments = newApartment.is_admin ? await Apartment.find({ building_id: newApartment.building_id, is_active: true }).sort({ number: 1 }) : null
 
-    // Create the new apartment
     try {
         let apartment = await Apartment.create(newApartment);
+        const allApartments = newApartment.is_admin ? await Apartment.find({ building_id: newApartment.building_id, is_active: true }).sort({ number: 1 }) : null
         const apartmentPayload = apartment.toObject();
         delete apartmentPayload.password;
         const accessToken = jwt.sign(apartmentPayload, process.env.ACCESS_TOKEN_SECRET);
@@ -130,4 +119,44 @@ const apartmentLeft = async (req, res) => {
     }
 }
 
-module.exports = { login, logUp, sendApartmentEmail,apartmentLeft }
+
+const updateApartment = async (req, res) => {
+    const { id } = req.params;
+    const { last_name, area, floor, entrance } = req.body;
+
+    if (!id) {
+        return res.status(400).send("Missing apartment ID");
+    }
+
+    try {
+        const apartment = await Apartment.findById(id);
+        if (!apartment || !apartment.is_active) {
+            return res.status(404).send("Apartment not found or inactive");
+        }
+
+        apartment.last_name = last_name;
+        apartment.area = area;
+        apartment.floor = floor;
+        apartment.entrance = entrance;
+
+        await apartment.save();
+
+        const updatedApartment = apartment.toObject();
+        delete updatedApartment.password; // לא מחזירים סיסמה
+
+        return res.status(200).json({ message: "Apartment updated successfully", apartment: updatedApartment });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).send("Server error while updating apartment");
+    }
+};
+
+module.exports = {
+    login,
+    logUp,
+    sendApartmentEmail,
+    apartmentLeft,
+    updateApartment
+};
+
+

@@ -32,19 +32,20 @@ const ApartmentSumTable = () => {
                     Authorization: `Bearer ${ACCESS_TOKEN}`
                 }
             });
+            if(res.status ==  200){
+                const updatedsums = res.data.map((a) => {
+                    const updateDay = new Date(a.paymentDetails.date);
+                    return {
+                        ...a,
+                        paymentDetails: {
+                            ...a.paymentDetails,
+                            date: `${updateDay.getDate()}/${updateDay.getMonth() + 1}/${updateDay.getFullYear()}`
+                        }
+                    };
+                });
 
-            const updatedsums = res.data.map((a) => {
-                const updateDay = new Date(a.paymentDetails.date);
-                return {
-                    ...a,
-                    paymentDetails: {
-                        ...a.paymentDetails,
-                        date: `${updateDay.getDate()}/${updateDay.getMonth() + 1}/${updateDay.getFullYear()}`
-                    }
-                };
-            });
-
-            setsums(updatedsums);
+                setsums(updatedsums);
+            }
         } catch (e) {
             console.log(e);
             ToastService.show('error', 'שגיאה', 'נכשל בהבאת התשלומים', 3000);

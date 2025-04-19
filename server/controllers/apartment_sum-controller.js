@@ -66,8 +66,12 @@ const getById = async (req, res) => {
             .populate('apartment_sum')
             // .exec();
 
-        if (!payments || payments.length === 0) {
-            return res.status(404).json({ message: 'No payments found for this apartment' });
+        if (!payments ) {
+            return res.status(404).json({ message: 'Faild get payments' });
+        }
+
+        if (payments.length === 0) {
+            return res.status(201).json({ message: 'No payments found for this apartment' });
         }
 
         const sortedPayments = payments.sort((a, b) => {
