@@ -71,7 +71,7 @@ const Logup = (props) => {
                         {errors.number && <Message text="יש להזין מספר דירה" severity="error" />}
 
                         <FloatLabel>
-                            <InputText id="mail" type='email' {...register("mail", { required: true })} />
+                            <InputText id="mail" type='email' {...register("mail", { required: true })} style={{direction:'ltr'}}/>
                             <label htmlFor="mail">*מייל</label>
                         </FloatLabel>
                         {errors.mail && <Message text="יש להזין מייל" severity="error" />}

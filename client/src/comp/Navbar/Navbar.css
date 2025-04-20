@@ -1,0 +1,69 @@
+.user-avatar-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    border: none;
+    background: none;
+    box-shadow: none;
+    color: #f68b1e; /* כתום של הלוגו */
+    margin-right: 1rem; /* חשוב כדי שיהיה צמוד לשמאל */
+}
+
+.user-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #f68b1e; /* אותו כתום של הלוגו */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.custom-navbar {
+    direction: rtl;
+    text-align: right;
+    padding: 0.5rem 1rem;
+    background-color: var(--card-bg);
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.p-menubar .p-menuitem-link {
+    display: flex;
+    align-items: center; /* הוספתי כדי לסדר את הטקסט עם האייקון */
+    gap: 0.5rem; /* רווח בין האייקון לטקסט */
+    padding-right: 1rem; /* תוספת רווח בצד הימני */
+}
+
+.rtl-menubar {
+    direction: rtl;
+    text-align: right;
+}
+
+.rtl-sidebar {
+    direction: rtl;
+    text-align: right;
+}
+
+.rtl-sidebar ul {
+    padding-right: 0;
+    list-style: none;
+}
+
+.rtl-sidebar li {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.rtl-sidebar button {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+}

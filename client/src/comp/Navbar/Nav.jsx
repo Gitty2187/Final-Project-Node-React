@@ -1,32 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Menubar } from 'primereact/menubar';
-import { Sidebar } from 'primereact/sidebar';
 import { Button } from 'primereact/button';
+import { Menu } from 'primereact/menu';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import ResidentUpdateForm from './ResidentUpdateForm';
 import { updateApartment } from '../../Store/ApartmentSlice';
-import { updateAllApar } from '../../Store/AllApartment';
-import { setToken } from '../../Store/Token';
-import { updateBuild } from '../../Store/BuildingSlice';
+import './Navbar.css';
 
 const Navbar = () => {
-    const [sidebarVisible, setSidebarVisible] = useState(false);
     const [editDialogVisible, setEditDialogVisible] = useState(false);
-    const apartment = useSelector((myStore) => myStore.apartmentDetails.apartment);
+    const menuRef = useRef(null);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const apartment = useSelector((state) => state.apartmentDetails.apartment);
+
+    const userMenu = [
+        {
+            label: 'עדכון פרטי דייר',
+            icon: 'pi pi-user-edit',
+            command: () => setEditDialogVisible(true),
+        },
+        {
+            label: 'יציאה',
+            icon: 'pi pi-sign-out',
+            command: () => {
+                dispatch(updateApartment({}));
+                localStorage.clear();
+                navigate('/login');
+            },
+        },
+    ];
 
     const rightMenu = [
         {
             label: 'לוח מודעות',
             icon: 'pi pi-comments',
-            command: () => navigate('/bulletin')
+            command: () => navigate('/bulletin'),
         },
         {
             label: 'דף הבית',
             icon: 'pi pi-home',
-            command: () => navigate('/apartment')
+            command: () => navigate('/apartment'),
         },
         apartment?.is_admin && {
             label: 'ניהול',
@@ -35,77 +50,44 @@ const Navbar = () => {
                 {
                     label: 'ניהול הוצאות לבניין',
                     icon: 'pi pi-wallet',
-                    command: () => navigate('/manager/expenses')
+                    command: () => navigate('/manager/expenses'),
                 },
                 {
                     label: 'ניהול דיירים לבניין',
                     icon: 'pi pi-users',
-                    command: () => navigate('/manager/apartments')
-                }
-            ]
-        }
+                    command: () => navigate('/manager/apartments'),
+                },
+            ],
+        },
     ];
 
     const start = (
-        <Button
-            icon="pi pi-bars"
-            className="p-button-text"
-            onClick={() => setSidebarVisible(true)}
-        />
+        <>
+            <div className="user-avatar-button" onClick={(e) => menuRef.current.toggle(e)}>
+                <div className="user-icon">
+                    <i className="pi pi-user"></i>
+                </div>
+                <span>{apartment?.last_name || 'משתמש'}</span>
+            </div>
+            <Menu model={userMenu} popup ref={menuRef} id="popup_menu" />
+        </>
     );
 
-    const handleUpdateSubmit = (data) => {
-
-        setEditDialogVisible(false);
-
-    };
-
     return (
-        <>
-            <Menubar model={rightMenu} start={start} className="justify-content-between" />
-
-            <Sidebar visible={sidebarVisible} position="left" onHide={() => setSidebarVisible(false)}>
-                <h3>תפריט משתמש</h3>
-                <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
-                    <li>
-                        <Button
-                            label="עדכון פרטי דייר"
-                            icon="pi pi-user-edit"
-                            className="p-button-text p-mb-2"
-                            onClick={() => setEditDialogVisible(true)}
-                        />
-                    </li>
-                    <li>
-                        <Button
-                            label="יציאה"
-                            icon="pi pi-sign-out"
-                            className="p-button-text"
-                            onClick={() => {
-                                dispatch(updateApartment({}));
-                                // dispatch(setToken(null));
-                                // dispatch(updateAllApar([]));
-                                // dispatch(updateBuild({}));
-                                localStorage.clear();
-                                navigate('/login')
-                            }
-                            }
-                        />
-                    </li>
-                </ul>
-            </Sidebar>
-
+        <div style={{marginBottom:'3rem'}}>
+            <Menubar model={rightMenu} start={start} className="custom-navbar" />
             <ResidentUpdateForm
                 visible={editDialogVisible}
                 onHide={() => setEditDialogVisible(false)}
-                onSubmit={handleUpdateSubmit}
+                onSubmit={() => setEditDialogVisible(false)}
                 defaultValues={{
                     last_name: apartment?.last_name || '',
                     area: apartment?.area || 0,
                     floor: apartment?.floor || 0,
-                    entrance: apartment?.entrance || ''
+                    entrance: apartment?.entrance || '',
                 }}
             />
-        </>
+        </div>
     );
 };
 
