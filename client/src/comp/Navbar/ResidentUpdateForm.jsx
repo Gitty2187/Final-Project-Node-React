@@ -5,9 +5,9 @@ import { InputText } from 'primereact/inputtext';
 import { classNames } from 'primereact/utils';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import ToastService from './Toast/ToastService';
+import ToastService from '../Toast/ToastService';
 import './ResidentUpdateForm.css';
-import { updateApartment } from '../Store/ApartmentSlice';
+import { updateApartment } from '../../Store/ApartmentSlice';
 
 const ResidentUpdateForm = ({ visible, onHide }) => {
     const apartment = useSelector((myStore) => myStore.apartmentDetails.apartment);

@@ -2,15 +2,19 @@ import React, { useState } from 'react';
 import { Menubar } from 'primereact/menubar';
 import { Sidebar } from 'primereact/sidebar';
 import { Button } from 'primereact/button';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import ResidentUpdateForm from './ResidentUpdateForm'; // ודא שקובץ זה קיים באותה תיקייה או שנה את הנתיב
+import ResidentUpdateForm from './ResidentUpdateForm';
+import { updateApartment } from '../../Store/ApartmentSlice';
+import { updateAllApar } from '../../Store/AllApartment';
+import { setToken } from '../../Store/Token';
+import { updateBuild } from '../../Store/BuildingSlice';
 
 const Navbar = () => {
     const [sidebarVisible, setSidebarVisible] = useState(false);
     const [editDialogVisible, setEditDialogVisible] = useState(false);
     const apartment = useSelector((myStore) => myStore.apartmentDetails.apartment);
-
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const rightMenu = [
@@ -51,9 +55,9 @@ const Navbar = () => {
     );
 
     const handleUpdateSubmit = (data) => {
-        console.log('📝 פרטים עודכנו:', data);
+
         setEditDialogVisible(false);
-        // כאן ניתן לשלב קריאה לשרת או dispatch ל־Redux
+
     };
 
     return (
@@ -76,7 +80,15 @@ const Navbar = () => {
                             label="יציאה"
                             icon="pi pi-sign-out"
                             className="p-button-text"
-                            onClick={() => console.log('יציאה')}
+                            onClick={() => {
+                                dispatch(updateApartment({}));
+                                // dispatch(setToken(null));
+                                // dispatch(updateAllApar([]));
+                                // dispatch(updateBuild({}));
+                                localStorage.clear();
+                                navigate('/login')
+                            }
+                            }
                         />
                     </li>
                 </ul>

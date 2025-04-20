@@ -3,7 +3,7 @@ import 'primeicons/primeicons.css';
 import { Route, Routes } from "react-router-dom"
 
 import Login from './comp/Home-page/Login';
-import Nav from './comp/Nav';
+import Nav from './comp/Navbar/Nav';
 import Account from "./comp/Admin/Accounts/Accounts"
 import Home  from './comp/Apartments/Home';
 import Start from './comp/Start';

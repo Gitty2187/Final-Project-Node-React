@@ -1,5 +1,5 @@
 
-import Nav from '../../Nav';
+import Nav from '../../Navbar/Nav';
 import TableExpenses from './Expenses/TableExpenses';
 import TableSums from './Sums/TableSums';
 import { ScrollPanel } from 'primereact/scrollpanel';

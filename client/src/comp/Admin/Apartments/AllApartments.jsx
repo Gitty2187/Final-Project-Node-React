@@ -1,5 +1,5 @@
 
-import Nav from "../../Nav";
+import Nav from "../../Navbar/Nav";
 import ShowApartment from "./ShowAprtment";
 
 const AllApartmets = () => {
