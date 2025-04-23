@@ -10,6 +10,7 @@ import Start from './comp/Start';
 import AllApartmets from './comp/Admin/Apartments/AllApartments';
 import ToastContainer from './comp/Toast/ToastContainer';
 import RegisterPage from './comp/Home-page/RegisterPage';
+import DownloadBuildingForm from './comp/Home-page/EntryDocument';
 
 
 

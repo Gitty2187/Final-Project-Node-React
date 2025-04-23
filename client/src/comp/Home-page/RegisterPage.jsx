@@ -133,7 +133,7 @@ const RegisterPage = () => {
                     </div>
                     <div className="field">
                         <label htmlFor="mail">מייל</label>
-                        <InputText id="mail" name="mail" value={formData.mail} onChange={handleChange} className="w-full" />
+                        <InputText id="mail" name="mail" value={formData.mail} onChange={handleChange} className="w-full" type='email'/>
                         {errors.mail && <small className="p-error">{errors.mail}</small>}
                     </div>
                     <div className="field">
@@ -143,15 +143,15 @@ const RegisterPage = () => {
                     </div>
                     <div className="field">
                         <label htmlFor="area">שטח דירה (מ"ר)</label>
-                        <InputText id="area" name="area" value={formData.area} onChange={handleChange} className="w-full" />
+                        <InputText id="area" name="area" value={formData.area} onChange={handleChange} className="w-full" type='number'/>
                     </div>
                     <div className="field">
                         <label htmlFor="floor">קומה</label>
-                        <InputText id="floor" name="floor" value={formData.floor} onChange={handleChange} className="w-full" />
+                        <InputText id="floor" name="floor" value={formData.floor} onChange={handleChange} className="w-full" type='text'/>
                     </div>
                     <div className="field">
                         <label htmlFor="entrance">כניסה</label>
-                        <InputText id="entrance" name="entrance" value={formData.entrance} onChange={handleChange} className="w-full" />
+                        <InputText id="entrance" name="entrance" value={formData.entrance} onChange={handleChange} className="w-full" type='text'/>
                     </div>
                     <div className="field-checkbox">
                         <Checkbox inputId="accept" name="accepted" checked={formData.accepted} onChange={handleChange} />
