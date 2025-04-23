@@ -22,7 +22,6 @@ const Login = () => {
     const [password, setBuildingPass] = useState();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [houseNum, setHouseNum] = useState();
 
     const {
         register,
@@ -32,7 +31,7 @@ const Login = () => {
 
     const check_building_password = async () => {
         if (!password) {
-            ToastService.show('error', 'שגיאה', 'הכנס סיסמת בנין', 3000); // עדכון כאן
+            ToastService.show('error', 'שגיאה', 'הכנס סיסמת בנין', 3000);
             return;
         }
         try {
@@ -41,10 +40,9 @@ const Login = () => {
             dispatch(setToken(res.data.token));
             dispatch(updateAllApar(res.data.allApartments));
             dispatch(updateApartment(res.data.apartment));
-            setHouseNum(res.data.apartmentsNull);
-            setVisible(true);
+            navigate('/register', { state: { header: "רישום דייר חדש", is_admin:false, houseNum:res.data.apartmentsNull} });
         } catch (e) {
-            ToastService.show('error', 'שגיאה', 'סיסמה שגויה', 3000); // עדכון כאן
+            ToastService.show('error', 'שגיאה', 'סיסמה שגויה', 3000);
         }
     };
 
@@ -108,7 +106,7 @@ const Login = () => {
             </div>
         </form >
 
-            <Logup setVisible={setVisible} visible={visible} houseNum={houseNum} header={"רישום דייר חדש "} />
+            {/* <Logup setVisible={setVisible} visible={visible} houseNum={houseNum} header={"רישום דייר חדש "} /> */}
         </>
     );
 }

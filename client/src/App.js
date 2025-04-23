@@ -9,6 +9,7 @@ import Home  from './comp/Apartments/Home';
 import Start from './comp/Start';
 import AllApartmets from './comp/Admin/Apartments/AllApartments';
 import ToastContainer from './comp/Toast/ToastContainer';
+import RegisterPage from './comp/Home-page/RegisterPage';
 
 
 
@@ -21,6 +22,7 @@ function App() {
        <Route path="/apartment" element={<Home/>} />
        <Route path="/manager/apartments" element={<AllApartmets/>} />
        <Route path="/manager/expenses" element={<Account/> } />
+       <Route path="/register" element={<RegisterPage />} />
      </Routes>
     
     </>);

@@ -11,7 +11,7 @@ const login = async (req, res) => {
     if (!mail || !password)
         return res.status(401).send("must insert mail & passwowrd")
 
-    const apartment = await Apartment.findOne({ mail: mail, is_active: true }).lean()
+    const apartment = await Apartment.findOne({ mail: mail ,is_active:true}).lean()
     if (!apartment)
         return res.status(400).send("apartment does not exist")
 
@@ -22,7 +22,7 @@ const login = async (req, res) => {
     const allApartments = apartment.is_admin ? await Apartment.find({ building_id: apartment.building_id, is_active: true }).sort({ number: 1 }) : null
 
     const building = await Building.findOne({ _id: apartment.building_id })
-
+    
     try {
         delete apartment.password;
         delete building.password;
@@ -37,12 +37,13 @@ const login = async (req, res) => {
 
 const logUp = async (req, res) => {
     let newApartment = req.body
-
+    console.log(newApartment);
+    
     if (!newApartment.building_id || !newApartment.number || !newApartment.password || !newApartment.mail || !newApartment.last_name) {
         return res.status(401).json({ message: 'insert fields required' })
     }
 
-    const duplicate = await Apartment.findOne({ mail: newApartment.mail, is_active: true }).lean()
+    const duplicate = await Apartment.findOne({ mail: newApartment.mail,is_active:true }).lean()
     if (duplicate) {
         return res.status(409).json({ error: "Email already exists." });
     }
@@ -72,7 +73,7 @@ const logUp = async (req, res) => {
 const sendApartmentEmail = async (req, res) => {
     const { to, subject, text } = req.body;
     if (!to || !subject || !text)
-        return res.status(400).send("Must insert valid");
+        return res.status(400).send("Must insert valid")
 
     const transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -82,25 +83,27 @@ const sendApartmentEmail = async (req, res) => {
         }
     });
 
+    // async function main() {
     try {
-        // השתמש ב-for...of כדי לעבור על כל כתובת דוא"ל בצורה אסינכרונית
-        for (const t of to) {
-            await transporter.sendMail({
-                from: '"מערכת הבית שלך 🏠" <maddison53@ethereal.email>',
-                to: t,
-                subject,
-                html: `<div dir="rtl">${text}</div>`
-            });
-        }
+        await transporter.sendMail({
+            from: '"מערכת הבית שלך 🏠" <maddison53@ethereal.email>',
+            to,
+            subject,
+            // text,
+            html: `<div dir="rtl">${text}</div>`
+        });
         res.status(200).send('Email sent successfully');
-    } catch (error) {
-        res.status(400).send('Error sending email: ' + error);
+    }
+
+    // main().catch(console.error);
+
+    catch (error) {
+        res.status(400).send('Error sending email :' + error);
     }
 };
 
-
 const apartmentLeft = async (req, res) => {
-    const { id } = req.body
+    const {id} = req.body
     if (!id)
         return res.status(400).send("Must insert id");
     try {

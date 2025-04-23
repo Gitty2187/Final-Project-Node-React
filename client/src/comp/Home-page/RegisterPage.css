@@ -1,0 +1,115 @@
+body {
+    background: linear-gradient(to bottom, #cccccc, #eeeeee);
+    margin: 0;
+    font-family: 'Assistant', sans-serif;
+}
+
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-card {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 420px;
+    padding: 2rem;
+    direction: rtl;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.register-header {
+    background: linear-gradient(to right, #2196f3, #1976d2);
+    color: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.register-header h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.register-header p {
+    margin: 0.5rem 0 0;
+    font-size: 1rem;
+}
+
+.field {
+    margin-bottom: 1.5rem;
+}
+
+.field label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.field-checkbox {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.checkbox-label {
+    margin-right: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.checkbox-label a {
+    color: #1976d2;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.submit-btn {
+    background: linear-gradient(to right, #2196f3, #1976d2);
+    border: none;
+    font-weight: bold;
+    padding: 0.75rem;
+    border-radius: 10px;
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+}
+
+.login-link a {
+    color: #1976d2;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+
+.dropdown-field {
+    border: 1px solid #ced4da;
+    border-radius: 10px;
+    padding: 0.5rem;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.dropdown-field:focus-within {
+    border-color: #1976d2;
+    box-shadow: 0 0 0 0.1rem rgba(25, 118, 210, 0.25);
+}
+
+
+
+.p-dropdown {
+    height: 3rem;
+    padding: 0.25rem 0.75rem;
+    font-size: 1rem;
+    border-radius: 6px;
+}
+
+

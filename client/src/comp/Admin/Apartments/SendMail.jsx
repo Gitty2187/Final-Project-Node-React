@@ -20,7 +20,7 @@ const SendMail = (props) => {
         setLoading(true);
         try {
             await axios.post('http://localhost:7000/apartment/send-email', {
-                to:[ props.selectedApartmentMail],
+                to: props.selectedApartmentMail,
                 subject,
                 text
             }, {
