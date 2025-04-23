@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
-const Apartments_sum = require("./Apartments_sum-model")
+const validator = require('validator');
 
 const ApartmentSchema = new Schema({
     building_id: {
@@ -19,7 +19,13 @@ const ApartmentSchema = new Schema({
      },
     mail:{
         type:String,
-        required:true
+        required:true,
+        validate: {
+            validator: function(v) {
+              return validator.isEmail(v);
+            },
+            message: props => `${props.value} הוא לא מייל תקין!`
+          }
     },
     last_name:{
         type:String,

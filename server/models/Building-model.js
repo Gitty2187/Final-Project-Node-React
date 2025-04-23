@@ -9,7 +9,6 @@ const BuildingSchema = new Schema({
      password:{
         type:String,
         required:true,
-     //   indexedDB:true
      },
      minimum_apartment_number:{
         type:Number,
