@@ -15,11 +15,13 @@ const ShowApartment = () => {
     const allApartment = useSelector((myStore) => myStore.Allapartments.Allapartments);
     const [visible, setVisible] = useState(false);
     const [visibleSum, setVisibleSum] = useState(false);
+    const [visibleLeft, setVisibleLeft] = useState(false);
     const [selectedApartmentId, setSelectedApartmentId] = useState(null);
     const [selectedApartmentMail, setSelectedApartmentMail] = useState(null);
     const [selectedApartmentLastName, setSelectedApartmenLastName] = useState(null);
     const [selectedApartmentBalance, setSelectedApartmenBalance] = useState(null);
     const [sendMail, setSendMail] = useState(false);
+    const [sendMailAllApartmentnts, setSendMailAllApartmentnts] = useState(false);
    
 
 
@@ -66,8 +68,17 @@ const ShowApartment = () => {
                             }}
                             style={{ backgroundColor: 'GrayText', borderBlockColor: 'black' }}
                         />
+                         <Button label="דייר עזב" icon="pi pi-user-minus" onClick={()=>setVisibleLeft(true)} style={{ float: 'right' }} />
+                        {sendMailAllApartmentnts && 
+                        <SendMail 
+                            sendMail={sendMailAllApartmentnts} 
+                            setSendMail={setSendMail} 
+                            selectedApartmentMail={allApartment.map(apartments => {
+                                return apartments.mail
+                            })} 
+                           />}
                         {sendMail && <SendMail sendMail={sendMail} setSendMail={setSendMail} selectedApartmentMail={selectedApartmentMail} lastName={selectedApartmentLastName} balance={selectedApartmentBalance}/>}
-                        {<Leave apartment_id={[selectedApartmentId]} lastName={selectedApartmentLastName} />}
+                        {visibleLeft && <Leave apartment_id={[selectedApartmentId]} lastName={selectedApartmentLastName} />}
                         {visible && <AddSums visible={visible} setVisible={setVisible} is_general={false} apartments_id={[selectedApartmentId]} />}
                         {visibleSum && <AddPayment visible={visibleSum} setVisible={setVisibleSum} apartment_id={[selectedApartmentId]} />}
                     </div>
@@ -75,10 +86,6 @@ const ShowApartment = () => {
             </div>
         );
     };
-
-    // const sendEmail = async () => {
-    // };
-    
 
 
     return (
@@ -91,6 +98,7 @@ const ShowApartment = () => {
                 scrollHeight="500px"
                 header="רשימת הדיירים לבנין"
             />
+             <Button label="שלח מייל לכל הדיירים" text raised onClick={()=>setSendMailAllApartmentnts(true)}/>
         </div>
     );
 }

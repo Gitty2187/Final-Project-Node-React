@@ -9,7 +9,7 @@ html {
   --background-color: #f9f9f9;
   --card-bg: #ffffff;
   --accent-color: #333333; /* אפור-שחור כהה */
-  --font-family: 'Rubik', sans-serif; /* עדכון לפונט Rubik */
+  --font-family: 'Rubik', sans-serif;
  
 }
 
@@ -20,7 +20,7 @@ label {
 }
 
 body {
-  font-family: var(--main-font);  /* עדכון לפונט Rubik */
+  font-family: var(--main-font); 
   margin: 0;
   padding: 0;
   background-color: var(--background-color);

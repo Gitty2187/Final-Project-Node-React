@@ -9,13 +9,14 @@ import { Editor } from "primereact/editor";
 import ToastService from '../../Toast/ToastService';
 
 const SendMail = (props) => {
-    const [subject, setSubject] = useState('תזכורת לתשלום חשבון ועד הבית');
-    const [text, setText] = useState(`שלום ${props.lastName}<br/>חובך לועד הוא <b>${props.balance}</b>  ש"ח נא להעביר את התשלום בהקדם`);
+    const [subject, setSubject] = useState(" ");
+    props.balance && setSubject("תזכורת תשלום לדירה");
+    const [text, setText] = useState(" ")
     const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);
     const [to, setTo] = useState(props.selectedApartmentMail);
+    const [loading, setLoading] = useState(false);
 
-    const [loading, setLoading] = useState(false); // מצב טעינה
-
+    props.lastName && setText(`שלום ${props.lastName}<br/>חובך לועד הוא <b>${props.balance}</b>  ש"ח נא להעביר את התשלום בהקדם`)
     const handleSendEmail = async () => {
         setLoading(true);
         try {
@@ -55,16 +56,18 @@ const SendMail = (props) => {
             <Dialog header="שלח מייל" visible={props.sendMail} onHide={() => props.setSendMail(false)} style={{ float: 'right' }}>
                 <div className="email-composer">
                     <label htmlFor="to" style={{ float: 'right' }}>אל</label>
-                    <div className="p-inputgroup flex-1">
-                        <InputText placeholder={props.selectedApartmentMail} style={{ direction: 'rtl' }} id="to" value={to} disabled />
+                    <div className="p-inputgroup flex-1" style={{ direction: 'ltr' }}>
+                        <InputText placeholder={props.selectedApartmentMail} id="to" value={to} disabled />
                         <span className="p-inputgroup-addon">
                             <i className="pi pi-user"></i>
                         </span>
                     </div>
 
                     <label htmlFor="subject" style={{ float: 'right' }}>נושא</label>
-                    <div className="p-inputgroup flex-1">
-                        <InputText placeholder="תזכורת תשלום לדירה" id="subject" style={{ direction: 'rtl' }} value={subject} onChange={(e) => setSubject(e.target.value)} />
+                    <div className="p-inputgroup flex-1" style={{ direction: 'ltr' }}>
+                        <InputText 
+                        placeholder = "הכנס טקסט"
+                        id="subject" style={{ direction: 'rtl' }} value={subject} onChange={(e) => setSubject(e.target.value)} />
                         <span className="p-inputgroup-addon">
                             <i className="pi pi-pencil"></i>
                         </span>
@@ -73,15 +76,16 @@ const SendMail = (props) => {
                     <label style={{ float: 'right' }}>תוכן</label>
                     <br />
 
-                    <div className="p-field">
+                    <div className="p-field" style={{ textAlign: 'right' }}>
                         <Editor
-                            value={text}
+                            value={text} 
                             onTextChange={(e) => setText(e.htmlValue)}
                             headerTemplate={header}
                             style={{ height: '15rem', width: '50rem', direction: 'rtl' }}
                             dir="rtl"
                         />
                     </div>
+
                     <br />
                     <Button
                         label={loading ? "שולח..." : "שלח מייל"}

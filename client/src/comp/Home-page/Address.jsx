@@ -1,10 +1,4 @@
 const address = () => {
-    /**
- * Select a street by city in Israel
- * Cities data is from https://data.gov.il/dataset/citiesandsettelments
- * Streets data is from https://data.gov.il/dataset/321
- * API documentation https://docs.ckan.org/en/latest/maintaining/datastore.html#ckanext.datastore.logic.action.datastore_search
- */
 
     // REST API URL
     const api_url = "https://data.gov.il/api/3/action/datastore_search";
@@ -104,8 +98,8 @@ const address = () => {
     ////////////////////////////
     const fetchCities = async () => {
         try {
-            const response = await axios.get('https://raw.githubusercontent.com/royts/israel-cities/master/israel-cities.json');
-            const cityData = response.data.map(city => ({ name: city.name, semel_yeshuv: city.semel_yeshuv }));
+            const response = await axios.get('https://pti.org.il/Calculators/GetAvailableCities');
+            const cityData = response.data.map(city => ({ name: city.name }));
             setCities(cityData);
         } catch (error) {
             console.error("שגיאה בהבאת ערים:", error);
@@ -132,51 +126,51 @@ const address = () => {
         }
     };
     return (<>
-     <FloatLabel>
-                            <Dropdown
-                                value={selectedCity}
-                                onChange={(e) => {
-                                    setSelectedCity(e.value);
-                                    setSelectedNeighborhood(null);
-                                    setSelectedStreet(null);
-                                    setNeighborhoods([]);
-                                    setStreets([]);
-                                    fetchNeighborhoods(e.value.name);
-                                    fetchStreets(e.value.name);
-                                }}
-                                options={cities}
-                                optionLabel="name"
-                                placeholder="בחר עיר"
-                                filter
-                            />
-                            <label>עיר</label>
-                        </FloatLabel>
+        <FloatLabel>
+            <Dropdown
+                value={selectedCity}
+                onChange={(e) => {
+                    setSelectedCity(e.value);
+                    setSelectedNeighborhood(null);
+                    setSelectedStreet(null);
+                    setNeighborhoods([]);
+                    setStreets([]);
+                    fetchNeighborhoods(e.value.name);
+                    fetchStreets(e.value.name);
+                }}
+                options={cities}
+                optionLabel="name"
+                placeholder="בחר עיר"
+                filter
+            />
+            <label>עיר</label>
+        </FloatLabel>
 
-                        <FloatLabel>
-                            <Dropdown
-                                value={selectedNeighborhood}
-                                onChange={(e) => setSelectedNeighborhood(e.value)}
-                                options={neighborhoods}
-                                optionLabel="name"
-                                placeholder="בחר שכונה"
-                                filter
-                                disabled={!selectedCity}
-                            />
-                            <label>שכונה</label>
-                        </FloatLabel>
+        <FloatLabel>
+            <Dropdown
+                value={selectedNeighborhood}
+                onChange={(e) => setSelectedNeighborhood(e.value)}
+                options={neighborhoods}
+                optionLabel="name"
+                placeholder="בחר שכונה"
+                filter
+                disabled={!selectedCity}
+            />
+            <label>שכונה</label>
+        </FloatLabel>
 
-                        <FloatLabel>
-                            <Dropdown
-                                value={selectedStreet}
-                                onChange={(e) => setSelectedStreet(e.value)}
-                                options={streets}
-                                optionLabel="name"
-                                placeholder="בחר רחוב"
-                                filter
-                                disabled={!selectedCity}
-                            />
-                            <label>רחוב</label>
-                        </FloatLabel>
+        <FloatLabel>
+            <Dropdown
+                value={selectedStreet}
+                onChange={(e) => setSelectedStreet(e.value)}
+                options={streets}
+                optionLabel="name"
+                placeholder="בחר רחוב"
+                filter
+                disabled={!selectedCity}
+            />
+            <label>רחוב</label>
+        </FloatLabel>
 
     </>)
 }

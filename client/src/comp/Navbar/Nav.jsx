@@ -25,9 +25,9 @@ const Navbar = () => {
             label: 'יציאה',
             icon: 'pi pi-sign-out',
             command: () => {
+                navigate('/login');
                 dispatch(updateApartment({}));
                 localStorage.clear();
-                navigate('/login');
             },
         },
     ];
@@ -36,7 +36,7 @@ const Navbar = () => {
         {
             label: 'לוח מודעות',
             icon: 'pi pi-comments',
-            command: () => navigate('/bulletin'),
+            command: () => navigate('/apartment/bulletin'),
         },
         {
             label: 'דף הבית',
@@ -74,8 +74,8 @@ const Navbar = () => {
     );
 
     return (
-        <div style={{marginBottom:'3rem'}}>
-            <Menubar model={rightMenu} start={start} className="custom-navbar" />
+        <div style={{marginBottom:'1.5rem',marginTop:'1.5rem'}}>
+            <Menubar model={rightMenu} start={start} className="custom-navbar" style={{height:'5rem'}}/>
             <ResidentUpdateForm
                 visible={editDialogVisible}
                 onHide={() => setEditDialogVisible(false)}

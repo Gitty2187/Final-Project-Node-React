@@ -72,7 +72,7 @@ const Logup = (props) => {
 
                         <FloatLabel>
                             <InputText id="mail" type='email' {...register("mail", { required: true })} style={{direction:'ltr'}}/>
-                            <label htmlFor="mail">*מייל</label>
+                            <label htmlFor="mail">*ךלם</label>
                         </FloatLabel>
                         {errors.mail && <Message text="יש להזין מייל" severity="error" />}
 

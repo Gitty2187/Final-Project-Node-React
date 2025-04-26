@@ -11,6 +11,7 @@ import AllApartmets from './comp/Admin/Apartments/AllApartments';
 import ToastContainer from './comp/Toast/ToastContainer';
 import RegisterPage from './comp/Home-page/RegisterPage';
 import DownloadBuildingForm from './comp/Home-page/EntryDocument';
+import NoticeList from './comp/Apartments/Notices/NoticeList';
 
 
 
@@ -21,6 +22,7 @@ function App() {
        <Route path="/" element={<Start />} />
        <Route path="/login" element={<Login />} />
        <Route path="/apartment" element={<Home/>} />
+       <Route path="/apartment/bulletin" element={<NoticeList/>} />
        <Route path="/manager/apartments" element={<AllApartmets/>} />
        <Route path="/manager/expenses" element={<Account/> } />
        <Route path="/register" element={<RegisterPage />} />

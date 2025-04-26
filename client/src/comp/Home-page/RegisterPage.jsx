@@ -122,7 +122,7 @@ const RegisterPage = () => {
                     </div>
 
                     <div className="field">
-                        <label htmlFor="name">שם</label>
+                        <label htmlFor="name">*שם</label>
                         <InputText id="name" name="name" value={formData.name} onChange={handleChange} className="w-full" />
                         {errors.name && <small className="p-error">{errors.name}</small>}
                     </div>
@@ -132,8 +132,8 @@ const RegisterPage = () => {
                         {errors.last_name && <small className="p-error">{errors.last_name}</small>}
                     </div>
                     <div className="field">
-                        <label htmlFor="mail">מייל</label>
-                        <InputText id="mail" name="mail" value={formData.mail} onChange={handleChange} className="w-full" type='email'/>
+                        <label htmlFor="mail">*מייל</label>
+                        <InputText id="mail" name="mail" value={formData.mail} onChange={handleChange} className="w-full" type='email' style={{direction:'ltr'}}/>
                         {errors.mail && <small className="p-error">{errors.mail}</small>}
                     </div>
                     <div className="field">

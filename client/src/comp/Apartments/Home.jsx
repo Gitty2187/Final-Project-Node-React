@@ -6,7 +6,7 @@ import ApartmentSumTable from "./ApartmentsSum.jsx/ApartmentSumTable";
 
 const Home = () => {
     return (<>
-        <Nav />
+        <Nav/>
         <div className="card scrollpanel-demo">
             <div className="flex flex-column md:flex-row gap-5">
                 <div className="flex-auto">

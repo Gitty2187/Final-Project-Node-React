@@ -22,6 +22,7 @@ app.use("/apartment",require("./routes/apartment-route"))
 app.use("/expenses",require("./routes/expenses-route"))
 app.use("/apartment_sum",require("./routes/apartment_sum-router"))
 app.use("/payments",require("./routes/apartment_payment-router"))
+app.use("/notices",require("./routes/notice-router"))
 
 mongoose.connection.once('open', () => {
     console.log('Connected to MongoDB')
