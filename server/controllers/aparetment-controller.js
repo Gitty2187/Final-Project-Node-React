@@ -15,13 +15,13 @@ const login = async (req, res) => {
     if (!apartment)
         return res.status(400).send("apartment does not exist")
 
-    const match = await bcrypt.compare(password, apartment.password)
+    const match = await bcrypt.compare(password, apartment?.password)
     if (!match)
         return res.status(400).send("apartment not exist")
 
-    const allApartments = apartment.is_admin ? await Apartment.find({ building_id: apartment.building_id, is_active: true }).sort({ number: 1 }) : null
+    const allApartments = apartment?.is_admin ? await Apartment.find({ building_id: apartment.building_id, is_active: true }).sort({ number: 1 }) : null
 
-    const building = await Building.findOne({ _id: apartment.building_id })
+    const building = await Building.findOne({ _id: apartment?.building_id })
     
     try {
         delete apartment.password;

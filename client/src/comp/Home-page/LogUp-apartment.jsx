@@ -44,7 +44,7 @@ const Logup = (props) => {
 
     const onSubmit = async (data) => {
         if (!accepted) return;
-        data = { ...data, is_admin: is_admin, building_id: building._id, number: selectedNum };
+        data = { ...data, is_admin: is_admin, building_id: building?._id, number: selectedNum };
         try {
             const res = await axios.post('http://localhost:7000/apartment', data);
             dispatch(updateApartment(res.data.apartment));

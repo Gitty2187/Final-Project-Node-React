@@ -63,7 +63,7 @@ const AddPayment = (props) => {
             <Toast ref={toast} position="top-center" style={{ direction: "rtl" }} />
             <Dialog
                 visible={props.visible}
-                header="הוספת תשלום לדייר  "
+                header="דיווח תשלום לדייר  "
                 onHide={() => { if (!props.visible) return; props.setVisible(false); }}
             >
                 <form onSubmit={handleSubmit(onSubmit)}>

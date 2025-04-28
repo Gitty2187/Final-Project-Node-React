@@ -10,7 +10,7 @@ const AddNotice = ({ ACCESS_TOKEN, apartment, setNotices, setShowAddDialog, show
         try {
             const res = await axios.post(
                 `http://localhost:7000/notices/`,
-                { ...data, publisher: apartment._id },
+                { ...data, publisher: apartment?._id },
                 {
                     headers: {
                         Authorization: `Bearer ${ACCESS_TOKEN}`,
@@ -18,7 +18,7 @@ const AddNotice = ({ ACCESS_TOKEN, apartment, setNotices, setShowAddDialog, show
                 }
             );
             setNotices((prevNotices) => [...prevNotices, res.data]);
-            setShowAddDialog(false); // סגירת הדיאלוג
+            setShowAddDialog(false); 
         } catch (error) {
             console.error('Error adding notice:', error);
         }

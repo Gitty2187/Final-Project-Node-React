@@ -2,15 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Button, InputText, Dialog } from 'primereact';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
-const EditNotice = ({ ACCESS_TOKEN, apartment, setNotices, setShowEditDialog, showEditDialog, notice }) => {
-    // הגדרת defaultValues לפי הערכים מהמודעה הנוכחית
+const EditNotice = ({ setNotices, setShowEditDialog, showEditDialog, notice }) => {
     const { register, handleSubmit, setValue } = useForm({
         defaultValues: { title: notice?.title, content: notice?.content },
     });
+    const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);
+    const apartment = useSelector((myStore) => myStore.apartmentDetails.apartment);
 
     useEffect(() => {
-        // עדכון הערכים בעת הצגת הדיאלוג, אם יש שינוי ב-notice
         if (notice) {
             setValue("title", notice.title);
             setValue("content", notice.content);
@@ -21,7 +22,7 @@ const EditNotice = ({ ACCESS_TOKEN, apartment, setNotices, setShowEditDialog, sh
         try {
             const res = await axios.put(
                 `http://localhost:7000/notices/${notice._id}`,
-                { ...data, publisher: apartment._id },
+                { ...data, publisher: apartment?._id },
                 {
                     headers: {
                         Authorization: `Bearer ${ACCESS_TOKEN}`,
@@ -29,7 +30,7 @@ const EditNotice = ({ ACCESS_TOKEN, apartment, setNotices, setShowEditDialog, sh
                 }
             );
             setNotices((prevNotices) =>
-                prevNotices.map((n) => (n._id === notice._id ? res.data : n))
+                prevNotices.map((n) => (n._id === notice._id ? res.data.notice : n))
             );
             
             setShowEditDialog(false);

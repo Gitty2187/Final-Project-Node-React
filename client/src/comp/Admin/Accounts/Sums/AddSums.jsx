@@ -19,7 +19,7 @@ const AddSums = (props) => {
     const allapartment = useSelector((myStore) => myStore.Allapartments.Allapartments);
     const dispatch = useDispatch();
     const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);
-
+    const header = props.is_general ? "הוספת תשלום לכלל הדיירים" : "הוספת תשלום לדייר"
     const {
         register,
         handleSubmit,
@@ -58,7 +58,7 @@ const AddSums = (props) => {
             <Toast ref={toast} position="top-center" style={{ direction: "rtl" }} />
             <Dialog
                 visible={props.visible}
-                header="הוספת תשלום לכלל הדיירים"
+                header={header}
                 onHide={() => { if (!props.visible) return; props.setVisible(false); }}
             >
                 <form onSubmit={handleSubmit(onSubmit)}>

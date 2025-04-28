@@ -7,6 +7,9 @@ import { useNavigate } from 'react-router-dom';
 import ResidentUpdateForm from './ResidentUpdateForm';
 import { updateApartment } from '../../Store/ApartmentSlice';
 import './Navbar.css';
+import { updateAllApar } from '../../Store/AllApartment';
+import { updateBuild } from '../../Store/BuildingSlice';
+import { setToken } from '../../Store/Token';
 
 const Navbar = () => {
     const [editDialogVisible, setEditDialogVisible] = useState(false);
@@ -26,8 +29,11 @@ const Navbar = () => {
             icon: 'pi pi-sign-out',
             command: () => {
                 navigate('/login');
-                dispatch(updateApartment({}));
-                localStorage.clear();
+                dispatch(updateApartment(null));
+                dispatch(updateAllApar(null));
+                dispatch(updateBuild(null));
+                dispatch(setToken(null));
+                // localStorage.clear();
             },
         },
     ];

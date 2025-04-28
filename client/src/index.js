@@ -15,7 +15,6 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { PersistGate } from 'redux-persist/integration/react';
 
-// ה-Reducers שלך
 import apartmentDetails from './Store/ApartmentSlice';
 import buildingDetails from './Store/BuildingSlice';
 import token from './Store/Token';
@@ -28,11 +27,10 @@ const rootReducer = combineReducers({
     Allapartments
 });
 
-// יצירת הגדרות persist
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['cx`','buildingDetails','apartmentDetails','token'] 
+  whitelist: ['cx`','buildingDetails','apartmentDetails','token','Allapartments'] 
 };
 
 // יצירת Persisted Reducer

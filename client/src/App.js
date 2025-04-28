@@ -11,14 +11,14 @@ import AllApartmets from './comp/Admin/Apartments/AllApartments';
 import ToastContainer from './comp/Toast/ToastContainer';
 import RegisterPage from './comp/Home-page/RegisterPage';
 import DownloadBuildingForm from './comp/Home-page/EntryDocument';
-import NoticeList from './comp/Apartments/Notices/NoticeList';
-
+import NoticeList from './comp/Notices/NoticeList'
 
 
 function App() {
   return (<>
   <ToastContainer />
      <Routes>
+      
        <Route path="/" element={<Start />} />
        <Route path="/login" element={<Login />} />
        <Route path="/apartment" element={<Home/>} />

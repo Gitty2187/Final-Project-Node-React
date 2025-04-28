@@ -22,7 +22,7 @@ const ShowApartment = () => {
     const [selectedApartmentBalance, setSelectedApartmenBalance] = useState(null);
     const [sendMail, setSendMail] = useState(false);
     const [sendMailAllApartmentnts, setSendMailAllApartmentnts] = useState(false);
-   
+
 
 
     const getSeverity = (balance) => {
@@ -40,7 +40,7 @@ const ShowApartment = () => {
                         <Button
                             label="שלח מייל"
                             className="p-button-info"
-                            onClick={() => { setSelectedApartmentMail(data.mail); setSelectedApartmenLastName(data.last_name); setSelectedApartmenBalance(data.balance); setSendMail(true)}}
+                            onClick={() => { setSelectedApartmentMail(data.mail); setSelectedApartmenLastName(data.last_name); setSelectedApartmenBalance(data.balance); setSendMail(true) }}
                             icon='pi pi-envelope'
                         />
                     </div>
@@ -68,16 +68,28 @@ const ShowApartment = () => {
                             }}
                             style={{ backgroundColor: 'GrayText', borderBlockColor: 'black' }}
                         />
-                         <Button label="דייר עזב" icon="pi pi-user-minus" onClick={()=>setVisibleLeft(true)} style={{ float: 'right' }} />
-                        {sendMailAllApartmentnts && 
-                        <SendMail 
-                            sendMail={sendMailAllApartmentnts} 
-                            setSendMail={setSendMail} 
-                            selectedApartmentMail={allApartment.map(apartments => {
-                                return apartments.mail
-                            })} 
-                           />}
-                        {sendMail && <SendMail sendMail={sendMail} setSendMail={setSendMail} selectedApartmentMail={selectedApartmentMail} lastName={selectedApartmentLastName} balance={selectedApartmentBalance}/>}
+                        <Button
+                            label="דייר עזב"
+                            icon="pi pi-user-minus"
+                            onClick={() => {
+                                setSelectedApartmentId(data._id); 
+                                setVisibleLeft(true);           
+                            }}
+                            style={{ float: 'right' }}
+                            disabled={data.is_admin} 
+                            title={data.is_admin ? "לא ניתן למחוק את ועד הבית" : "מחיקת נתוני הדייר"}
+                        />
+
+
+                        {sendMailAllApartmentnts &&
+                            <SendMail
+                                sendMail={sendMailAllApartmentnts}
+                                setSendMail={setSendMailAllApartmentnts}
+                                selectedApartmentMail={allApartment.map(apartments => {
+                                    return apartments.mail
+                                })}
+                            />}
+                        {sendMail && <SendMail sendMail={sendMail} setSendMail={setSendMail} selectedApartmentMail={selectedApartmentMail} lastName={selectedApartmentLastName} balance={selectedApartmentBalance} />}
                         {visibleLeft && <Leave apartment_id={[selectedApartmentId]} lastName={selectedApartmentLastName} />}
                         {visible && <AddSums visible={visible} setVisible={setVisible} is_general={false} apartments_id={[selectedApartmentId]} />}
                         {visibleSum && <AddPayment visible={visibleSum} setVisible={setVisibleSum} apartment_id={[selectedApartmentId]} />}
@@ -98,7 +110,7 @@ const ShowApartment = () => {
                 scrollHeight="500px"
                 header="רשימת הדיירים לבנין"
             />
-             <Button label="שלח מייל לכל הדיירים" text raised onClick={()=>setSendMailAllApartmentnts(true)}/>
+            <Button label="שלח מייל לכל הדיירים" text raised onClick={() => setSendMailAllApartmentnts(true)} />
         </div>
     );
 }

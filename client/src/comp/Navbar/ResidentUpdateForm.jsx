@@ -8,13 +8,15 @@ import axios from 'axios';
 import ToastService from '../Toast/ToastService';
 import './ResidentUpdateForm.css';
 import { updateApartment } from '../../Store/ApartmentSlice';
+import { updateAllApar } from '../../Store/AllApartment';
 
 const ResidentUpdateForm = ({ visible, onHide }) => {
     const apartment = useSelector((myStore) => myStore.apartmentDetails.apartment);
     const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);
     const dispatch = useDispatch();
+    const allApartment = useSelector((myStore) => myStore.Allapartments.Allapartments);
 
-    const [loading, setLoading] = useState(false); // מצב טעינה
+    const [loading, setLoading] = useState(false);
 
     const {
         control,
@@ -23,8 +25,8 @@ const ResidentUpdateForm = ({ visible, onHide }) => {
     } = useForm({
         defaultValues: {
             last_name: apartment?.last_name || '',
-            area: typeof apartment?.area === 'number' ? apartment.area : '',
-            floor: typeof apartment?.floor === 'number' ? apartment.floor : '',
+            area: typeof apartment?.area === 'number' ? apartment?.area : '',
+            floor: typeof apartment?.floor === 'number' ? apartment?.floor : '',
             entrance: apartment?.entrance || ''
         }
     });
@@ -33,7 +35,7 @@ const ResidentUpdateForm = ({ visible, onHide }) => {
         setLoading(true);
         try {
             const response = await axios.put(
-                `http://localhost:7000/apartment/update/${apartment._id}`,
+                `http://localhost:7000/apartment/update/${apartment?._id}`,
                 data,
                 {
                     headers: {
@@ -42,6 +44,11 @@ const ResidentUpdateForm = ({ visible, onHide }) => {
                 }
             );
             dispatch(updateApartment(response.data.apartment));
+            // debugger
+            // const updateApartments = allapartment?.map((n) => (n._id === response.data.apartment?._id ? response.data.apartment : n))
+            dispatch(updateAllApar(
+                allApartment.map((n) => (n._id === response.data.apartment._id ? response.data.apartment : n))
+            ));
             ToastService.show('success', 'הצלחה', 'הנתונים עודכנו בהצלחה');
             onHide();
         } catch (error) {

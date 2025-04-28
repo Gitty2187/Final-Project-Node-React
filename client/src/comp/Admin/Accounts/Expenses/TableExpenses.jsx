@@ -156,7 +156,7 @@ const Table = () => {
                 </AccordionTab>
             </Accordion>
             <br />
-            {apartment.is_admin && <Button label="הוספת הוצאה" rounded style={{ marginLeft: '15px' }} icon="pi pi-plus" onClick={() => { setVisible(true) }} />}
+            {apartment?.is_admin && <Button label="הוספת הוצאה" rounded style={{ marginLeft: '15px' }} icon="pi pi-plus" onClick={() => { setVisible(true) }} />}
             {visible && <AddExpenses visible={visible} setVisible={setVisible} setExpenses={setExpenses} expenses={expenses}/>}
         </>
     );

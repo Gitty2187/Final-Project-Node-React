@@ -18,7 +18,6 @@ import PdfFormGenerator from './EntryDocument';
 
 const LogUPBuild = () => {
     const [visible, setVisible] = useState(false);
-    const [visLogup, setVisLOgup] = useState(false);
     const navigate = useNavigate();
     const {
         register,
@@ -32,7 +31,7 @@ const LogUPBuild = () => {
 
 const confirm1 = () => {
     const copyToClipboard = () => {
-        navigator.clipboard.writeText(building.password)
+        navigator.clipboard.writeText(building?.password)
             .then(() => {
                 ToastService.show('success', 'הסיסמה הועתקה בהצלחה', '', 3000);
             })
@@ -58,7 +57,7 @@ const confirm1 = () => {
                         className="dialog-copy-btn"
                         onClick={copyToClipboard}
                     />
-                    <span className="dialog-copy-code">{building.password}</span>
+                    <span className="dialog-copy-code">{building?.password}</span>
                    
                 </div>
             </div>
@@ -224,7 +223,7 @@ export default LogUPBuild;
 
 //     const confirm1 = () => {
 //         const copyToClipboard = () => {
-//             navigator.clipboard.writeText(building.password)
+//             navigator.clipboard.writeText(building?.password)
 //                 .then(() => {
 //                     ToastService.show('success', 'סיסמא הועתקה בהצלחה', '', 3000);
 //                 })
@@ -238,7 +237,7 @@ export default LogUPBuild;
 //             message: (
 //                 <div>
 //                     <p>:קוד הבנין שלך לכניסת דיירים חדשים</p>
-//                     <a style={{ fontSize: '25px', fontFamily: 'cursive' }}> {building.password} </a>
+//                     <a style={{ fontSize: '25px', fontFamily: 'cursive' }}> {building?.password} </a>
 //                     <Button title="העתקת הסיסמא" icon="pi pi-copy" size='large' rounded text severity="secondary" onClick={copyToClipboard} />
 //                 </div>
 //             ),

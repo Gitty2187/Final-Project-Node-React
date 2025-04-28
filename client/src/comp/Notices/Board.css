@@ -1,0 +1,74 @@
+.board-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  text-align: center;
+  font-size: 36px;
+  color: #333;
+}
+
+.ads-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.ad-card {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem;
+  transition: transform 0.3s;
+}
+
+.ad-card:hover {
+  transform: translateY(-5px);
+}
+
+.ad-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.ad-publisher {
+  font-weight: bold;
+  color: #444;
+}
+
+.ad-date {
+  font-size: 12px;
+  color: #888;
+}
+
+.ad-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  margin: 10px 0;
+}
+
+.ad-content {
+  color: #555;
+}
+
+.ad-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+}
+
+.edit-icon, .delete-icon {
+  cursor: pointer;
+  color: #007bff;
+  font-size: 18px;
+  transition: color 0.3s;
+}
+
+.edit-icon:hover, .delete-icon:hover {
+  color: #0056b3;
+}

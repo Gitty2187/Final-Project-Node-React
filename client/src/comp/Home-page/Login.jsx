@@ -4,29 +4,30 @@ import { Divider } from 'primereact/divider';
 import { Button } from 'primereact/button';
 import { FloatLabel } from "primereact/floatlabel";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { updateAllApar } from '../../Store/AllApartment';
 import { setToken } from '../../Store/Token';
 import { updateBuild } from '../../Store/BuildingSlice';
 import { updateApartment } from '../../Store/ApartmentSlice';
 import { useNavigate } from 'react-router-dom';
 import { Image } from 'primereact/image';
-
-import Logup from './LogUp-apartment';
 import LogUPBuild from "./LogUp-building";
 import ToastService from '../Toast/ToastService';
 import { InputText } from 'primereact/inputtext';
+import './Login.css'
 
 const Login = () => {
-    const [visible, setVisible] = useState(false);
-    const [password, setBuildingPass] = useState();
+    const [password, setBuildingPass] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessageRegister, setErrorMessageRegister] = useState('');
 
     const {
         register,
         handleSubmit,
         formState: { errors },
+        setValue
     } = useForm();
 
     const check_building_password = async () => {
@@ -40,9 +41,13 @@ const Login = () => {
             dispatch(setToken(res.data.token));
             dispatch(updateAllApar(res.data.allApartments));
             dispatch(updateApartment(res.data.apartment));
-            navigate('/register', { state: { header: "רישום דייר חדש", is_admin:false, houseNum:res.data.apartmentsNull} });
+            navigate('/register', { state: { header: "רישום דייר חדש", is_admin: false, houseNum: res.data.apartmentsNull } });
         } catch (e) {
-            ToastService.show('error', 'שגיאה', 'סיסמה שגויה', 3000);
+            if (e.response && e.response.status === 400) {
+                setErrorMessageRegister("סיסמא שגויה");
+            } else {
+                console.error(e);
+            }
         }
     };
 
@@ -55,58 +60,111 @@ const Login = () => {
             dispatch(updateAllApar(res.data.allApartments));
             navigate('/apartment');
         } catch (e) {
-            console.log(e);
-            ToastService.show('error', 'שגיאה', 'שם משתמש או סיסמא שגויים', 3000); // עדכון כאן
+            if (e.response && e.response.status === 400) {
+                setErrorMessage("שם המשתמש או הסיסמה שגויים");
+            } else {
+                console.error(e);
+            }
         }
+    };
+
+    const handleBuildingPassChange = (e) => {
+        setBuildingPass(e.target.value);
+        if (errorMessageRegister) setErrorMessageRegister('');
+    };
+
+    const handleInputChange = (field, value) => {
+        setValue(field, value);
+        if (errorMessage) setErrorMessage('');
     };
 
     return (
         <>
-            <form onSubmit={handleSubmit(onSubmit)} style={{ backgroundColor: 'rgb(225, 225, 225)' }}>
+            <form onSubmit={handleSubmit(onSubmit)} className="login-form">
                 <div className="flex flex-column md:flex-row">
                     <div className="w-full md:w-5 flex flex-column align-items-center justify-content-center gap-4 py-5">
                         <FloatLabel>
-                            <InputText id="building_id" onChange={(e) => setBuildingPass(e.target.value)} />
-                            <label htmlFor="passwors">סיסמא של הבנין</label>
+                            <InputText
+                                id="building_id"
+                                value={password}
+                                onChange={handleBuildingPassChange}
+                            />
+                            <label htmlFor="building_id">סיסמא של הבנין</label>
                         </FloatLabel>
-                        <Button label="רישום דייר חדש" icon="pi pi-user-plus" className="w-12rem mx-auto" onClick={check_building_password} severity="secondary"></Button>
+                        {errorMessageRegister && (
+                            <div className="error-message">{errorMessageRegister}</div>
+                        )}
+                        <Button
+                            label="רישום דייר חדש"
+                            icon="pi pi-user-plus"
+                            className="w-12rem mx-auto"
+                            onClick={check_building_password}
+                            severity="secondary"
+                            // type="button"
+                        />
+
                     </div>
+
                     <div className="w-full md:w-2">
-                        <Divider layout="vertical" className="hidden md:flex" style={{ padding: 0, backgroundColor: 'rgb(225, 225, 225)' }}>
-                            <i className="pi pi-angle-double-right" style={{ fontSize: '1.5rem', backgroundColor: 'rgb(225, 225, 225)', padding: 0 }}></i>
+                        <Divider layout="vertical" className="hidden md:flex login-divider">
+                            <i className="pi pi-arrow-right-arrow-left login-icon"></i>
                         </Divider>
+
                         <Divider layout="horizontal" className="flex md:hidden" align="center">
-                            <i className="pi pi-angle-double-down" style={{ fontSize: '1.5rem' }}></i>
+                            <i className="pi pi-arrow-right-arrow-left" style={{ fontSize: '1.5rem' }}></i>
                         </Divider>
                     </div>
-                    <div className="w-full md:w-5 flex flex-column align-items-center justify-content-center gap-4 py-5 ">
-                        <Image src="/logo.png" alt="Image" width='250rem' align="center" />
+
+                    <div className="w-full md:w-5 flex flex-column align-items-center justify-content-center gap-4 py-5">
+                        <Image src="/logo.png" alt="Image" width="250px" align="center" />
                         <LogUPBuild />
                     </div>
+
                     <div className="w-full md:w-2">
-                        <Divider layout="vertical" className="hidden md:flex">
-                            <i className="pi pi-angle-double-right" style={{ fontSize: '1.5rem' }}></i>
+                        <Divider layout="vertical" className="hidden md:flex login-divider">
+                            <i className="pi pi-arrow-right-arrow-left login-icon"></i>
                         </Divider>
+
                         <Divider layout="horizontal" className="flex md:hidden" align="center">
-                            <i className="pi pi-angle-double-down" style={{ fontSize: '1.5rem' }}></i>
+                            <i className="pi pi-arrow-right-arrow-left" style={{ fontSize: '1.5rem' }}></i>
                         </Divider>
                     </div>
-                    <div className="w-full md:w-5 flex flex-column align-items-center justify-content-center gap-4 py-5 ">
+
+                    <div className="w-full md:w-5 flex flex-column align-items-center justify-content-center gap-4 py-5">
                         <FloatLabel>
-                            <InputText id="mail" type="email" {...register("mail", { required: true })} style={{ direction: 'ltr' }} />
+                            <InputText
+                                id="mail"
+                                type="email"
+                                {...register("mail", { required: true })}
+                                onChange={(e) => handleInputChange("mail", e.target.value)}
+                                style={{ direction: 'ltr' }}
+                            />
                             <label htmlFor="mail">מייל</label>
-                    </FloatLabel>
-                    <FloatLabel>
-                        <InputText id="password" type='password' {...register("password", { required: true })} />
-                        <label htmlFor="password">סיסמא</label>
-                    </FloatLabel>
-                    <Button label="כניסת דייר רשום" icon="pi pi-user" className="w-12rem mx-auto" type="submit" severity="secondary"></Button>
+                        </FloatLabel>
+
+                        <FloatLabel>
+                            <InputText
+                                id="password"
+                                type="password"
+                                {...register("password", { required: true })}
+                                onChange={(e) => handleInputChange("password", e.target.value)}
+                            />
+                            <label htmlFor="password">סיסמא</label>
+                        </FloatLabel>
+
+                        {errorMessage && (
+                            <div className="error-message">{errorMessage}</div>
+                        )}
+                        <Button
+                            label="כניסת דייר רשום"
+                            icon="pi pi-user"
+                            className="w-12rem mx-auto"
+                            type="submit"
+                            severity="secondary"
+                        />
+                    </div>
                 </div>
-
-            </div>
-        </form >
-
-            {/* <Logup setVisible={setVisible} visible={visible} houseNum={houseNum} header={"רישום דייר חדש "} /> */}
+            </form>
         </>
     );
 }

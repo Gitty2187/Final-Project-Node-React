@@ -14,7 +14,7 @@ const Leave = (props) => {
     const handLeft = async () => {
         try {
             const res = await axios.post('http://localhost:7000/apartment/leave', {
-                id: props.apartment_id[0]
+                id: props.apartment_id
             }, {
                 headers: {
                     Authorization: "Bearer " + ACCESS_TOKEN

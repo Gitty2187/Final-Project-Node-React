@@ -76,7 +76,7 @@ const RegisterPage = () => {
         const data = {
             ...formData,
             is_admin: is_admin,
-            building_id: building._id,
+            building_id: building?._id,
             number: selectedNum 
         };
         console.log(data);

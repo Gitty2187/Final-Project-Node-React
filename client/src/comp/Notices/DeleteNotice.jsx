@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Button } from 'primereact/button';
-import {Dialog} from 'primereact'
+import { Dialog } from 'primereact/dialog';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
-const DeleteNotice = ({ ACCESS_TOKEN, apartment, setNotices, noticeId }) => {
+const DeleteNotice = ({ setNotices, noticeId }) => {
     const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+    const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);
 
     const handleDelete = async () => {
         try {
@@ -13,22 +15,19 @@ const DeleteNotice = ({ ACCESS_TOKEN, apartment, setNotices, noticeId }) => {
                     Authorization: `Bearer ${ACCESS_TOKEN}`,
                 },
             });
-            setNotices((prevNotices) => prevNotices.filter((notice) => notice._id !== noticeId));
+            setNotices((prevNotices) => prevNotices.filter((notice) => notice._id !== noticeId)); // עדכון ה-state
             setShowConfirmDialog(false); // סגור את הדיאלוג אחרי המחיקה
         } catch (error) {
             console.error('Error deleting notice:', error);
         }
     };
 
+    const handleDeleteClick = () => {
+        setShowConfirmDialog(true); // הצגת דיאלוג האישור לפני המחיקה
+    };
+
     return (
         <>
-            <Button
-                label="מחיקה"
-                icon="pi pi-trash"
-                className="p-button-danger"
-                onClick={() => setShowConfirmDialog(true)} // פותח את דיאלוג האישור
-            />
-
             <Dialog
                 visible={showConfirmDialog}
                 header="אישור מחיקה"

@@ -1,0 +1,174 @@
+.notice-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 20px;
+}
+
+.notice-card-container {
+    width: 100%;
+    max-width: 600px;
+}
+
+.notice-card {
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.notice-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.notice-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.notice-header h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.notice-icon {
+    font-size: 2rem;
+    color: #4caf50;
+}
+
+.notice-info {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.notice-info-icon {
+    font-size: 1.1rem;
+}
+
+.notice-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.add-notice-btn {
+    width: 200px;
+    align-self: center;
+}
+
+.no-notices {
+    font-size: 1.2rem;
+    color: #999;
+    text-align: center;
+}
+
+.p-button-warning {
+    background-color: #ffa500;
+    border-color: #ffa500;
+}
+
+.p-button-success {
+    background-color: #4caf50;
+    border-color: #4caf50;
+}
+
+/* Board Styles */
+.board-container {
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+.board-header {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.ads-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.ad-card {
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.ad-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.ad-icon {
+    font-size: 1.5rem;
+    /* margin-right: 10px; */
+    color: #ff7f50;
+}
+
+.ad-publisher {
+    font-weight: bold;
+    margin-right: 10px;
+    font-size: 1rem;
+    color: #007bff; /* צבע מיוחד למפרסם */
+}
+
+.ad-date {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.ad-title {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-top: 10px;
+    color: #333;
+}
+
+.ad-content {
+    font-size: 1rem;
+    color: #555;
+}
+
+.ad-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.edit-icon, .delete-icon {
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #007bff;
+}
+
+.edit-icon:hover {
+    color: #0056b3;
+}
+
+.delete-icon {
+    color: #dc3545;
+}
+
+.delete-icon:hover {
+    color: #c82333;
+}
+
+.add-notice-btn {
+    margin-top: 20px;
+    width: 100%;
+    display: block;
+}
