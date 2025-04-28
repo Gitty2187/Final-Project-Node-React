@@ -1,154 +1,166 @@
 const Apartment = require("../models/Apartment-model");
 const Building = require("../models/Building-model");
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 
-
 const login = async (req, res) => {
-    const { mail, password } = req.query
+    const { mail, password } = req.query;
 
-    if (!mail || !password)
-        return res.status(401).send("must insert mail & passwowrd")
+    if (!mail || !password) {
+        return res.status(400).json({ message: "Must provide mail and password." });
+    }
 
-    const apartment = await Apartment.findOne({ mail: mail ,is_active:true}).lean()
-    if (!apartment)
-        return res.status(400).send("apartment does not exist")
-
-    const match = await bcrypt.compare(password, apartment?.password)
-    if (!match)
-        return res.status(400).send("apartment not exist")
-
-    const allApartments = apartment?.is_admin ? await Apartment.find({ building_id: apartment.building_id, is_active: true }).sort({ number: 1 }) : null
-
-    const building = await Building.findOne({ _id: apartment?.building_id })
-    
     try {
+        const apartment = await Apartment.findOne({ mail: mail, is_active: true }).lean();
+        if (!apartment) {
+            return res.status(404).json({ message: "Apartment not found." });
+        }
+
+        const match = await bcrypt.compare(password, apartment.password);
+        if (!match) {
+            return res.status(401).json({ message: "Incorrect password." });
+        }
+
+        const allApartments = apartment.is_admin
+            ? await Apartment.find({ building_id: apartment.building_id, is_active: true }).sort({ number: 1 })
+            : null;
+
+        const building = await Building.findById(apartment.building_id).lean();
+
+        if (!building) {
+            return res.status(404).json({ message: "Building not found." });
+        }
+
         delete apartment.password;
         delete building.password;
-        const accessToken = jwt.sign(apartment, process.env.ACCESS_TOKEN_SECRET);
-        res.json({ token: accessToken, apartment, building, allApartments })
-    }
-    catch (e) {
-        return res.status(404).send("not success")
-    }
-}
 
+        const accessToken = jwt.sign(apartment, process.env.ACCESS_TOKEN_SECRET);
+
+        res.status(200).json({ token: accessToken, apartment, building, allApartments });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error during login." });
+    }
+};
 
 const logUp = async (req, res) => {
-    let newApartment = req.body
-    console.log(newApartment);
-    
+    let newApartment = req.body;
+
     if (!newApartment.building_id || !newApartment.number || !newApartment.password || !newApartment.mail || !newApartment.last_name) {
-        return res.status(401).json({ message: 'insert fields required' })
+        return res.status(400).json({ message: 'Missing required fields.' });
     }
-
-    const duplicate = await Apartment.findOne({ mail: newApartment.mail,is_active:true }).lean()
-    if (duplicate) {
-        return res.status(409).json({ error: "Email already exists." });
-    }
-
-    const hashedPwd = await bcrypt.hash(newApartment.password, 10)
-    newApartment.password = hashedPwd
-
-    if (!newApartment.entered_date)
-        newApartment.entered_date = new Date()
-
 
     try {
+        const duplicate = await Apartment.findOne({ mail: newApartment.mail, is_active: true }).lean();
+        if (duplicate) {
+            return res.status(409).json({ message: "Email already exists." });
+        }
+
+        newApartment.password = await bcrypt.hash(newApartment.password, 10);
+
+        if (!newApartment.entered_date)
+            newApartment.entered_date = new Date();
+
         let apartment = await Apartment.create(newApartment);
-        const allApartments = newApartment.is_admin ? await Apartment.find({ building_id: newApartment.building_id, is_active: true }).sort({ number: 1 }) : null
+
+        const allApartments = newApartment.is_admin
+            ? await Apartment.find({ building_id: newApartment.building_id, is_active: true }).sort({ number: 1 })
+            : null;
+
         const apartmentPayload = apartment.toObject();
         delete apartmentPayload.password;
-        const accessToken = jwt.sign(apartmentPayload, process.env.ACCESS_TOKEN_SECRET);
-        return res.status(201).json({ token: accessToken, allApartments: allApartments, apartment: apartmentPayload });
-    }
-    catch (e) {
-        console.log(e);
-        return res.status(405).send("not successful")
-    }
-}
 
+        const accessToken = jwt.sign(apartmentPayload, process.env.ACCESS_TOKEN_SECRET);
+
+        return res.status(201).json({ token: accessToken, apartment: apartmentPayload, allApartments });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Server error during signup." });
+    }
+};
 
 const sendApartmentEmail = async (req, res) => {
     const { to, subject, text } = req.body;
-    if (!to || !subject || !text)
-        return res.status(400).send("Must insert valid")
 
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: 'y0504169427@gmail.com',
-            pass: 'qyzwcvhjelxgtslj'
-        }
-    });
+    if (!to || !subject || !text) {
+        return res.status(400).json({ message: "Missing email parameters." });
+    }
 
-    // async function main() {
     try {
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'y0504169427@gmail.com',
+                pass: 'qyzwcvhjelxgtslj'
+            }
+        });
+
         await transporter.sendMail({
             from: '"מערכת הבית שלך 🏠" <maddison53@ethereal.email>',
             to,
             subject,
-            // text,
             html: `<div dir="rtl">${text}</div>`
         });
-        res.status(200).send('Email sent successfully');
-    }
 
-    // main().catch(console.error);
-
-    catch (error) {
-        res.status(400).send('Error sending email :' + error);
+        res.status(200).json({ message: "Email sent successfully." });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error sending email." });
     }
 };
 
 const apartmentLeft = async (req, res) => {
-    const {id} = req.body
-    if (!id)
-        return res.status(400).send("Must insert id");
+    const { id } = req.body;
+
+    if (!id) {
+        return res.status(400).json({ message: "Missing apartment ID." });
+    }
+
     try {
-        const apartment = await Apartment.findById(id).exec();
-        if (!apartment)
-            return res.status(400).send("Apartment not exist");
+        const apartment = await Apartment.findById(id);
+        if (!apartment || !apartment.is_active) {
+            return res.status(404).json({ message: "Apartment not found or already inactive." });
+        }
 
         apartment.is_active = false;
-        await apartment.save()
-        return res.status(200).send("Success!")
-    }
-    catch (e) {
-        return res.status(400).send(e)
-    }
-}
+        await apartment.save();
 
+        res.status(200).json({ message: "Apartment deactivated successfully." });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error during apartment deactivation." });
+    }
+};
 
 const updateApartment = async (req, res) => {
     const { id } = req.params;
     const { last_name, area, floor, entrance } = req.body;
 
     if (!id) {
-        return res.status(400).send("Missing apartment ID");
+        return res.status(400).json({ message: "Missing apartment ID." });
     }
 
     try {
         const apartment = await Apartment.findById(id);
         if (!apartment || !apartment.is_active) {
-            return res.status(404).send("Apartment not found or inactive");
+            return res.status(404).json({ message: "Apartment not found or inactive." });
         }
 
-        apartment.last_name = last_name;
-        apartment.area = area;
-        apartment.floor = floor;
-        apartment.entrance = entrance;
+        apartment.last_name = last_name ?? apartment.last_name;
+        apartment.area = area ?? apartment.area;
+        apartment.floor = floor ?? apartment.floor;
+        apartment.entrance = entrance ?? apartment.entrance;
 
         await apartment.save();
 
         const updatedApartment = apartment.toObject();
-        delete updatedApartment.password; // לא מחזירים סיסמה
+        delete updatedApartment.password;
 
-        return res.status(200).json({ message: "Apartment updated successfully", apartment: updatedApartment });
-    } catch (err) {
-        console.error(err);
-        return res.status(500).send("Server error while updating apartment");
+        res.status(200).json({ message: "Apartment updated successfully.", apartment: updatedApartment });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error during apartment update." });
     }
 };
 
@@ -159,5 +171,3 @@ module.exports = {
     apartmentLeft,
     updateApartment
 };
-
-

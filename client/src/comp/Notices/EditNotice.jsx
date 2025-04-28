@@ -3,9 +3,10 @@ import { Button, InputText, Dialog } from 'primereact';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { InputTextarea } from "primereact/inputtextarea";
 
 const EditNotice = ({ setNotices, setShowEditDialog, showEditDialog, notice }) => {
-    const { register, handleSubmit, setValue } = useForm({
+    const { register, handleSubmit, setValue, reset } = useForm({
         defaultValues: { title: notice?.title, content: notice?.content },
     });
     const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);
@@ -43,19 +44,25 @@ const EditNotice = ({ setNotices, setShowEditDialog, showEditDialog, notice }) =
         <Dialog
             visible={showEditDialog}
             header="ערוך את המודעה"
-            onHide={() => setShowEditDialog(false)}
+            onHide={() => {
+                reset(); // איפוס השדות כשהדיאלוג נסגר
+                setShowEditDialog(false);
+            }}
         >
             <form onSubmit={handleSubmit(handleEditNotice)}>
                 <div className="flex flex-column gap-2">
                     <label htmlFor="title">כותרת</label>
                     <InputText id="title" {...register("title", { required: true })} />
                     <label htmlFor="content">תוכן</label>
-                    <InputText id="content" {...register("content", { required: true })} />
+                    <InputTextarea autoResize id="content" {...register("content", { required: true })} rows={5} cols={30} />
                     <div className="flex justify-content-end gap-2">
                         <Button label="שמור" type="submit" />
                         <Button
                             label="ביטול"
-                            onClick={() => setShowEditDialog(false)}
+                            onClick={() => {
+                                reset(); // איפוס השדות גם כאשר לוחצים על ביטול
+                                setShowEditDialog(false);
+                            }}
                             className="p-button-secondary"
                         />
                     </div>

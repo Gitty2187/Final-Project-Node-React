@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, InputText, Dialog } from 'primereact';
 import { useForm } from 'react-hook-form';
+import { InputTextarea } from "primereact/inputtextarea";
 import axios from 'axios';
 
 const AddNotice = ({ ACCESS_TOKEN, apartment, setNotices, setShowAddDialog, showAddDialog }) => {
-    const { register, handleSubmit } = useForm();
-    
+    const { register, handleSubmit, reset } = useForm(); // הוספתי reset כאן
+
     const handleAddNotice = async (data) => {
         try {
             const res = await axios.post(
@@ -18,23 +19,29 @@ const AddNotice = ({ ACCESS_TOKEN, apartment, setNotices, setShowAddDialog, show
                 }
             );
             setNotices((prevNotices) => [...prevNotices, res.data]);
+            reset(); // מאפס את השדות אחרי שמירת הודעה
             setShowAddDialog(false); 
         } catch (error) {
             console.error('Error adding notice:', error);
         }
     };
 
+    const handleCloseDialog = () => {
+        reset(); // מאפס את השדות לפני סגירה
+        setShowAddDialog(false);
+    };
+
     return (
-        <Dialog visible={showAddDialog} header="הוסף מודעה" onHide={() => setShowAddDialog(false)}>
+        <Dialog visible={showAddDialog} header="הוסף מודעה" onHide={handleCloseDialog}>
             <form onSubmit={handleSubmit(handleAddNotice)}>
                 <div className="flex flex-column gap-2">
                     <label htmlFor="title">כותרת</label>
                     <InputText id="title" {...register("title", { required: true })} />
                     <label htmlFor="content">תוכן</label>
-                    <InputText id="content" {...register("content", { required: true })} />
+                    <InputTextarea autoResize id="content" {...register("content", { required: true })} rows={5} cols={30} />
                     <div className="flex justify-content-end gap-2">
                         <Button label="שמור" type="submit" />
-                        <Button label="ביטול" onClick={() => setShowAddDialog(false)} className="p-button-secondary" />
+                        <Button label="ביטול" type="button" onClick={handleCloseDialog} className="p-button-secondary" />
                     </div>
                 </div>
             </form>

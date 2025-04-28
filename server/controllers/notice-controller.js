@@ -4,7 +4,7 @@ const add = async (req, res) => {
     const { title, content } = req.body;
 
     if (!title || !content) {
-        return res.status(400).send("Missing required fields");
+        return res.status(400).send("Missing required fields: title and content");
     }
 
     try {
@@ -20,10 +20,9 @@ const add = async (req, res) => {
         return res.status(201).json(populatedNotice);
     } catch (error) {
         console.error(error);
-        return res.status(500).send("Failed to create notice");
+        return res.status(500).send("Failed to create notice due to server error");
     }
 };
-
 
 const update = async (req, res) => {
     const { id } = req.params;
@@ -82,7 +81,6 @@ const deleteNotice = async (req, res) => {
     }
 };
 
-// פונקציה חדשה: קבלת כל המודעות של בניין
 const getNoticesByBuilding = async (req, res) => {
     const apartment = req.apartment;
 
@@ -103,7 +101,6 @@ const getNoticesByBuilding = async (req, res) => {
         return res.status(500).send("Server error while fetching notices");
     }
 };
-
 
 module.exports = {
     add,

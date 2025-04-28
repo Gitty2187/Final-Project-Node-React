@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import { Password } from 'primereact/password';
 import { Button } from 'primereact/button';
-import './RegisterPage.css';
-import { useLocation, useNavigate } from 'react-router-dom';
-import ToastService from '../Toast/ToastService';
-import axios from 'axios';
-import { InputText } from "primereact/inputtext";
+import { InputText } from 'primereact/inputtext';
+import { Dropdown } from 'primereact/dropdown';
+import { Checkbox } from 'primereact/checkbox';
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import ToastService from '../Toast/ToastService';
 import { updateApartment } from '../../Store/ApartmentSlice';
 import { updateAllApar } from '../../Store/AllApartment';
 import { setToken } from '../../Store/Token';
-import { Checkbox } from 'primereact/checkbox';
-import { Dropdown } from 'primereact/dropdown';
-import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import './RegisterPage.css';
 
 const RegisterPage = () => {
     const [formData, setFormData] = useState({
@@ -25,17 +25,31 @@ const RegisterPage = () => {
         entrance: '',
         accepted: false
     });
-
+    const [selectedNum, setSelectedNUM] = useState(null);
     const [errors, setErrors] = useState({});
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const routeLocation = useLocation();
+    const building = useSelector((store) => store.buildingDetails.building);
     const headerText = routeLocation.state?.header || "הצטרפו אלינו";
     const is_admin = routeLocation.state?.is_admin || false;
-    const houseNum = routeLocation.state?.houseNum || false;
-    const dispatch = useDispatch();
-    const building = useSelector((myStore) => myStore.buildingDetails.building);
-    const [selectedNum, setSelectedNUM] = useState(null);
-    const navigate = useNavigate();
+    const houseNum = routeLocation.state?.houseNum || [];
 
+    const resetForm = () => {
+        setFormData({
+            name: '',
+            last_name: '',
+            mail: '',
+            password: '',
+            area: '',
+            floor: '',
+            entrance: '',
+            accepted: false
+        });
+        setSelectedNUM(null);
+        setErrors({});
+    };
 
     const handleChange = (e) => {
         const { name, value, checked, type } = e.target;
@@ -56,15 +70,14 @@ const RegisterPage = () => {
         return newErrors;
     };
 
-     const confirm2 = () => {
-            confirmDialog({
-                group: 'apartmentgGroup',
-                message: '',
-                header: 'דייר נוסף בהצלחה',
-                icon: 'pi pi-thumbs-up',
-            });
-        };
-
+    const confirmSuccess = () => {
+        confirmDialog({
+            group: 'apartmentgGroup',
+            message: '',
+            header: 'דייר נוסף בהצלחה',
+            icon: 'pi pi-thumbs-up',
+        });
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -75,29 +88,30 @@ const RegisterPage = () => {
 
         const data = {
             ...formData,
-            is_admin: is_admin,
+            is_admin,
             building_id: building?._id,
-            number: selectedNum 
+            number: selectedNum
         };
-        console.log(data);
-        
-        try {
-            // שליחה לשרת
-            const res = await axios.post('http://localhost:7000/apartment', data);
 
-            // עדכון סטור
+        try {
+            const res = await axios.post('http://localhost:7000/apartment', data);
             dispatch(updateApartment(res.data.apartment));
             dispatch(setToken(res.data.token));
             dispatch(updateAllApar(res.data.allApartments));
-
-            // רק אחרי קבלת תשובה מוצלחת, מציגים את הדיאלוג
-            confirm2()
-        } catch (e) {
-            // טיפול בשגיאה
+            confirmSuccess();
+        } catch (error) {
             ToastService.show('error', 'שגיאה', 'המייל שהכנסת כבר קיים במערכת', 3000);
         }
     };
 
+    const handleDialogHide = () => {
+        resetForm();
+    };
+
+    const handleNavigate = (path) => {
+        resetForm();
+        navigate(path);
+    };
 
     return (
         <div className="register-container">
@@ -106,8 +120,8 @@ const RegisterPage = () => {
                     <h2>{headerText}</h2>
                     <p>מלאו את הפרטים כדי להירשם</p>
                 </div>
-                <form onSubmit={handleSubmit} dir="rtl">
 
+                <form onSubmit={handleSubmit} dir="rtl">
                     <div className="field">
                         <label htmlFor="apartmentNum">מספר דירה</label>
                         <Dropdown
@@ -126,33 +140,40 @@ const RegisterPage = () => {
                         <InputText id="name" name="name" value={formData.name} onChange={handleChange} className="w-full" />
                         {errors.name && <small className="p-error">{errors.name}</small>}
                     </div>
+
                     <div className="field">
                         <label htmlFor="last_name">שם משפחה</label>
                         <InputText id="last_name" name="last_name" value={formData.last_name} onChange={handleChange} className="w-full" />
                         {errors.last_name && <small className="p-error">{errors.last_name}</small>}
                     </div>
+
                     <div className="field">
                         <label htmlFor="mail">*מייל</label>
-                        <InputText id="mail" name="mail" value={formData.mail} onChange={handleChange} className="w-full" type='email' style={{direction:'ltr'}}/>
+                        <InputText id="mail" name="mail" value={formData.mail} onChange={handleChange} className="w-full" type="email" style={{ direction: 'ltr' }} />
                         {errors.mail && <small className="p-error">{errors.mail}</small>}
                     </div>
+
                     <div className="field">
                         <label htmlFor="password">סיסמה</label>
                         <Password id="password" name="password" value={formData.password} onChange={handleChange} className="w-full" feedback={false} />
                         {errors.password && <small className="p-error">{errors.password}</small>}
                     </div>
+
                     <div className="field">
                         <label htmlFor="area">שטח דירה (מ"ר)</label>
-                        <InputText id="area" name="area" value={formData.area} onChange={handleChange} className="w-full" type='number'/>
+                        <InputText id="area" name="area" value={formData.area} onChange={handleChange} className="w-full" type="number" />
                     </div>
+
                     <div className="field">
                         <label htmlFor="floor">קומה</label>
-                        <InputText id="floor" name="floor" value={formData.floor} onChange={handleChange} className="w-full" type='text'/>
+                        <InputText id="floor" name="floor" value={formData.floor} onChange={handleChange} className="w-full" type="text" />
                     </div>
+
                     <div className="field">
                         <label htmlFor="entrance">כניסה</label>
-                        <InputText id="entrance" name="entrance" value={formData.entrance} onChange={handleChange} className="w-full" type='text'/>
+                        <InputText id="entrance" name="entrance" value={formData.entrance} onChange={handleChange} className="w-full" type="text" />
                     </div>
+
                     <div className="field-checkbox">
                         <Checkbox inputId="accept" name="accepted" checked={formData.accepted} onChange={handleChange} />
                         <label htmlFor="accept" className="checkbox-label">
@@ -160,6 +181,7 @@ const RegisterPage = () => {
                         </label>
                         {errors.accepted && <small className="p-error">{errors.accepted}</small>}
                     </div>
+
                     <Button type="submit" label="הרשמה" className="submit-btn w-full" />
                     <p className="login-link">כבר רשום? <a href="/login">התחבר</a></p>
                 </form>
@@ -167,7 +189,8 @@ const RegisterPage = () => {
 
             <ConfirmDialog
                 group="apartmentgGroup"
-                content={({ headerRef, contentRef, footerRef, hide, message }) => (
+                onHide={handleDialogHide}
+                content={({ headerRef, contentRef, footerRef, message, hide }) => (
                     <div className="flex flex-column align-items-center p-5 surface-overlay border-round gap-1">
                         <div className="border-circle bg-primary inline-flex justify-content-center align-items-center h-6rem w-6rem -mt-8">
                             <i className="pi pi-check-circle" style={{ fontSize: '2.5rem' }}></i>
@@ -179,22 +202,8 @@ const RegisterPage = () => {
                             {message.message}
                         </p>
                         <div className="flex align-items-center gap-2 mt-4" ref={footerRef}>
-                            <Button
-                                label="מעבר לאתר"
-                                onClick={(event) => {
-                                    hide(event);
-                                    navigate('/apartment');
-                                }}
-                                className="w-16rem"
-                            />
-                            <Button
-                                label="חזרה"
-                                onClick={(event) => {
-                                    hide(event);
-                                    navigate('/login');
-                                }}
-                                className="w-16rem"
-                            />
+                            <Button label="מעבר לאתר" onClick={() => handleNavigate('/apartment')} className="w-16rem" />
+                            <Button label="חזרה" onClick={() => handleNavigate('/login')} className="w-16rem" />
                         </div>
                     </div>
                 )}

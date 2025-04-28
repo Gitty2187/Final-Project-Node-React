@@ -3,9 +3,9 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { mergeProps } from 'primereact/utils';
 
-const DeleteNotice = ({ setNotices, noticeId }) => {
-    const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+const DeleteNotice = ({ setNotices, noticeId,setShowDeleteDialog,showDeleteDialog }) => {
     const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);
 
     const handleDelete = async () => {
@@ -15,44 +15,38 @@ const DeleteNotice = ({ setNotices, noticeId }) => {
                     Authorization: `Bearer ${ACCESS_TOKEN}`,
                 },
             });
-            setNotices((prevNotices) => prevNotices.filter((notice) => notice._id !== noticeId)); // עדכון ה-state
-            setShowConfirmDialog(false); // סגור את הדיאלוג אחרי המחיקה
+            setNotices((prevNotices) => prevNotices.filter((notice) => notice._id !== noticeId)); 
+            setShowDeleteDialog(false); 
         } catch (error) {
             console.error('Error deleting notice:', error);
         }
     };
 
-    const handleDeleteClick = () => {
-        setShowConfirmDialog(true); // הצגת דיאלוג האישור לפני המחיקה
-    };
-
     return (
-        <>
-            <Dialog
-                visible={showConfirmDialog}
-                header="אישור מחיקה"
-                onHide={() => setShowConfirmDialog(false)}
-                footer={
-                    <>
-                        <Button
-                            label="לא"
-                            icon="pi pi-times"
-                            onClick={() => setShowConfirmDialog(false)}
-                            className="p-button-text"
-                        />
-                        <Button
-                            label="כן"
-                            icon="pi pi-check"
-                            onClick={handleDelete}
-                            className="p-button-danger"
-                        />
-                    </>
-                }
-            >
-                <p>האם אתה בטוח שברצונך למחוק את המודעה?</p>
-                <p>מחיקת המודעה היא צעד בלתי הפיך</p>
-            </Dialog>
-        </>
+        <Dialog
+            visible={showDeleteDialog}
+            header="אישור מחיקה"
+            onHide={() => setShowDeleteDialog(false)}
+            footer={
+                <>
+                    <Button
+                        label="לא"
+                        icon="pi pi-times"
+                        onClick={() => setShowDeleteDialog(false)}
+                        className="p-button-text"
+                    />
+                    <Button
+                        label="כן"
+                        icon="pi pi-check"
+                        onClick={handleDelete}
+                        className="p-button-danger"
+                    />
+                </>
+            }
+        >
+            <p>האם אתה בטוח שברצונך למחוק את המודעה?</p>
+            <p>מחיקת המודעה היא צעד בלתי הפיך</p>
+        </Dialog>
     );
 };
 

@@ -43,10 +43,10 @@ const Login = () => {
             dispatch(updateApartment(res.data.apartment));
             navigate('/register', { state: { header: "רישום דייר חדש", is_admin: false, houseNum: res.data.apartmentsNull } });
         } catch (e) {
-            if (e.response && e.response.status === 400) {
+            if (e.response && e.response.status === 401) {
                 setErrorMessageRegister("סיסמא שגויה");
             } else {
-                console.error(e);
+                ToastService.show('error', 'שגיאה',  3000);
             }
         }
     };
@@ -60,10 +60,10 @@ const Login = () => {
             dispatch(updateAllApar(res.data.allApartments));
             navigate('/apartment');
         } catch (e) {
-            if (e.response && e.response.status === 400) {
+            if (e.response && e.response.status === 401) {
                 setErrorMessage("שם המשתמש או הסיסמה שגויים");
             } else {
-                console.error(e);
+                ToastService.show('error', 'שגיאה',  3000);
             }
         }
     };

@@ -14,7 +14,8 @@ const NoticeList = () => {
     const [notices, setNotices] = useState([]);
     const [showAddDialog, setShowAddDialog] = useState(false);
     const [showEditDialog, setShowEditDialog] = useState(false);
-    const [currentNotice, setCurrentNotice] = useState({});
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+    const [currentNotice, setCurrentNotice] = useState({}); // שדה למודעה הנוכחית לעריכה או מחיקה
     const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);
     const apartment = useSelector((myStore) => myStore.apartmentDetails.apartment);
 
@@ -40,23 +41,15 @@ const NoticeList = () => {
         setShowEditDialog(true);
     };
 
-    const handleDelete = async (noticeId) => {
-        try {
-            await axios.delete(`http://localhost:7000/notices/${noticeId}`, {
-                headers: {
-                    Authorization: `Bearer ${ACCESS_TOKEN}`,
-                },
-            });
-            setNotices(notices.filter(notice => notice._id !== noticeId)); // עדכון ה-state
-        } catch (error) {
-            console.error('Error deleting notice:', error);
-        }
+    const handleDeleteClick = (notice) => {
+        setCurrentNotice(notice);
+        setShowDeleteDialog(true)
     };
 
     return (
-        <> <Navbar />
+        <>
+            <Navbar />
             <div className="board-container">
-
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h1 className="board-header">לוח מודעות</h1>
                     <Button
@@ -93,11 +86,11 @@ const NoticeList = () => {
                                 <div className="ad-actions">
                                     <FaEdit
                                         className="edit-icon"
-                                        onClick={() => handleEdit(ad)} // קריאה לפונקציית עריכה
+                                        onClick={() => handleEdit(ad)}
                                     />
                                     <FaTrash
                                         className="delete-icon"
-                                        onClick={() => handleDelete(ad._id)} // קריאה לפונקציית מחיקה
+                                        onClick={() => handleDeleteClick(ad)}
                                     />
                                 </div>
                             )}
@@ -122,15 +115,16 @@ const NoticeList = () => {
                     notice={currentNotice}
                 />
 
-                {/* קריאה לקומפוננטת מחיקת מודעה */}
-                {currentNotice._id && (
-                    <DeleteNotice
-                        noticeId={currentNotice._id}
-                        setNotices={setNotices}
-                    />
-                )}
+
+                <DeleteNotice
+                    noticeId={currentNotice._id}
+                    setNotices={setNotices}
+                    setShowDeleteDialog={setShowDeleteDialog}
+                    showDeleteDialog={showDeleteDialog}
+                />
+
             </div>
-            </>
+        </>
     );
 };
 
