@@ -17,7 +17,7 @@ const Navbar = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const apartment = useSelector((state) => state.apartmentDetails.apartment);
-
+    const admin = apartment ? apartment.is_admin : false;
     const userMenu = [
         {
             label: 'עדכון פרטי דייר',
@@ -28,16 +28,17 @@ const Navbar = () => {
             label: 'יציאה',
             icon: 'pi pi-sign-out',
             command: () => {
-                navigate('/login');
+                // window.location.href = "/login"
                 dispatch(updateApartment(null));
                 dispatch(updateAllApar(null));
                 dispatch(updateBuild(null));
                 dispatch(setToken(null));
-                // localStorage.clear();
+                navigate('/login');
+                
             },
         },
     ];
-
+    
     const rightMenu = [
         {
             label: 'לוח מודעות',
@@ -49,7 +50,8 @@ const Navbar = () => {
             icon: 'pi pi-home',
             command: () => navigate('/apartment'),
         },
-        apartment?.is_admin && {
+        
+        admin && {
             label: 'ניהול',
             icon: 'pi pi-cog',
             items: [

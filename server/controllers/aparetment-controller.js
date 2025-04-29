@@ -14,7 +14,7 @@ const login = async (req, res) => {
     try {
         const apartment = await Apartment.findOne({ mail: mail, is_active: true }).lean();
         if (!apartment) {
-            return res.status(404).json({ message: "Apartment not found." });
+            return res.status(401).json({ message: "Apartment not found." });
         }
 
         const match = await bcrypt.compare(password, apartment.password);

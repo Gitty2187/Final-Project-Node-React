@@ -25,7 +25,6 @@ const TablePayments = () => {
     const [unique_years_to_filter, set_unique_years_to_filter] = useState([]);
     const [unique_by_to_filter, set_unique_by_to_filter] = useState([]);
     const [filteredPayments, set_filteredPayments] = useState([]);
-    const apartment = useSelector((myStore) => myStore.apartmentDetails.apartment);
     const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);
     const [selectedBy, setSelectedBy] = useState(null);
     const [loading, setLoading] = useState(true);
