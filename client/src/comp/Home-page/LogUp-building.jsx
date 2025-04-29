@@ -98,7 +98,8 @@ const LogUPBuild = () => {
                 icon="pi pi-building"
                 onClick={() => setVisible(true)}
                 severity="secondary"
-                style={{ backgroundColor: 'rgb(209, 187, 155)', borderBlockColor: "black", color: "black" }}
+                
+                className='Button-building'
             />
             <Dialog
                 header={null}

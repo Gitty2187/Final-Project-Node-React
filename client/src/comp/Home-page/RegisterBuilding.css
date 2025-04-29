@@ -82,3 +82,8 @@ body {
     font-weight: 500;
 }
 
+.Button-building{
+    background-color: 'rgb(56, 53, 50)' !important;
+    border-color: "black";
+    color: "black" ;
+}

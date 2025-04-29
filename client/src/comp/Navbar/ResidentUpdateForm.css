@@ -11,20 +11,20 @@
   .field {
     display: flex;
     flex-direction: column;
-    align-items: flex-end; /* 👈 זה מה שמיישר את האובייקטים לימין */
+    align-items: flex-end; 
   }
   
   label {
     font-weight: bold;
     margin-bottom: 0.3rem;
     color: #333;
-    align-self: flex-end; /* 👈 גם הלייבל עצמו לימין */
+    align-self: flex-end; 
   }
   
   .p-inputtext,
   .p-inputnumber-input {
     width: 100%;
-    text-align: right; /* 👈 התוכן בשדה יופיע מימין לשמאל */
+    text-align: right;
   }
   
   .p-button {

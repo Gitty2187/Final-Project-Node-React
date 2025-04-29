@@ -157,7 +157,7 @@ const updateApartment = async (req, res) => {
         const updatedApartment = apartment.toObject();
         delete updatedApartment.password;
 
-        res.status(200).json({ message: "Apartment updated successfully.", apartment: updatedApartment });
+        res.json({ message: "Apartment updated successfully.", apartment: updatedApartment });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Server error during apartment update." });

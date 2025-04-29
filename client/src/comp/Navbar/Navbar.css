@@ -6,7 +6,7 @@
     border: none;
     background: none;
     box-shadow: none;
-    color: #f68b1e; 
+    color: rgb(209, 187, 155) !important;
     margin-right: 1rem; 
    
 }
@@ -15,7 +15,7 @@
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background-color: #f68b1e; 
+    background-color:  rgb(209, 187, 155) !important;; 
     color: white;
     display: flex;
     align-items: center;

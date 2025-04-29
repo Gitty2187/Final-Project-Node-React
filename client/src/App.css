@@ -37,3 +37,94 @@
     transform: rotate(360deg);
   }
 }
+
+/* שינוי צבע מסגרת של InputText כשבפוקוס */
+.p-inputtext:focus {
+  border-color: rgb(209, 187, 155) !important;
+  box-shadow: 0 0 0 0.2rem rgba(209, 187, 155, 0.25) !important;
+}
+
+.p-inputtext:hover {
+  border-color: rgb(209, 187, 155) !important;
+  box-shadow: 0 0 0 0.2rem rgba(209, 187, 155, 0.25) !important;
+}
+
+/* עיצוב כללי לכפתורי PrimeReact */
+.p-button {
+  background-color: rgb(209, 187, 155) !important;
+  border-color: rgb(209, 187, 155) !important;
+  color: #fff !important; /* צבע הטקסט */
+}
+
+.p-button:active,
+.p-button:focus,
+.p-button:hover {
+  background-color: rgb(140, 128, 110) !important;  /* גוון כהה-אפרפר */
+  border-color: rgb(140, 128, 110) !important;
+}
+
+/* גבול ברירת מחדל */
+.p-checkbox .p-checkbox-box {
+  border-color: rgb(209, 187, 155) !important;
+}
+
+/* בעת hover על ה-checkbox */
+.p-checkbox:not(.p-disabled):hover .p-checkbox-box {
+  border-color: rgb(140, 128, 110) !important;
+}
+
+/* כאשר ה-Checkbox מסומן (נלחץ) */
+.p-checkbox .p-checkbox-box.p-highlight {
+  background-color: rgb(209, 187, 155) !important;
+  border-color: rgb(209, 187, 155) !important;
+}
+
+/* הצללה קלה מסביב כאשר בפוקוס */
+.p-checkbox .p-checkbox-box.p-focus {
+  box-shadow: 0 0 0 0.2rem rgba(209, 187, 155, 0.25) !important;
+}
+
+/* צבע ה־V שבתוך הריבוע */
+.p-checkbox .p-checkbox-box .p-checkbox-icon {
+  color: #fff !important;
+}
+
+
+/* מסגרת dropdown */
+.p-dropdown {
+  border-color: rgb(209, 187, 155) !important;
+}
+
+/* כשה-dropdown פתוח או בפוקוס */
+.p-dropdown.p-focus {
+  border-color: rgb(140, 128, 110) !important;
+  box-shadow: 0 0 0 0.2rem rgba(140, 128, 110, 0.25) !important;
+}
+
+/* כשמרחפים עם העכבר על אופציה בתפריט */
+.p-dropdown-items .p-dropdown-item.p-highlight,
+.p-dropdown-items .p-dropdown-item:hover {
+  background-color: rgb(209, 187, 155) !important;
+  color: #fff !important;
+}
+
+/* החץ הקטן בצד ימין של ה־dropdown */
+.p-dropdown .p-dropdown-trigger {
+  color: rgb(140, 128, 110) !important;
+}
+
+/* צבע גופן לתגיות A */
+a {
+  color: rgb(209, 187, 155) !important;
+  text-decoration: none; /* אם את רוצה להוריד את הקו התחתון */
+}
+
+/* בעת hover על תגית A */
+a:hover {
+  color: rgb(179, 159, 125) !important; /* גוון כהה יותר להדגשה */
+}
+
+
+
+
+

@@ -23,7 +23,7 @@ body {
 }
 
 .register-header {
-    background: linear-gradient(to right, #2196f3, #1976d2);
+    background: linear-gradient(to right, rgb(209, 187, 155), rgb(179, 159, 125));
     color: white;
     border-radius: 12px;
     padding: 1.5rem;
@@ -71,7 +71,7 @@ body {
 }
 
 .submit-btn {
-    background: linear-gradient(to right, #2196f3, #1976d2);
+    background: linear-gradient(to right, rgb(209, 187, 155), rgb(179, 159, 125));
     border: none;
     font-weight: bold;
     padding: 0.75rem;

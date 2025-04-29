@@ -43,16 +43,20 @@ const ResidentUpdateForm = ({ visible, onHide }) => {
                     }
                 }
             );
-            dispatch(updateApartment(response.data.apartment));
-            // debugger
-            // const updateApartments = allapartment?.map((n) => (n._id === response.data.apartment?._id ? response.data.apartment : n))
-            dispatch(updateAllApar(
-                allApartment.map((n) => (n._id === response.data.apartment._id ? response.data.apartment : n))
-            ));
-            ToastService.show('success', 'הצלחה', 'הנתונים עודכנו בהצלחה');
+            if (response.status === 200) {
+                if(allApartment){
+                dispatch(updateAllApar(
+                    allApartment.map((n) =>
+                        n._id === response.data.apartment._id ? response.data.apartment : n
+                    )
+                ));
+            }
+                ToastService.show('success', 'הצלחה', 'הנתונים עודכנו בהצלחה');
+            }
+            else
+                throw errors;
             onHide();
         } catch (error) {
-            console.error(error);
             ToastService.show('error', 'שגיאה', 'אירעה שגיאה בעדכון הנתונים');
         } finally {
             setLoading(false);
