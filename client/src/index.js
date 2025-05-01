@@ -30,15 +30,21 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['cx`','buildingDetails','apartmentDetails','token','Allapartments'] 
+  whitelist: ['buildingDetails','apartmentDetails','token','Allapartments'] 
 };
 
 // יצירת Persisted Reducer
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-// יצירת ה-Store
 const myStore = configureStore({
-  reducer : persistedReducer
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
+        ignoredPaths: ['register'],
+      },
+    }),
 });
 
 // יצירת persistor

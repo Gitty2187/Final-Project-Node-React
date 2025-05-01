@@ -112,7 +112,8 @@ const TablePayments = () => {
                 placeholder="בחר"
                 className="p-column-filter"
                 showClear
-                style={{ width: '10rem' }} />
+                emptyMessage = "אין נתונים להצגה"
+                 />
         );
     };
 
@@ -144,27 +145,27 @@ const TablePayments = () => {
 
     return (
         <>
-            <Accordion activeIndex={0} style={{ textAlign: "right" }}>
-                <AccordionTab header=" היסטורית תשלומים " style={{ maxWidth: '50rem' }}>
+            {/* <Accordion activeIndex={0} style={{ textAlign: "right" }}> */}
+                {/* <AccordionTab header=" היסטורית תשלומים " style={{ maxWidth: '50rem' }}> */}
                     <div>
                         {/* <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} style={{ direction: "rtl" }} />
                         <div className="content">
                             {renderContent()}
                         </div> */}
-                        <DataTable value={filteredPayments} tableStyle={{ maxWidth: '50rem', direction: "rtl" }} footerColumnGroup={footerGroup}
+                        <DataTable value={filteredPayments} tableStyle={{  direction: "rtl" }} footerColumnGroup={footerGroup}
                             dataKey="id" filters={filters} filterDisplay="row" loading={loading} emptyMessage="אין נתונים נוספים "
-                            scrollable scrollHeight="400px" virtualScrollerOptions={{ itemSize: 10 }} >
-                            <Column style={{ textAlign: "right", minWidth: '12rem', width: "6rem" }} field="date" header="תאריך"
+                            virtualScrollerOptions={{ itemSize: 10 }} >
+                            <Column style={{ textAlign: "right",  width: "16rem" }} field="date" header="תאריך"
                                 showFilterMenu={false} filter filterElement={dateFilterElement}></Column>
-                            <Column style={{ textAlign: "right" }} field="type" header="סוג"></Column>
-                            <Column style={{ textAlign: "right" }} field="comment" header="הערה"></Column>
-                            <Column style={{ textAlign: "right", minWidth: '12rem', width: "6rem" }} field="admin_last_name" header="בוצע על ידי"
+                            <Column style={{ textAlign: "right",  width: "16rem" }} field="payment_method" header="אופן התשלום"></Column>
+                            <Column style={{ textAlign: "right" ,  width: "16rem"}} field="comment" header="הערה"></Column>
+                            <Column style={{ textAlign: "right",  width: "16rem"}} field="admin_last_name" header="בוצע על ידי"
                                 showFilterMenu={false} filter filterElement={adminLastNameFilter} showClear></Column>
-                            <Column style={{ textAlign: "right" }} field="sum" header="סכום"></Column>
+                            <Column style={{ textAlign: "right",  width: "16rem" }} field="sum" header="סכום"></Column>
                         </DataTable>
                     </div>
-                </AccordionTab>
-            </Accordion>
+                {/* </AccordionTab> */}
+            {/* </Accordion> */}
             <br />
         </>
     );

@@ -32,7 +32,7 @@ const ApartmentSumTable = () => {
                     Authorization: `Bearer ${ACCESS_TOKEN}`
                 }
             });
-            if(res.status ==  200){
+            if (res.status == 200) {
                 const updatedsums = res.data.map((a) => {
                     const updateDay = new Date(a.paymentDetails.date);
                     return {
@@ -109,39 +109,40 @@ const ApartmentSumTable = () => {
                 placeholder="בחר"
                 className="p-column-filter"
                 showClear
-                style={{ width: '10rem' }} />
+                emptyMessage="אין נתונים להצגה"
+            />
         );
     };
 
     return (
         <>
-            <Accordion activeIndex={0} style={{ textAlign: "right" }}>
-                <AccordionTab header=" היסטורית תשלומים " style={{ maxWidth: '50rem' }}>
-                    <div>
-                        <DataTable value={filteredsums} tableStyle={{ maxWidth: '50rem', direction: "rtl" }} footerColumnGroup={footerGroup}
-                            dataKey="id" filters={filters} filterDisplay="row" loading={loading} emptyMessage="אין נתונים נוספים "
-                            scrollable scrollHeight="400px" virtualScrollerOptions={{ itemSize: 10 }} >
-                            <Column style={{ textAlign: "right", minWidth: '12rem', width: "6rem" }} field="paymentDetails.date" header="תאריך"
-                                showFilterMenu={false} filter filterElement={dateFilterElement}></Column>
-                            <Column style={{ textAlign: "right" }} field="paymentDetails.type" header="סוג"></Column>
-                            <Column style={{ textAlign: "right" }} field="paymentDetails.comment" header="הערה"></Column>
-                            <Column style={{ textAlign: "right", minWidth: '12rem', width: "6rem" }} field="paymentDetails.admin_last_name" header="בוצע על ידי"
-                                showFilterMenu={false} filter filterElement={adminLastNameFilter} showClear></Column>
-                            <Column style={{ textAlign: "right" }} field="paymentDetails.sum" header="סכום"></Column>
-                            <Column style={{ textAlign: "right" }} header="סכום הנותר לתשלום"
-                                body={(rowData) => {
-                                    const remainingAmount = calculateRemainingAmount(rowData.paymentDetails.sum, rowData.amountPaid);
-                                    return (
-                                        <span style={{ color: remainingAmount > 0 ? 'red' : 'green' }}>
-                                            {remainingAmount}
-                                        </span>
-                                    );
-                                }}>
-                            </Column>
-                        </DataTable>
-                    </div>
-                </AccordionTab>
-            </Accordion>
+            {/* <Accordion activeIndex={0} style={{ textAlign: "right" }}>
+                <AccordionTab header=" היסטורית תשלומים " style={{ maxWidth: '50rem' }}> */}
+            <div style={{ overflowX: 'auto' }}>
+                <DataTable value={filteredsums} tableStyle={{ direction: "rtl",overflowX:'auto' }} footerColumnGroup={footerGroup}
+                    dataKey="id" filters={filters} filterDisplay="row" loading={loading} emptyMessage="אין נתונים נוספים "
+                    virtualScrollerOptions={{ itemSize: 10 }} >
+                    <Column style={{ textAlign: "right", width: "16rem" }} field="paymentDetails.date" header="תאריך"
+                        showFilterMenu={false} filter filterElement={dateFilterElement}></Column>
+                    <Column style={{ textAlign: "right", width: "16rem" }} field="paymentDetails.type" header="סוג"></Column>
+                    <Column style={{ textAlign: "right", width: "16rem" }} field="paymentDetails.comment" header="הערה"></Column>
+                    <Column style={{ textAlign: "right", width: "16rem" }} field="paymentDetails.admin_last_name" header="בוצע על ידי"
+                        showFilterMenu={false} filter filterElement={adminLastNameFilter} showClear></Column>
+                    <Column style={{ textAlign: "right", width: "16rem" }} field="paymentDetails.sum" header="סכום"></Column>
+                    <Column style={{ textAlign: "right", width: "16rem" }} header="סכום הנותר לתשלום"
+                        body={(rowData) => {
+                            const remainingAmount = calculateRemainingAmount(rowData.paymentDetails.sum, rowData.amountPaid);
+                            return (
+                                <span style={{ color: remainingAmount > 0 ? 'red' : 'green' }}>
+                                    {remainingAmount}
+                                </span>
+                            );
+                        }}>
+                    </Column>
+                </DataTable>
+            </div>
+            {/* </AccordionTab>
+            </Accordion> */}
 
             <br />
         </>

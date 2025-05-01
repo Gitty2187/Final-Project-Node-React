@@ -122,31 +122,31 @@ const Table = () => {
             placeholder="בחר" 
             className="p-column-filter" 
             showClear 
-            style={{ width: '10rem'}} />
+            emptyMessage="אין נתונים נוספים להצגה"/>
         );
     };
 
     return (
         <>
-            <Accordion activeIndex={0} style={{ textAlign: "right" }}>
+            {/* <Accordion activeIndex={0} style={{ textAlign: "right" }}>
                 
-                <AccordionTab header=" תשלומים לבנין">
-                    
+                <AccordionTab header=" תשלומים לבנין"> */}
+                   
                     <DataTable value={filteredSums} tableStyle={{ maxWidth: '50rem', direction: "rtl" }} footerColumnGroup={footerGroup}
                         dataKey="id" filters={filters} filterDisplay="row" loading={loading} emptyMessage="אין נתונים זמינים להציג"
-                        scrollable scrollHeight="400px" virtualScrollerOptions={{ itemSize: 46 }} >
-                        <Column style={{ textAlign: "right", minWidth: '12rem', width: "6rem" }} field="date" header="תאריך"
+                        virtualScrollerOptions={{ itemSize: 46 }} >
+                        <Column style={{ textAlign: "right",  width: "16rem" }} field="date" header="תאריך"
                             showFilterMenu={false} filter filterElement={dateFilterElement} ></Column>
-                        <Column style={{ textAlign: "right" }} field="type" header="סוג"></Column>
-                        <Column style={{ textAlign: "right" }} field="comment" header="הערה"></Column>
-                        <Column style={{ textAlign: "right", minWidth: '12rem', width: "6rem" }} field="admin_last_name" header="בוצע על ידי"
+                        <Column style={{ textAlign: "right",  width: "16rem" }} field="type" header="סוג"></Column>
+                        <Column style={{ textAlign: "right",  width: "16rem" }} field="comment" header="הערה"></Column>
+                        <Column style={{ textAlign: "right",  width: "16rem" }} field="admin_last_name" header="בוצע על ידי"
                             showFilterMenu={false} filter filterElement={adminLastNameFilter} ></Column>
-                        <Column style={{ textAlign: "right" }} field="sum" header="סכום"></Column>
+                        <Column style={{ textAlign: "right",  width: "16rem" }} field="sum" header="סכום"></Column>
                     </DataTable>
-                </AccordionTab>
-            </Accordion>
+                {/* </AccordionTab>
+            </Accordion> */}
             <br />
-
+          
             {apartment?.is_admin && <Button label="הוספת תשלום לכל הדיירים" rounded style={{ marginLeft: '15px' }} icon="pi pi-plus" onClick={() => { setVisible(true) }} />}
             {visible && <AddSums visible={visible} setVisible={setVisible} setSums={setSums} is_general={true} apartments_id={allapartment.map(a=>a._id)} sums={sums}/>}
         </>

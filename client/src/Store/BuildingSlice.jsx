@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initVal = {
-    building:{}
+    building:null
 }
 
 const buildingSlice =createSlice({

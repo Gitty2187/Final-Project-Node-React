@@ -72,7 +72,7 @@ const LogUPBuild = () => {
             dispatch(updateBuild(res.data.building));
             setBuilding(res.data.building);
             setHouseNum(res.data.apartmentsNull);
-            reset(); // ✅ איפוס הטופס אחרי שליחה מוצלחת
+            reset();
         } catch (error) {
             console.log(error);
             ToastService.show('error', 'שגיאה', 'נכשל בהוספת הבנין, אנא נסה שוב מאוחר יותר', 3000);

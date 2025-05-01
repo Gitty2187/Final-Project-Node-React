@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
 import { Menubar } from 'primereact/menubar';
-import { Button } from 'primereact/button';
 import { Menu } from 'primereact/menu';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -28,7 +27,6 @@ const Navbar = () => {
             label: 'יציאה',
             icon: 'pi pi-sign-out',
             command: () => {
-                // window.location.href = "/login"
                 dispatch(updateApartment(null));
                 dispatch(updateAllApar(null));
                 dispatch(updateBuild(null));
@@ -73,7 +71,7 @@ const Navbar = () => {
         <>
             <div className="user-avatar-button" onClick={(e) => menuRef.current.toggle(e)}>
                 <div className="user-icon">
-                    <i className="pi pi-user"></i>
+                    <i className="pi pi-sort-down-fill"></i>
                 </div>
                 <span>{apartment?.last_name || 'משתמש'}</span>
             </div>

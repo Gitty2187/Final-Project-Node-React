@@ -40,7 +40,7 @@ const DiagramaExspenses = (props) => {
     }, [props.expenses, props.years]);
 
     return (
-         <div className="card"   style={{margin:'0px',width:'48rem',alignItems:'center'}}>
+         <div className="card"   style={{margin:'0px',alignItems:'center'}}>
             <Chart type="bar" data={chartData} options={chartOptions} />
          </div>
     );

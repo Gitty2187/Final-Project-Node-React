@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initVal = {
-    Allapartments:[]
+    Allapartments:null
 }
 
 const allApartmentSlice = createSlice({

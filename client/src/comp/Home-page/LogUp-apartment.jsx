@@ -11,7 +11,6 @@ import { updateApartment } from '../../Store/ApartmentSlice';
 import { updateAllApar } from '../../Store/AllApartment';
 import { setToken } from '../../Store/Token';
 import { useNavigate } from 'react-router-dom';
-import { updateBuild } from '../../Store/BuildingSlice';
 import { Dropdown } from 'primereact/dropdown';
 import { Checkbox } from 'primereact/checkbox';
 import ToastService from '../Toast/ToastService';

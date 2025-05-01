@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initVal = {
-    apartment:{}
+    apartment:null
 }
 
 const aprrtmentSlice =createSlice({
@@ -9,10 +9,7 @@ const aprrtmentSlice =createSlice({
     initialState:initVal,
     reducers:{
         updateApartment:(state,action)=>{
-            console.log(action.payload);
-            
             state.apartment = action.payload
-            console.log(state.apartment);
         }
     }
 })

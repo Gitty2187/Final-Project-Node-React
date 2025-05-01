@@ -5,7 +5,7 @@ import { Button } from 'primereact/button';
 import { InputText } from "primereact/inputtext";
 import { FloatLabel } from "primereact/floatlabel";
 import { useForm } from 'react-hook-form';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { updateAllApar } from '../../../../Store/AllApartment';
 import ToastService from '../../../Toast/ToastService';
 
@@ -13,7 +13,6 @@ import ToastService from '../../../Toast/ToastService';
 const AddExpenses = (props) => {
     const building = useSelector((myStore) => myStore.buildingDetails.building);
     const apartment = useSelector((myStore) => myStore.apartmentDetails.apartment);
-    const dispatch = useDispatch();
     const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);
 
     const {

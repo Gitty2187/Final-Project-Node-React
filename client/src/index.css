@@ -4,11 +4,11 @@ html {
 
 :root {
   --main-font: 'Rubik', sans-serif;  /* עדכון לפונט Rubik */
-  --primary-color: #f68b1e; /* כתום לוגו */
-  --text-color: #1a1a1a;
-  --background-color: #f9f9f9;
+  /* --primary-color: #f68b1e;  */
+  /* --text-color: #1a1a1a; */
+  /* --background-color: #f9f9f9; */
   --card-bg: #ffffff;
-  --accent-color: #333333; /* אפור-שחור כהה */
+  /* --accent-color: #333333; */
   --font-family: 'Rubik', sans-serif;
  
 }
@@ -23,7 +23,7 @@ body {
   font-family: var(--main-font); 
   margin: 0;
   padding: 0;
-  background-color: var(--background-color);
+  /* background-color: var(--background-color); */
   color: var(--text-color);
   font-weight: normal;
   -webkit-font-smoothing: antialiased;

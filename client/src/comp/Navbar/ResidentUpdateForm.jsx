@@ -44,6 +44,7 @@ const ResidentUpdateForm = ({ visible, onHide }) => {
                 }
             );
             if (response.status === 200) {
+                dispatch(updateApartment(response.data.apartment))
                 if(allApartment){
                 dispatch(updateAllApar(
                     allApartment.map((n) =>

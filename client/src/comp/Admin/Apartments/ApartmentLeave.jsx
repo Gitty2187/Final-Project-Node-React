@@ -1,6 +1,5 @@
 import axios from "axios";
 import ToastService from "../../Toast/ToastService";
-import { Button } from "primereact/button";
 import { useDispatch, useSelector } from "react-redux";
 import { updateApartment } from "../../../Store/ApartmentSlice";
 import { useEffect } from "react";

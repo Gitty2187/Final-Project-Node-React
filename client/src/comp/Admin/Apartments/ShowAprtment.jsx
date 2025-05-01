@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { Button } from 'primereact/button';
 import { DataScroller } from 'primereact/datascroller';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Tag } from 'primereact/tag';
 import { Divider } from 'primereact/divider';
 import AddSums from '../Accounts/Sums/AddSums';
 import SendMail from './SendMail';
 import AddPayment from './AddPayment';
 import Leave from './ApartmentLeave';
-// import AddApartmentPayment from './AddApartmentPayment';
 
 
 const ShowApartment = () => {

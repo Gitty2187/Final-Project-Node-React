@@ -14,9 +14,6 @@ import ToastService from '../../../Toast/ToastService';
 
 const AddSums = (props) => {
     const toast = useRef(null);
-    const building = useSelector((myStore) => myStore.buildingDetails.building);
-    const apartment = useSelector((myStore) => myStore.apartmentDetails.apartment);
-    const allapartment = useSelector((myStore) => myStore.Allapartments.Allapartments);
     const dispatch = useDispatch();
     const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);
     const header = props.is_general ? "הוספת תשלום לכלל הדיירים" : "הוספת תשלום לדייר"
