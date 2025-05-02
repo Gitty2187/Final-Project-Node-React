@@ -5,15 +5,8 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { ColumnGroup } from 'primereact/columngroup';
 import { Row } from 'primereact/row';
-import { Button } from 'primereact/button';
-import { Accordion, AccordionTab } from 'primereact/accordion';
 import { Dropdown } from 'primereact/dropdown';
-import { Tag } from 'primereact/tag';
 import { FilterMatchMode } from 'primereact/api';
-
-import { MultiSelect } from "primereact/multiselect";
-// import DiagramaExspenses from "./SumsChar";
-import { TabMenu } from 'primereact/tabmenu';
 import ToastService from "../../Toast/ToastService";
 
 
@@ -21,7 +14,6 @@ import ToastService from "../../Toast/ToastService";
 const TablePayments = () => {
     const [payments, setpayments] = useState([]);
     const [selectedYear, setSelectedYear] = useState((new Date()).getFullYear());
-    const [visible, setVisible] = useState(false);
     const [unique_years_to_filter, set_unique_years_to_filter] = useState([]);
     const [unique_by_to_filter, set_unique_by_to_filter] = useState([]);
     const [filteredPayments, set_filteredPayments] = useState([]);
@@ -112,8 +104,8 @@ const TablePayments = () => {
                 placeholder="בחר"
                 className="p-column-filter"
                 showClear
-                emptyMessage = "אין נתונים להצגה"
-                 />
+                emptyMessage="אין נתונים להצגה"
+            />
         );
     };
 
@@ -122,50 +114,22 @@ const TablePayments = () => {
         { label: <span style={{ margin: '0.5rem' }}><i className="pi pi-chart-line"></i> דיאגרמה</span> }
     ];
 
-    // const renderContent = () => {
-    //     switch (activeIndex) {
-    //         case 0:
-    //             return <DataTable value={filteredPayments} tableStyle={{ maxWidth: '50rem', direction: "rtl" }} footerColumnGroup={footerGroup}
-    //                 dataKey="id" filters={filters} filterDisplay="row" loading={loading} emptyMessage="אין נתונים נוספים "
-    //                 scrollable scrollHeight="400px" virtualScrollerOptions={{ itemSize: 10 }} >
-    //                 <Column style={{ textAlign: "right", minWidth: '12rem', width: "6rem" }} field="date" header="תאריך"
-    //                     showFilterMenu={false} filter filterElement={dateFilterElement}></Column>
-    //                 <Column style={{ textAlign: "right" }} field="type" header="סוג"></Column>
-    //                 <Column style={{ textAlign: "right" }} field="comment" header="הערה"></Column>
-    //                 <Column style={{ textAlign: "right", minWidth: '12rem', width: "6rem" }} field="admin_last_name" header="בוצע על ידי"
-    //                     showFilterMenu={false} filter filterElement={adminLastNameFilter} showClear></Column>
-    //                 <Column style={{ textAlign: "right" }} field="sum" header="סכום"></Column>
-    //             </DataTable>
-    //         case 1:
-    //             // return <DiagramaExspenses payments={payments} years={unique_years_to_filter} />;
-    //         default:
-    //             return null;
-    //     }
-    // };
-
     return (
         <>
-            {/* <Accordion activeIndex={0} style={{ textAlign: "right" }}> */}
-                {/* <AccordionTab header=" היסטורית תשלומים " style={{ maxWidth: '50rem' }}> */}
-                    <div>
-                        {/* <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} style={{ direction: "rtl" }} />
-                        <div className="content">
-                            {renderContent()}
-                        </div> */}
-                        <DataTable value={filteredPayments} tableStyle={{  direction: "rtl" }} footerColumnGroup={footerGroup}
-                            dataKey="id" filters={filters} filterDisplay="row" loading={loading} emptyMessage="אין נתונים נוספים "
-                            virtualScrollerOptions={{ itemSize: 10 }} >
-                            <Column style={{ textAlign: "right",  width: "16rem" }} field="date" header="תאריך"
-                                showFilterMenu={false} filter filterElement={dateFilterElement}></Column>
-                            <Column style={{ textAlign: "right",  width: "16rem" }} field="payment_method" header="אופן התשלום"></Column>
-                            <Column style={{ textAlign: "right" ,  width: "16rem"}} field="comment" header="הערה"></Column>
-                            <Column style={{ textAlign: "right",  width: "16rem"}} field="admin_last_name" header="בוצע על ידי"
-                                showFilterMenu={false} filter filterElement={adminLastNameFilter} showClear></Column>
-                            <Column style={{ textAlign: "right",  width: "16rem" }} field="sum" header="סכום"></Column>
-                        </DataTable>
-                    </div>
-                {/* </AccordionTab> */}
-            {/* </Accordion> */}
+            <div>
+
+                <DataTable value={filteredPayments} tableStyle={{ direction: "rtl" }} footerColumnGroup={footerGroup}
+                    dataKey="id" filters={filters} filterDisplay="row" loading={loading} emptyMessage="אין נתונים נוספים "
+                    virtualScrollerOptions={{ itemSize: 10 }} >
+                    <Column style={{ textAlign: "right", width: "16rem" }} field="date" header="תאריך"
+                        showFilterMenu={false} filter filterElement={dateFilterElement}></Column>
+                    <Column style={{ textAlign: "right", width: "16rem" }} field="payment_method" header="אופן התשלום"></Column>
+                    <Column style={{ textAlign: "right", width: "16rem" }} field="comment" header="הערה"></Column>
+                    <Column style={{ textAlign: "right", width: "16rem" }} field="admin_last_name" header="בוצע על ידי"
+                        showFilterMenu={false} filter filterElement={adminLastNameFilter} showClear></Column>
+                    <Column style={{ textAlign: "right", width: "16rem" }} field="sum" header="סכום"></Column>
+                </DataTable>
+            </div>
             <br />
         </>
     );

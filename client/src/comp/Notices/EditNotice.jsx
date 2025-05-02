@@ -45,7 +45,7 @@ const EditNotice = ({ setNotices, setShowEditDialog, showEditDialog, notice }) =
             visible={showEditDialog}
             header="ערוך את המודעה"
             onHide={() => {
-                reset(); // איפוס השדות כשהדיאלוג נסגר
+                reset();
                 setShowEditDialog(false);
             }}
         >
@@ -60,7 +60,7 @@ const EditNotice = ({ setNotices, setShowEditDialog, showEditDialog, notice }) =
                         <Button
                             label="ביטול"
                             onClick={() => {
-                                reset(); // איפוס השדות גם כאשר לוחצים על ביטול
+                                reset();
                                 setShowEditDialog(false);
                             }}
                             className="p-button-secondary"

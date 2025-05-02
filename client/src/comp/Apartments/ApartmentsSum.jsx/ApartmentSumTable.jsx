@@ -1,5 +1,4 @@
 import axios from "axios";
-import { Accordion, AccordionTab } from "primereact/accordion";
 import { Column } from "primereact/column";
 import { ColumnGroup } from "primereact/columngroup";
 import { DataTable } from "primereact/datatable";
@@ -116,10 +115,8 @@ const ApartmentSumTable = () => {
 
     return (
         <>
-            {/* <Accordion activeIndex={0} style={{ textAlign: "right" }}>
-                <AccordionTab header=" היסטורית תשלומים " style={{ maxWidth: '50rem' }}> */}
             <div style={{ overflowX: 'auto' }}>
-                <DataTable value={filteredsums} tableStyle={{ direction: "rtl",overflowX:'auto' }} footerColumnGroup={footerGroup}
+                <DataTable value={filteredsums} tableStyle={{ direction: "rtl", overflowX: 'auto' }} footerColumnGroup={footerGroup}
                     dataKey="id" filters={filters} filterDisplay="row" loading={loading} emptyMessage="אין נתונים נוספים "
                     virtualScrollerOptions={{ itemSize: 10 }} >
                     <Column style={{ textAlign: "right", width: "16rem" }} field="paymentDetails.date" header="תאריך"
@@ -141,9 +138,6 @@ const ApartmentSumTable = () => {
                     </Column>
                 </DataTable>
             </div>
-            {/* </AccordionTab>
-            </Accordion> */}
-
             <br />
         </>
     );

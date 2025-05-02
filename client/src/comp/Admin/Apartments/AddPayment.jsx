@@ -38,15 +38,7 @@ const AddPayment = (props) => {
                     Authorization: "Bearer " + ACCESS_TOKEN
                 }
             });
-            // const newSum = res.data.new.map((a) => {
-            //     const updateDay = new Date(a.date);
-            //     return {
-            //         ...a,
-            //         date: `${updateDay.getDate()}/${updateDay.getMonth() + 1}/${updateDay.getFullYear()}`
-            //     };
-            // });
-
-            // props.setSums &&  props.setSums([...props.sums, ...newSum].sort((a, b) => new Date(a.date) - new Date(b.date)));
+            
             dispatch(updateAllApar(res.data.allApartments));
             props.setVisible(false);
             ToastService.show('success', 'הצלחה', 'תשלום נוסף בהצלחה');

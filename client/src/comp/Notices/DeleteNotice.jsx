@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { mergeProps } from 'primereact/utils';
 
 const DeleteNotice = ({ setNotices, noticeId,setShowDeleteDialog,showDeleteDialog }) => {
     const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);

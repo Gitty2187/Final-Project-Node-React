@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Chart } from 'primereact/chart';
-import randomColor from 'randomcolor'; // הוספת import
+import randomColor from 'randomcolor';
 
 const DiagramaExspenses = (props) => {
     const [chartData, setChartData] = useState({});
@@ -10,7 +10,7 @@ const DiagramaExspenses = (props) => {
         const yearSums = props.expenses.reduce((acc, expense) => {
             const parts = expense.date.split('/');
             const year = parseInt(parts[2], 10);
-            acc[year] = (acc[year] || 0) + expense.sum; // סכום ההוצאות לפי שנה
+            acc[year] = (acc[year] || 0) + expense.sum;
             return acc;
         }, {});
 
@@ -20,7 +20,7 @@ const DiagramaExspenses = (props) => {
                 {
                     label: 'הוצאות',
                     data: props.years.map(year => yearSums[year] || 0), // סכום ההוצאות עבור כל שנה
-                    backgroundColor: randomColor({ count: props.years.length , luminosity: 'light'}), // שימוש ב-randomColor
+                    backgroundColor: randomColor({ count: props.years.length , luminosity: 'light'}),
                    
                     borderWidth: 1
                 }

@@ -11,8 +11,6 @@ import ToastService from '../../../Toast/ToastService';
 
 
 const AddExpenses = (props) => {
-    const building = useSelector((myStore) => myStore.buildingDetails.building);
-    const apartment = useSelector((myStore) => myStore.apartmentDetails.apartment);
     const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);
 
     const {

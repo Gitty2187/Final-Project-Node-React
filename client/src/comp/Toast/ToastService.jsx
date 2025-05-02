@@ -1,5 +1,3 @@
-import { Toast } from 'primereact/toast';
-
 const ToastService = {
     toastRef: null,
 

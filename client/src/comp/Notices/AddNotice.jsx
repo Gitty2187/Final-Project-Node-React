@@ -5,7 +5,7 @@ import { InputTextarea } from "primereact/inputtextarea";
 import axios from 'axios';
 
 const AddNotice = ({ ACCESS_TOKEN, apartment, setNotices, setShowAddDialog, showAddDialog }) => {
-    const { register, handleSubmit, reset } = useForm(); // הוספתי reset כאן
+    const { register, handleSubmit, reset } = useForm();
 
     const handleAddNotice = async (data) => {
         try {
@@ -19,7 +19,7 @@ const AddNotice = ({ ACCESS_TOKEN, apartment, setNotices, setShowAddDialog, show
                 }
             );
             setNotices((prevNotices) => [...prevNotices, res.data]);
-            reset(); // מאפס את השדות אחרי שמירת הודעה
+            reset(); 
             setShowAddDialog(false); 
         } catch (error) {
             console.error('Error adding notice:', error);
@@ -27,7 +27,7 @@ const AddNotice = ({ ACCESS_TOKEN, apartment, setNotices, setShowAddDialog, show
     };
 
     const handleCloseDialog = () => {
-        reset(); // מאפס את השדות לפני סגירה
+        reset(); 
         setShowAddDialog(false);
     };
 

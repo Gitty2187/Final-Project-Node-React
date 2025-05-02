@@ -1,4 +1,4 @@
-import { FaEdit, FaTrash, FaPlusCircle } from 'react-icons/fa';  // אייקון חדש להוספת מודעה
+import { FaEdit, FaTrash, FaPlusCircle } from 'react-icons/fa';
 import React, { useState, useEffect } from 'react';
 import { Button, Card, Divider } from 'primereact';
 import { FaUserCircle, FaCalendarAlt } from 'react-icons/fa';
@@ -15,7 +15,7 @@ const NoticeList = () => {
     const [showAddDialog, setShowAddDialog] = useState(false);
     const [showEditDialog, setShowEditDialog] = useState(false);
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-    const [currentNotice, setCurrentNotice] = useState({}); // שדה למודעה הנוכחית לעריכה או מחיקה
+    const [currentNotice, setCurrentNotice] = useState({}); 
     const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);
     const apartment = useSelector((myStore) => myStore.apartmentDetails.apartment);
 
