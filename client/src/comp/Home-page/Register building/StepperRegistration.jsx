@@ -12,7 +12,6 @@ import RegisterBuilding from "./Register";
 import RegisterPage from "../RegisterPage";
 import ToastService from "../../Toast/ToastService";
 import { useNavigate } from "react-router-dom";
-import PdfFormGenerator from "../EntryDocument";
 
 const StepperRegistration = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -153,7 +152,6 @@ const StepperRegistration = () => {
                 icon="pi pi-angle-double-left"
                 iconPos="right"
               />
-              <PdfFormGenerator />
             </div>
           </div>
         );
@@ -167,8 +165,8 @@ const StepperRegistration = () => {
       <Steps model={steps} activeIndex={activeIndex} />
       <Card className="mt-4">{renderStepContent()}</Card>
 
-      <div className="stepper-buttons mt-4 flex justify-between">
-        {activeIndex > 0 && activeIndex < 3 ? (
+      <div className="stepper-buttons mt-4">
+        {activeIndex > 0 && activeIndex < 2 ? (
           <Button
             label="הקודם"
             icon="pi pi-angle-right"
@@ -176,10 +174,10 @@ const StepperRegistration = () => {
             className="p-button-secondary"
           />
         ) : (
-          <div />
+          <span /> 
         )}
 
-        {activeIndex < steps.length - 1 && (
+        {activeIndex < steps.length - 1 ? (
           <Button
             label="הבא"
             icon="pi pi-angle-left"
@@ -188,8 +186,12 @@ const StepperRegistration = () => {
             className="p-button-primary"
             disabled={!canProceed()}
           />
+        ) : (
+          <span />
         )}
       </div>
+
+
     </div>
   );
 };

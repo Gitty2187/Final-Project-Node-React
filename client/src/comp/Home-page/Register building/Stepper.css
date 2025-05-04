@@ -9,7 +9,21 @@
     border-radius: 1rem;
   }
   
+  .stepper-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   .stepper-buttons button {
     min-width: 100px;
+  }
+  
+  
+  .stepper-buttons .p-button-secondary {
+    margin-right: auto; 
+  }
+  
+  .stepper-buttons .p-button-primary {
+    margin-left: auto; /* צמוד לשמאל */
   }
   

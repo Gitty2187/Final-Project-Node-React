@@ -52,7 +52,7 @@ const AddExpenses = (props) => {
                 onHide={() => { if (!props.visible) return; props.setVisible(false); }}
             >
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="flex flex-column px-8 py-1 gap-4" style={{ borderRadius: '12px', backgroundImage: 'radial-gradient(circle at left top, var(--primary-400), var(--primary-700))' }}>
+                    <div className="flex flex-column px-8 py-1 gap-4" >
                         <br />
                         <FloatLabel>
                             <InputText id="type" {...register("type", { required: true })} />

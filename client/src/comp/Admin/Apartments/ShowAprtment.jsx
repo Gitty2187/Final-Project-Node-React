@@ -8,6 +8,7 @@ import AddSums from '../Accounts/Sums/AddSums';
 import SendMail from './SendMail';
 import AddPayment from './AddPayment';
 import Leave from './ApartmentLeave';
+import { Tooltip } from 'primereact/tooltip';
 
 
 const ShowApartment = () => {
@@ -30,27 +31,32 @@ const ShowApartment = () => {
 
     const itemTemplate = (data) => {
         return (
-            <div className="col-12">
-                <div className="flex flex-row align-items-center p-4 gap-4 border-round shadow-2">
+            <div className="col-30" style={{marginRight:'3rem'}}>
+                <div className="flex flex-row align-items-center p-4 gap-4 border-round">
                     <div className="flex flex-column gap-2">
-                        <div className="font-semibold">
-                            <Tag value={data.balance < 0 ? `יתרה: ${data.balance} ש"ח` : `חוב: ${Math.abs(data.balance)} ש"ח`} severity={getSeverity(data.balance)} style={{ width: '10rem', fontSize: '1rem' }}></Tag>
-                        </div>
-                        <Button
-                            label="שלח מייל"
-                            className="p-button-info"
-                            onClick={() => { setSelectedApartmentMail(data.mail); setSelectedApartmenLastName(data.last_name); setSelectedApartmenBalance(data.balance); setSendMail(true) }}
-                            icon='pi pi-envelope'
-                        />
-                    </div>
+                        <div className="text-2xl text-700" style={{ alignContent: 'center', textAlign: 'center' }}>משפחת  {data.last_name}</div>
+                        <div className="flex flex-row items-center gap-2">
+                            <Tooltip target=".user-minus-icon" content="דיווח דייר שעזב" position="top" />
 
-                    <div className="flex flex-row gap-2 flex-grow-1 text-right" style={{ direction: 'rtl' }}>
-                        <div className="text-2xl text-700" style={{ alignContent: 'center', width: '5rem' }}> דירה {data.number}</div>
-                        <Divider layout="vertical" />
-                        <div className="text-2xl font-bold text-700" style={{ alignContent: 'center', width: '10rem', textAlign: 'center' }}> {data.last_name}</div>
-                        <Divider layout="vertical" />
+                            <i
+                                className="pi pi-user-minus user-minus-icon cursor-pointer text-xl"
+                                onClick={() => {
+                                    setSelectedApartmentId(data._id);
+                                    setVisibleLeft(true);
+                                }}
+                                style={{ pointerEvents: data.is_admin ? 'none' : 'auto', opacity: data.is_admin ? 0.4 : 1 }}
+                            />
+
+                            <div className="text-xl text-500 text-center">דירה {data.number}</div>
+                        </div>
+
+
+                    </div>
+                    <Divider layout="vertical" />
+
+                    <div className="flex flex-column gap-2 flex-grow-8 text-right" style={{ direction: 'rtl' }}>
                         <Button
-                            label="הוספת הוצאת מחיר לדירה "
+                            label="הוספת הוצאה "
                             className="p-button-success"
                             onClick={() => {
                                 setSelectedApartmentId(data._id);
@@ -59,7 +65,7 @@ const ShowApartment = () => {
                             style={{ backgroundColor: 'GrayText', borderBlockColor: 'black' }}
                         />
                         <Button
-                            label=" דיווח תשלום לדירה"
+                            label=" דיווח תשלום"
                             className="p-button-success"
                             onClick={() => {
                                 setSelectedApartmentId(data._id);
@@ -67,17 +73,7 @@ const ShowApartment = () => {
                             }}
                             style={{ backgroundColor: 'GrayText', borderBlockColor: 'black' }}
                         />
-                        <Button
-                            label="דייר עזב"
-                            icon="pi pi-user-minus"
-                            onClick={() => {
-                                setSelectedApartmentId(data._id); 
-                                setVisibleLeft(true);           
-                            }}
-                            style={{ float: 'right' }}
-                            disabled={data.is_admin} 
-                            title={data.is_admin ? "לא ניתן למחוק את ועד הבית" : "מחיקת נתוני הדייר"}
-                        />
+
 
 
                         {sendMailAllApartmentnts &&
@@ -93,6 +89,24 @@ const ShowApartment = () => {
                         {visible && <AddSums visible={visible} setVisible={setVisible} is_general={false} apartments_id={[selectedApartmentId]} />}
                         {visibleSum && <AddPayment visible={visibleSum} setVisible={setVisibleSum} apartment_id={[selectedApartmentId]} />}
                     </div>
+                    <Divider layout="vertical" />
+                    <div className="flex flex-row items-center gap-2">
+                        <Tooltip target=".send-mail-icon" content="שלח מייל" position="top" />
+                        <div className="flex flex-column items-center gap-2">
+                            <div></div>
+                            <i
+                                className="pi pi-envelope send-mail-icon cursor-pointer text-4xl"
+                                onClick={() => {
+                                    setSelectedApartmentMail(data.mail);
+                                    setSelectedApartmenLastName(data.last_name);
+                                    setSelectedApartmenBalance(data.balance);
+                                    setSendMail(true);
+                                }}
+                            />
+                            <div></div>
+                        </div>
+                        <Tag value={data.balance < 0 ? `יתרה: ${data.balance} ש"ח` : `חוב: ${Math.abs(data.balance)} ש"ח`} severity={getSeverity(data.balance)} style={{ width: '10rem', fontSize: '1.3rem' }}></Tag>
+                    </div>
                 </div>
             </div>
         );
@@ -100,7 +114,7 @@ const ShowApartment = () => {
 
 
     return (
-        <div className="card" style={{ width: '75rem', float: 'right' }}>
+        <div className="card" style={{ width: '60rem', float: 'right' ,marginRight:'2rem'}}>
             <DataScroller
                 value={allApartment}
                 itemTemplate={itemTemplate}

@@ -43,7 +43,7 @@ body {
     color: white;
 }
 
-.dialog-copy-container {
+/* .dialog-copy-container {
     text-align: center;
     padding: 1.5rem;
 }
@@ -51,7 +51,7 @@ body {
 .dialog-copy-label {
     font-size: 1.2rem;
     margin-bottom: 1rem;
-}
+} */
 
 .dialog-copy-row {
     display: flex;

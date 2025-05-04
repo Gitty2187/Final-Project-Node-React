@@ -65,7 +65,7 @@ const SendMail = (props) => {
                 onHide={() => props.setSendMail(false)}
                 style={{ direction: 'rtl' }} 
             >
-                <div className="email-composer">
+                <div className="email-composer flex flex-column gap-1">
                     <label htmlFor="to" style={{ float: 'right' }}>אל</label>
                     <div className="p-inputgroup flex-1" style={{ direction: 'ltr' }}>
                         <InputText placeholder={props.selectedApartmentMail} id="to" value={to} disabled />
@@ -73,7 +73,7 @@ const SendMail = (props) => {
                             <i className="pi pi-user"></i>
                         </span>
                     </div>
-
+                    <br/>
                     <label htmlFor="subject" style={{ float: 'right' }}>נושא</label>
                     <div className="p-inputgroup flex-1" style={{ direction: 'ltr' }}>
                         <InputText
@@ -83,10 +83,8 @@ const SendMail = (props) => {
                             <i className="pi pi-pencil"></i>
                         </span>
                     </div>
-
+                    <br/>
                     <label style={{ float: 'right' }}>תוכן</label>
-                    <br />
-
                     <div className="p-field" style={{ textAlign: 'right' }}>
                         <Editor
                             value={text}

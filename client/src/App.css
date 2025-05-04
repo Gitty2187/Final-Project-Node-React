@@ -128,7 +128,96 @@ a:hover {
   color: rgb(179, 159, 125) !important; /* גוון כהה יותר להדגשה */
 }
 
+/* עיצוב מותאם אישית לדיאלוג של PrimeReact עם גוון מרכזי */
+.p-dialog {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  direction: rtl;
+  /* width: 100%; */
+  /* max-width: 420px; */
+  overflow: hidden;
+}
 
+.p-dialog .p-dialog-header {
+  background: linear-gradient(to right, rgb(209, 187, 155), rgb(179, 157, 122));
+  color: white;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
 
+.p-dialog .p-dialog-content {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  font-family: var(--main-font);
+}
+
+.p-dialog .p-dialog-footer {
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.p-dialog .p-button {
+  background: linear-gradient(to right, rgb(209, 187, 155), rgb(179, 157, 122));
+  border: none;
+  font-weight: bold;
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  color: white;
+}
+
+/* צבע מותאם לרדיו־באטן של פרויקט */
+.p-radiobutton .p-radiobutton-box.p-highlight {
+  background: rgb(209, 187, 155);
+  border-color: rgb(209, 187, 155);
+}
+
+.p-radiobutton .p-radiobutton-box.p-highlight:hover {
+  background: rgb(190, 170, 140);
+  border-color: rgb(190, 170, 140);
+}
+
+.p-radiobutton .p-radiobutton-box {
+  border-color: rgb(209, 187, 155);
+}
+
+.p-radiobutton .p-radiobutton-box:not(.p-disabled):hover {
+  border-color: rgb(190, 170, 140);
+}
+
+/* צבע מותאם לעיגול הפנימי של רדיובטן נבחר */
+.p-radiobutton .p-radiobutton-box.p-highlight .p-radiobutton-icon {
+  background-color: rgb(209, 187, 155) !important;
+}
+
+/* עיצוב עיגולים ב-Stepper */
+.p-steps .p-step .p-step-number {
+  background-color: rgb(209, 187, 155) !important;  /* הצבע של הפרויקט */
+  border-color: rgb(209, 187, 155) !important;
+  color: white !important; /* צבע הטקסט בתוך העיגול */
+}
+
+.p-steps .p-step.p-active .p-step-number {
+  background-color: rgb(140, 128, 110) !important;  /* צבע שלב פעיל */
+  border-color: rgb(140, 128, 110) !important;
+}
+
+.p-steps .p-step.p-completed .p-step-number {
+  background-color: rgb(140, 128, 110) !important;  /* צבע שלב שהושלם */
+  border-color: rgb(140, 128, 110) !important;
+}
+
+.p-steps .p-step .p-step-number:hover {
+  background-color: rgb(179, 159, 125) !important;  /* צבע כאשר יש hover */
+  border-color: rgb(179, 159, 125) !important;
+}
 
 
