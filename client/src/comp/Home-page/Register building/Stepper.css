@@ -1,0 +1,15 @@
+.stepper-container {
+    max-width: 600px;
+    margin: auto;
+    direction: rtl;
+    /* white-space: 12; */
+  }
+  
+  .p-card {
+    border-radius: 1rem;
+  }
+  
+  .stepper-buttons button {
+    min-width: 100px;
+  }
+  

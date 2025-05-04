@@ -2,7 +2,7 @@ const Building = require("../models/Building-model");
 const Apartment = require("../models/Apartment-model");
 
 const getBuilding = async (req, res) => {
-    const { password } = req.params;
+    const { password } = req.body;
 
     if (!password) {
         return res.status(400).json({ message: "חובה לספק סיסמה." });

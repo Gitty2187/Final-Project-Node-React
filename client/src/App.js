@@ -12,6 +12,7 @@ import ToastContainer from './comp/Toast/ToastContainer';
 import RegisterPage from './comp/Home-page/RegisterPage';
 import DownloadBuildingForm from './comp/Home-page/EntryDocument';
 import NoticeList from './comp/Notices/NoticeList'
+import StepperRegistration from './comp/Home-page/Register building/StepperRegistration';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
        <Route path="/manager/apartments" element={<AllApartmets/>} />
        <Route path="/manager/expenses" element={<Account/> } />
        <Route path="/register" element={<RegisterPage />} />
+       <Route path="/register_building" element={<StepperRegistration />} />
      </Routes>
     
     </>);

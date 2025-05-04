@@ -8,13 +8,12 @@ import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import ToastService from '../Toast/ToastService';
 import { updateApartment } from '../../Store/ApartmentSlice';
 import { updateAllApar } from '../../Store/AllApartment';
 import { setToken } from '../../Store/Token';
 import './RegisterPage.css';
 
-const RegisterPage = () => {
+const RegisterPage = (props) => {
     const [formData, setFormData] = useState({
         name: '',
         last_name: '',
@@ -27,14 +26,14 @@ const RegisterPage = () => {
     });
     const [selectedNum, setSelectedNUM] = useState(null);
     const [errors, setErrors] = useState({});
-
+    const [errorMessage, setErrorMessage] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const routeLocation = useLocation();
     const building = useSelector((store) => store.buildingDetails.building);
-    const headerText = routeLocation.state?.header || "הצטרפו אלינו";
-    const is_admin = routeLocation.state?.is_admin || false;
-    const houseNum = routeLocation.state?.houseNum || [];
+    const headerText = routeLocation.state?.header || props.header
+    const is_admin = routeLocation.state?.is_admin || props.is_admin;
+    const houseNum = routeLocation.state?.houseNum || props.houseNum
 
     const resetForm = () => {
         setFormData({
@@ -81,7 +80,7 @@ const RegisterPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        debugger
         const validationErrors = validate();
         setErrors(validationErrors);
         if (Object.keys(validationErrors).length > 0) return;
@@ -94,13 +93,15 @@ const RegisterPage = () => {
         };
 
         try {
+            
             const res = await axios.post('http://localhost:7000/apartment', data);
             dispatch(updateApartment(res.data.apartment));
             dispatch(setToken(res.data.token));
             dispatch(updateAllApar(res.data.allApartments));
-            confirmSuccess();
+            props.onSuccess ? props.onSuccess()
+            : confirmSuccess();
         } catch (error) {
-            ToastService.show('error', 'שגיאה', 'המייל שהכנסת כבר קיים במערכת', 3000);
+            setErrorMessage("המייל שהכנסת כבר קיים במערכת'");
         }
     };
 
@@ -151,6 +152,9 @@ const RegisterPage = () => {
                         <label htmlFor="mail">*מייל</label>
                         <InputText id="mail" name="mail" value={formData.mail} onChange={handleChange} className="w-full" type="email" style={{ direction: 'ltr' }} />
                         {errors.mail && <small className="p-error">{errors.mail}</small>}
+                        {errorMessage && (
+                            <div className="error-message">{errorMessage}</div>
+                        )}
                     </div>
 
                     <div className="field">

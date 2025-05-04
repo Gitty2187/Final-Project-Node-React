@@ -36,7 +36,7 @@ const Login = () => {
             return;
         }
         try {
-            const res = await axios.get(`http://localhost:7000/bulding/${password}`);
+            const res = await axios.post(`http://localhost:7000/bulding/login`,{password:password});
             dispatch(updateBuild(res.data.building));
             dispatch(setToken(res.data.token));
             dispatch(updateAllApar(res.data.allApartments));
@@ -53,7 +53,7 @@ const Login = () => {
 
     const onSubmit = async (data) => {
         try {
-            const res = await axios.get("http://localhost:7000/apartment?mail=" + data.mail + "&password=" + data.password);
+            const res = await axios.post('http://localhost:7000/apartment/login' ,{mail: data.mail ,password:data.password});
             dispatch(setToken(res.data.token));
             dispatch(updateApartment(res.data.apartment));
             dispatch(updateBuild(res.data.building));

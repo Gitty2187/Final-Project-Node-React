@@ -1,15 +1,15 @@
 import React from 'react';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
 
-// נוודא שמייבאים את ה־pdfMake שנמצא ב-CDN
+// הפעלת הפונטים
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
 const PdfFormGenerator = () => {
   const generatePdf = () => {
     const docDefinition = {
       content: [
-        { text: 'טופס פתיחת בניין', style: 'header', alignment: 'right' },
-        { text: 'שם הבניין: מגדל התקווה', alignment: 'right' },
-        { text: 'כתובת: רחוב התקווה 5, תל אביב', alignment: 'right' },
-        { text: 'שם הנציג: יעקב לוי', alignment: 'right' },
-        { text: 'תאריך פתיחה: 23/04/2025', alignment: 'right' },
+        
         {
           text: '\nהצהרה:\nאני מאשר/ת את פתיחת הבניין ומתחייב/ת לפעול לפי הנהלים.',
           alignment: 'right'
@@ -17,7 +17,7 @@ const PdfFormGenerator = () => {
       ],
       defaultStyle: {
         alignment: 'right',
-        font: 'Assistant' // שמנו את הפונט עברי כאן
+        font: 'Roboto'
       },
       styles: {
         header: {

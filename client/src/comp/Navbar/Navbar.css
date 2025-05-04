@@ -70,3 +70,90 @@
     align-items: center;
     width: 100%;
 }
+
+.user-dropdown-container {
+    direction: rtl;
+    display: inline-block;
+  }
+  
+  .user-avatar-button {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #333;
+    font-weight: bold;
+    padding: 0.3rem 0.7rem;
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
+  
+  .user-avatar-button:hover {
+    background: #f1f1f1;
+  }
+  
+  .dropdown-panel {
+    position: absolute;
+    top: 2.5rem;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 1rem;
+    width: 280px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    z-index: 999;
+  }
+  
+  .info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .info-row {
+    display: flex;
+    gap: 0.4rem;
+    font-size: 1.05rem;
+    direction: rtl;
+    color: #444;
+}
+
+.label {
+    font-weight: bold;
+}
+
+.value {
+    font-weight: 400;
+}
+
+  
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .action-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.7rem;
+    border: none;
+    background: #f5f5f5;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+
+  }
+  
+  .action-button.logout {
+    background: #ffe5e5;
+    color: #b30000;
+  }
+  
+  .action-button:hover {
+    background: #e0e0e0;
+  }
+  

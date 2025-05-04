@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 
 const login = async (req, res) => {
-    const { mail, password } = req.query;
+    const { mail, password } = req.body;
 
     if (!mail || !password) {
         return res.status(400).json({ message: "Must provide mail and password." });
@@ -54,7 +54,7 @@ const logUp = async (req, res) => {
     try {
         const duplicate = await Apartment.findOne({ mail: newApartment.mail, is_active: true }).lean();
         if (duplicate) {
-            return res.status(409).json({ message: "Email already exists." });
+            return res.status(401).json({ message: "Email already exists." });
         }
 
         newApartment.password = await bcrypt.hash(newApartment.password, 10);

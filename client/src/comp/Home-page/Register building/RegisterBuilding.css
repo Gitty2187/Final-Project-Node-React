@@ -1,0 +1,61 @@
+.register-container {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 20px;
+    max-width: 600px;
+    margin: 2rem auto;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    direction: rtl;
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .register-container {
+        padding: 1rem;
+        margin: 1rem;
+    }
+}
+
+.dialog-header {
+    background: linear-gradient(to right, #ff8a65, #ff7043);
+    color: white;
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+.dialog-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.field label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.dialog-btn {
+    background: rgb(209, 187, 155);
+    border: none;
+    font-weight: bold;
+    padding: 0.75rem;
+    border-radius: 12px;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.dialog-btn:hover {
+    background: rgb(189, 167, 135); /* גוון כהה מעט להובר */
+}
+
+
+.p-message {
+    margin-top: 0.5rem;
+}
