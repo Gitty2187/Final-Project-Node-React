@@ -3,14 +3,12 @@ import 'primeicons/primeicons.css';
 import { Route, Routes } from "react-router-dom"
 
 import Login from './comp/Home-page/Login';
-import Nav from './comp/Navbar/Nav';
 import Account from "./comp/Admin/Accounts/Accounts"
 import Home  from './comp/Apartments/Home';
 import Start from './comp/Start';
 import AllApartmets from './comp/Admin/Apartments/AllApartments';
 import ToastContainer from './comp/Toast/ToastContainer';
 import RegisterPage from './comp/Home-page/RegisterPage';
-import DownloadBuildingForm from './comp/Home-page/EntryDocument';
 import NoticeList from './comp/Notices/NoticeList'
 import StepperRegistration from './comp/Home-page/Register building/StepperRegistration';
 

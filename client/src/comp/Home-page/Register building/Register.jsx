@@ -36,7 +36,7 @@ const RegisterBuilding = ({ onSuccess }) => {
     };
 
     return (
-        <div className="register-container">
+        <div className="register-container-building">
             <form onSubmit={handleSubmit(onSubmit)} className="dialog-form">
                 <div className="field">
                     <label htmlFor="address">כתובת הבניין</label>
@@ -50,8 +50,7 @@ const RegisterBuilding = ({ onSuccess }) => {
 
                 <label htmlFor="minimum_apartment_number">טווח הדירות</label>
                 <div className="field flex flex-row">
-
-                  
+                
                     <InputText
                         type="number"
                         id="maximum_apartment_number"

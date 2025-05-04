@@ -9,6 +9,7 @@ import EditNotice from './EditNotice';
 import DeleteNotice from './DeleteNotice';
 import Navbar from '../Navbar/Nav';
 import './Board.css';
+import PdfFormGenerator from '../Home-page/EntryDocument';
 
 const NoticeList = () => {
     const [notices, setNotices] = useState([]);
@@ -18,6 +19,8 @@ const NoticeList = () => {
     const [currentNotice, setCurrentNotice] = useState({}); 
     const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);
     const apartment = useSelector((myStore) => myStore.apartmentDetails.apartment);
+    const building = useSelector((store) => store.buildingDetails.building);
+    
 
     useEffect(() => {
         const fetchNotices = async () => {
@@ -122,7 +125,6 @@ const NoticeList = () => {
                     setShowDeleteDialog={setShowDeleteDialog}
                     showDeleteDialog={showDeleteDialog}
                 />
-
             </div>
         </>
     );

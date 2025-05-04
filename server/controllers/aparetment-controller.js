@@ -33,7 +33,7 @@ const login = async (req, res) => {
         }
 
         delete apartment.password;
-        delete building.password;
+        // delete building.password;
 
         const accessToken = jwt.sign(apartment, process.env.ACCESS_TOKEN_SECRET);
 

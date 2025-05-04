@@ -1,8 +1,18 @@
 body {
-    background: linear-gradient(to bottom, #cccccc, #eeeeee);
+    background-color: #dddddd;
+
     margin: 0;
     font-family: 'Assistant', sans-serif;
 }
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #dddddd;
+    font-family: 'Assistant', sans-serif;
+}
+
 
 .register-container {
     display: flex;

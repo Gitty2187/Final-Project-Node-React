@@ -12,6 +12,7 @@ import RegisterBuilding from "./Register";
 import RegisterPage from "../RegisterPage";
 import ToastService from "../../Toast/ToastService";
 import { useNavigate } from "react-router-dom";
+import PdfFormGenerator from "../EntryDocument";
 
 const StepperRegistration = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -142,9 +143,11 @@ const StepperRegistration = () => {
                   onClick={copyToClipboard}
                 />
                 <span className="dialog-copy-code">{buildingData.building?.password}</span>
+                <PdfFormGenerator building={buildingData.building}/>
               </div>
               <br />
               <br />
+              
               <Button
                 label="מעבר לאתר"
                 onClick={() => navigate('/apartment')}

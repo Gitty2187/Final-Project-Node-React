@@ -11,7 +11,6 @@ import { updateBuild } from '../../Store/BuildingSlice';
 import { updateApartment } from '../../Store/ApartmentSlice';
 import { useNavigate } from 'react-router-dom';
 import { Image } from 'primereact/image';
-import LogUPBuild from "./LogUp-building";
 import ToastService from '../Toast/ToastService';
 import { InputText } from 'primereact/inputtext';
 import './Login.css'
@@ -36,7 +35,7 @@ const Login = () => {
             return;
         }
         try {
-            const res = await axios.post(`http://localhost:7000/bulding/login`,{password:password});
+            const res = await axios.post(`http://localhost:7000/bulding/login`, { password: password });
             dispatch(updateBuild(res.data.building));
             dispatch(setToken(res.data.token));
             dispatch(updateAllApar(res.data.allApartments));
@@ -46,14 +45,14 @@ const Login = () => {
             if (e.response && e.response.status === 401) {
                 setErrorMessageRegister("סיסמא שגויה");
             } else {
-                ToastService.show('error', 'שגיאה',  3000);
+                ToastService.show('error', 'שגיאה', 3000);
             }
         }
     };
 
     const onSubmit = async (data) => {
         try {
-            const res = await axios.post('http://localhost:7000/apartment/login' ,{mail: data.mail ,password:data.password});
+            const res = await axios.post('http://localhost:7000/apartment/login', { mail: data.mail, password: data.password });
             dispatch(setToken(res.data.token));
             dispatch(updateApartment(res.data.apartment));
             dispatch(updateBuild(res.data.building));
@@ -63,7 +62,7 @@ const Login = () => {
             if (e.response && e.response.status === 401) {
                 setErrorMessage("שם המשתמש או הסיסמה שגויים");
             } else {
-                ToastService.show('error', 'שגיאה',  3000);
+                ToastService.show('error', 'שגיאה', 3000);
             }
         }
     };
@@ -100,7 +99,7 @@ const Login = () => {
                             className="w-12rem mx-auto"
                             onClick={check_building_password}
                             severity="secondary"
-                            // type="button"
+                        // type="button"
                         />
 
                     </div>
@@ -117,7 +116,13 @@ const Login = () => {
 
                     <div className="w-full md:w-5 flex flex-column align-items-center justify-content-center gap-4 py-5">
                         <Image src="/logo.png" alt="Image" width="250px" align="center" />
-                        <LogUPBuild />
+                        <Button
+                            label="רישום בנין חדש"
+                            icon="pi pi-building"
+                            onClick={() => navigate("/register_building")}
+                            severity="secondary"
+                            className='Button-building'
+                        />
                     </div>
 
                     <div className="w-full md:w-2">

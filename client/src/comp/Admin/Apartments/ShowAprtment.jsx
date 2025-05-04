@@ -62,7 +62,7 @@ const ShowApartment = () => {
                                 setSelectedApartmentId(data._id);
                                 setVisible(true);
                             }}
-                            style={{ backgroundColor: 'GrayText', borderBlockColor: 'black' }}
+                            // style={{ backgroundColor: 'GrayText', borderBlockColor: 'black' }}
                         />
                         <Button
                             label=" דיווח תשלום"
@@ -71,7 +71,7 @@ const ShowApartment = () => {
                                 setSelectedApartmentId(data._id);
                                 setVisibleSum(true);
                             }}
-                            style={{ backgroundColor: 'GrayText', borderBlockColor: 'black' }}
+                            // style={{ backgroundColor: 'GrayText', borderBlockColor: 'black' }}
                         />
 
 

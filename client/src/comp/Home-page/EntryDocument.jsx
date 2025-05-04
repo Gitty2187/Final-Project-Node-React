@@ -1,44 +1,95 @@
-// import React from 'react';
-// import pdfMake from 'pdfmake/build/pdfmake';
-// import pdfFonts from 'pdfmake/build/vfs_fonts';
+import React from 'react';
+import {
+    Document,
+    Page,
+    Text,
+    View,
+    StyleSheet,
+    Font,
+    Image,
+    PDFDownloadLink,
+} from '@react-pdf/renderer';
+import { useSelector } from 'react-redux';
 
-// // הפעלת הפונטים
-// pdfMake.vfs = pdfFonts.pdfMake.vfs;
+// רישום פונט בעברית
+try {
+    Font.register({
+        family: 'Rubik',
+        src: '/fonts/Rubik-Regular.ttf',
+    });
+} catch (error) {
+    console.error('❌ שגיאה ברישום הפונט:', error);
+}
 
-// const PdfFormGenerator = () => {
-//   const generatePdf = () => {
-//     const docDefinition = {
-//       content: [
-        
-//         {
-//           text: '\nהצהרה:\nאני מאשר/ת את פתיחת הבניין ומתחייב/ת לפעול לפי הנהלים.',
-//           alignment: 'right'
-//         }
-//       ],
-//       defaultStyle: {
-//         alignment: 'right',
-//         font: 'Roboto'
-//       },
-//       styles: {
-//         header: {
-//           fontSize: 18,
-//           bold: true,
-//           marginBottom: 10
-//         }
-//       },
-//       pageSize: 'A4'
-//     };
+// עיצוב
+const styles = StyleSheet.create({
+    page: {
+        flexDirection: 'column',
+        padding: 30,
+        fontFamily: 'Rubik',
+        direction: 'rtl',
+    },
+    logo: {
+        width: 120,
+        height: 60,
+        marginBottom: 20,
+        alignSelf: 'center',
+    },
+    text: {
+        fontSize: 14,
+        marginBottom: 12,
+        textAlign: 'right',
+    },
+});
 
-//     window.pdfMake.createPdf(docDefinition).download('טופס_פתיחת_בניין.pdf');
-//   };
+const MyDocument = ({ building }) => {
+    return (
+        <Document>
+            <Page size="A4" style={styles.page}>
+                <View>
 
-//   return (
-//     <div style={{ direction: 'rtl', textAlign: 'right', marginTop: '2rem' }}>
-//       <button onClick={generatePdf} style={{ padding: '10px 20px', fontSize: '16px' }}>
-//         הורד טופס PDF
-//       </button>
-//     </div>
-//   );
-// };
+                    <Text style={styles.text}>
+                        שלום דיירים יקרים בבניין בכתובת {building?.address || '[לא צוינה כתובת]'}.
+                    </Text>
+                    <Text style={styles.text}>
+                        מהיום אנו עוברים לניהול ועד הבית ע"י מערכת 
+                    </Text>
+                    <Image
+                        style={{ width: 150,alignSelf:'center'}}
+                        src="/logo.png"
+                    />
+                    <Text style={styles.text}>
+                        יש להיכנס ולהירשם לבניין.
+                    </Text>
+                    <Text style={styles.text}>
+                        הסיסמה של הבניין שלנו: {building?.password || '[לא צוינה סיסמה]'}
+                    </Text>
+                    <Text style={styles.text}>
+                        בהצלחה לכולנו!
+                    </Text>
+                </View>
+            </Page>
+        </Document>
+    );
+};
 
-// export default PdfFormGenerator;
+const PdfFormGenerator = () => {
+    const building = useSelector((store) => store.buildingDetails.building);
+
+    return (
+        <PDFDownloadLink
+            document={<MyDocument building={building} />}
+            fileName="homecontrol-welcome.pdf"
+        >
+            {({ loading, error }) => {
+                if (error) {
+                    console.error('❌ שגיאה בהפקת PDF:', error);
+                    return 'שגיאה ביצירת PDF';
+                }
+                return loading ? '📦 יוצר קובץ...' : '⬇️ הורד מכתב לדיירים';
+            }}
+        </PDFDownloadLink>
+    );
+};
+
+export default PdfFormGenerator;
