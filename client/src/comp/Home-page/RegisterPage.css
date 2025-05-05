@@ -13,6 +13,11 @@ html, body {
     font-family: 'Assistant', sans-serif;
 }
 
+.required-star {
+    color: red;
+    margin-right: 2px;
+}
+
 
 .register-container {
     display: flex;

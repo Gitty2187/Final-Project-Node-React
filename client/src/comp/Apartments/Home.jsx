@@ -10,17 +10,17 @@ const Home = () => {
         <Nav/>
         <div className="card scrollpanel-demo">
         <Accordion multiple activeIndex={[0]}>
-                <AccordionTab header="תשלומים">
+                <AccordionTab header="פירוט חיובים">
                     <div className="m-0">
                         <ApartmentSumTable/>
                     </div>
                 </AccordionTab>
-                <AccordionTab header="היסטורית תשלומים">
+                <AccordionTab header="תשלומים לוועד">
                     <div className="m-0">
                         <TablePayments/>
                     </div>
                 </AccordionTab>
-                <AccordionTab header="הוצאות בנין">
+                <AccordionTab header="רישום הוצאות">
                     <div className="m-0">
                         <TableExpenses/>
                     </div>

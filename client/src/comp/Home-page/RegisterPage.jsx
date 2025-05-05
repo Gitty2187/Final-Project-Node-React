@@ -124,7 +124,7 @@ const RegisterPage = (props) => {
 
                 <form onSubmit={handleSubmit} dir="rtl">
                     <div className="field">
-                        <label htmlFor="apartmentNum">מספר דירה</label>
+                        <label htmlFor="apartmentNum">מספר דירה<span className="required-star">*</span></label>
                         <Dropdown
                             inputId="apartmentNum"
                             value={selectedNum}
@@ -137,19 +137,19 @@ const RegisterPage = (props) => {
                     </div>
 
                     <div className="field">
-                        <label htmlFor="name">*שם</label>
+                        <label htmlFor="name">שם<span className="required-star">*</span></label>
                         <InputText id="name" name="name" value={formData.name} onChange={handleChange} className="w-full" />
                         {errors.name && <small className="p-error">{errors.name}</small>}
                     </div>
 
                     <div className="field">
-                        <label htmlFor="last_name">שם משפחה</label>
+                        <label htmlFor="last_name">שם משפחה<span className="required-star">*</span></label>
                         <InputText id="last_name" name="last_name" value={formData.last_name} onChange={handleChange} className="w-full" />
                         {errors.last_name && <small className="p-error">{errors.last_name}</small>}
                     </div>
 
                     <div className="field">
-                        <label htmlFor="mail">*מייל</label>
+                        <label htmlFor="mail">מייל<span className="required-star">*</span></label>
                         <InputText id="mail" name="mail" value={formData.mail} onChange={handleChange} className="w-full" type="email" style={{ direction: 'ltr' }} />
                         {errors.mail && <small className="p-error">{errors.mail}</small>}
                         {errorMessage && (
@@ -158,7 +158,8 @@ const RegisterPage = (props) => {
                     </div>
 
                     <div className="field">
-                        <label htmlFor="password">סיסמה</label>
+                        <label htmlFor="password">סיסמה<span className="required-star">*</span></label>
+
                         <Password id="password" name="password" value={formData.password} onChange={handleChange} className="w-full" feedback={false} />
                         {errors.password && <small className="p-error">{errors.password}</small>}
                     </div>

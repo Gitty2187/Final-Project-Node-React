@@ -19,7 +19,7 @@ const DiagramaExspenses = (props) => {
             datasets: [
                 {
                     label: 'הוצאות',
-                    data: props.years.map(year => yearSums[year] || 0), // סכום ההוצאות עבור כל שנה
+                    data: props.years.map(year => yearSums[year] || 0), 
                     backgroundColor: randomColor({ count: props.years.length , luminosity: 'light'}),
                    
                     borderWidth: 1
