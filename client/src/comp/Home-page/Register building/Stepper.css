@@ -2,7 +2,7 @@
     max-width: 600px;
     margin: auto;
     direction: rtl;
-    /* white-space: 12; */
+    white-space: 12;
   }
   
   .p-card {

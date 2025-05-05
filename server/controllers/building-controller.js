@@ -71,7 +71,7 @@ const addBuilding = async (req, res) => {
             duplicate = await Building.findOne({ password: randomPass });
         } while (duplicate);
 
-        const building = await Building.create({
+        let building = await Building.create({
             address,
             password: randomPass,
             minimum_apartment_number,
@@ -82,7 +82,8 @@ const addBuilding = async (req, res) => {
             return res.status(500).json({ message: "נכשלה יצירת בניין חדש." });
         }
 
-        building=[...building,{balance:0}]
+        building.balance = 0;
+
 
         let apartmentsNull = [];
         for (let i = 0; i < building.apartments_sum; i++) {

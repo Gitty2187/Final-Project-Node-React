@@ -1,7 +1,7 @@
 const Notice = require("../models/Notice-model");
 
 const add = async (req, res) => {
-    const { title, content } = req.body;
+    const { title, content, endDate} = req.body;
 
     if (!title || !content) {
         return res.status(400).send("Missing required fields: title and content");
@@ -12,7 +12,8 @@ const add = async (req, res) => {
             title,
             content,
             publisher: req.apartment._id,
-            building_id: req.apartment.building_id
+            building_id: req.apartment.building_id,
+            endDate
         });
 
         const populatedNotice = await newNotice.populate('publisher', 'last_name _id');
@@ -42,8 +43,8 @@ const update = async (req, res) => {
             return res.status(403).send("You are not authorized to update this notice");
         }
 
-        if (title) notice.title = title;
-        if (content) notice.content = content;
+        notice.title = title;
+        notice.content = content;
 
         await notice.save();
 
@@ -91,9 +92,12 @@ const getNoticesByBuilding = async (req, res) => {
     const buildingId = apartment.building_id;
 
     try {
-        const notices = await Notice.find({ building_id: buildingId })
-            .populate('publisher', 'last_name _id') 
-            .sort({ createdAt: -1 });
+        const notices = await Notice.find({
+            building_id: buildingId,
+            endDate: { $gte: new Date() } 
+        })
+        .populate('publisher', 'last_name _id')
+        .sort({ createdAt: -1 });
 
         return res.status(200).json(notices);
     } catch (error) {

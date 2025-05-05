@@ -25,9 +25,18 @@ const NoticeSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now,
+  },
+  endDate: {
+    type: Date,
+    default: function() {
+      const newDate = new Date(); 
+      newDate.setDate(newDate.getDate() + 7);
+      return newDate; 
+    }
   }
+  
 }, {
-  timestamps: true 
+  timestamps: true
 });
 
 module.exports = mongoose.model('Notice', NoticeSchema);
