@@ -131,7 +131,7 @@ a:hover {
 /* עיצוב מותאם אישית לדיאלוג של PrimeReact עם גוון מרכזי */
 .p-dialog {
   background: #fff;
-  border-radius: 20px;
+  border-radius: 10px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   direction: rtl;
   /* width: 100%; */
@@ -142,8 +142,8 @@ a:hover {
 .p-dialog .p-dialog-header {
   background: linear-gradient(to right, rgb(209, 187, 155), rgb(179, 157, 122));
   color: white;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   padding: 1rem;
   text-align: center;
   font-size: 1.5rem;

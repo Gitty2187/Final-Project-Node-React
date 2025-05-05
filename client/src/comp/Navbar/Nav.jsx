@@ -105,6 +105,11 @@ const Navbar = () => {
             icon: 'pi pi-home',
             command: () => navigate('/apartment'),
         },
+        {
+            label: 'צור קשר',
+            icon: 'pi pi-comments',
+            command: () => navigate('/Contact-us'),
+        },
         admin && {
             label: 'ניהול',
             icon: 'pi pi-cog',

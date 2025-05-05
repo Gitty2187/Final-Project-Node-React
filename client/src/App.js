@@ -11,6 +11,7 @@ import ToastContainer from './comp/Toast/ToastContainer';
 import RegisterPage from './comp/Home-page/RegisterPage';
 import NoticeList from './comp/Notices/NoticeList'
 import StepperRegistration from './comp/Home-page/Register building/StepperRegistration';
+import ContactUsForm from './comp/ContactUs/ContactUs';
 
 
 function App() {
@@ -26,6 +27,8 @@ function App() {
        <Route path="/manager/expenses" element={<Account/> } />
        <Route path="/register" element={<RegisterPage />} />
        <Route path="/register_building" element={<StepperRegistration />} />
+       <Route path="/Contact-us" element={<ContactUsForm />} />
+       
      </Routes>
     
     </>);
