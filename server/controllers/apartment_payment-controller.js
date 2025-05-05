@@ -48,8 +48,8 @@ const add = async (req, res) => {
 
         await apartment.save();
 
-        const allApartments = await Apartment.find({ building_id: req.admin.building_id, is_active: true }).sort({ number: 1 });
-        return res.status(200).json({ allApartments });
+        // const allApartments = await Apartment.find({ building_id: req.admin.building_id, is_active: true }).sort({ number: 1 });
+        return res.status(200).json({ apartment });
 
     } catch (e) {
         console.error(e);

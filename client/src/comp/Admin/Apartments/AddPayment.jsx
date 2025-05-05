@@ -11,18 +11,21 @@ import { useSelector, useDispatch } from 'react-redux';
 import ToastService from '../../Toast/ToastService';
 import { updateAllApar } from '../../../Store/AllApartment';
 import { RadioButton } from "primereact/radiobutton";
+import { updateBalance } from '../../../Store/BuildingSlice';
 
 
 const AddPayment = (props) => {
     const toast = useRef(null);
     const dispatch = useDispatch();
     const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);
+    const building = useSelector((store) => store.buildingDetails.building);
 
     const option = [
         { name: 'מזומן', key: 'מזומן' },
         { name: 'צק', key: 'צק' }
     ];
     const [payment_method, setPayment_method] = useState(option[1]);
+    const allApartment = useSelector((myStore) => myStore.Allapartments.Allapartments);
 
     const {
         register,
@@ -38,8 +41,8 @@ const AddPayment = (props) => {
                     Authorization: "Bearer " + ACCESS_TOKEN
                 }
             });
-            
-            dispatch(updateAllApar(res.data.allApartments));
+            dispatch(updateAllApar(allApartment.map((n) => (n._id === res.data.apartment._id ? res.data.apartment : n))));
+            dispatch(updateBalance(building.balance+data.sum));
             props.setVisible(false);
             ToastService.show('success', 'הצלחה', 'תשלום נוסף בהצלחה');
         } catch (e) {

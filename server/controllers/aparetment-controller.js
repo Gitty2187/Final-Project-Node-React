@@ -3,6 +3,8 @@ const Building = require("../models/Building-model");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+const Apartment_sum = require("../models/Apartments_sum-model");
+const Expenses = require("../models/Expense-model");
 
 const login = async (req, res) => {
     const { mail, password } = req.body;
@@ -28,6 +30,24 @@ const login = async (req, res) => {
 
         const building = await Building.findById(apartment.building_id).lean();
 
+
+        const income = await Apartment_sum.aggregate([
+            { $match: { building_id: building._id } },
+            { $group: { _id: null, total: { $sum: "$sum" } } }
+        ]);
+
+        const expenses = await Expenses.aggregate([
+            { $match: { building_id: building._id } },
+            { $group: { _id: null, total: { $sum: "$sum" } } }
+        ]);
+
+        const balance =
+            (income.length > 0 ? income[0].total : 0) -
+            (expenses.length > 0 ? expenses[0].total : 0);
+
+        const buildingWithBalance = { ...building, balance };
+
+
         if (!building) {
             return res.status(404).json({ message: "Building not found." });
         }
@@ -37,7 +57,7 @@ const login = async (req, res) => {
 
         const accessToken = jwt.sign(apartment, process.env.ACCESS_TOKEN_SECRET);
 
-        res.status(200).json({ token: accessToken, apartment, building, allApartments });
+        res.status(200).json({ token: accessToken, apartment, building:buildingWithBalance, allApartments });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Server error during login." });

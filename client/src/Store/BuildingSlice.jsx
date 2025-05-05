@@ -10,9 +10,12 @@ const buildingSlice =createSlice({
     reducers:{
         updateBuild:(state,action)=>{
             state.building = action.payload
+        },
+        updateBalance:(state,action)=>{
+            state.building.balance = action.payload
         }
     }
 })
 
-export const {updateBuild} = buildingSlice.actions
+export const {updateBuild,updateBalance} = buildingSlice.actions
 export default buildingSlice.reducer

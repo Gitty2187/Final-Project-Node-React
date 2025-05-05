@@ -5,13 +5,16 @@ import { Button } from 'primereact/button';
 import { InputText } from "primereact/inputtext";
 import { FloatLabel } from "primereact/floatlabel";
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
-import { updateAllApar } from '../../../../Store/AllApartment';
+import { useDispatch, useSelector } from 'react-redux';
 import ToastService from '../../../Toast/ToastService';
+import { updateBalance, updateBuild } from '../../../../Store/BuildingSlice';
 
 
 const AddExpenses = (props) => {
     const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);
+    const building = useSelector((store) => store.buildingDetails.building);
+    const dispatch = useDispatch();
+
 
     const {
         register,
@@ -36,6 +39,8 @@ const AddExpenses = (props) => {
             });
             const updatedExp = [...props.expenses, ...newExp].sort((a, b) => new Date(a.date) - new Date(b.date));
             props.setExpenses(updatedExp);
+            dispatch(updateBalance(building.balance-updatedExp.sum));
+
             props.setVisible(false);
             ToastService.show('success', 'הצלחה', 'הוצאה נוספה בהצלחה', 3000); 
         } catch (e) {

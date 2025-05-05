@@ -1,4 +1,5 @@
 
+import { useSelector } from 'react-redux';
 import Nav from '../../Navbar/Nav';
 import TableExpenses from './Expenses/TableExpenses';
 import TableSums from './Sums/TableSums';
@@ -22,7 +23,9 @@ const Account = () => {
                     </ScrollPanel>
                 </div>
             </div>
+            
         </div>
+        
     </>)
 }
 

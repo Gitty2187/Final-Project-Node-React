@@ -3,7 +3,6 @@ const Expenses = require("../models/Expense-model");
 const add = async (req, res) => {
     const { date, type, sum } = req.body;
 
-    // validation
     if (!date || !type || !sum) {
         return res.status(400).json({ message: "חובה להכניס את כל הפרמטרים הנדרשים." });
     }

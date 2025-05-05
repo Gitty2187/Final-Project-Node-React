@@ -1,5 +1,8 @@
 const Building = require("../models/Building-model");
 const Apartment = require("../models/Apartment-model");
+const Apartment_sum = require("../models/Apartments_sum-model");
+const Expenses = require("../models/Expense-model");
+
 
 const getBuilding = async (req, res) => {
     const { password } = req.body;
@@ -20,6 +23,22 @@ const getBuilding = async (req, res) => {
             apartmentsNull.push(building.minimum_apartment_number + i);
         }
 
+        const income = await Apartment_sum.aggregate([
+            { $match: { building_id: building._id } },
+            { $group: { _id: null, total: { $sum: "$sum" } } }
+        ]);
+
+        const expenses = await Expenses.aggregate([
+            { $match: { building_id: building._id } },
+            { $group: { _id: null, total: { $sum: "$sum" } } }
+        ]);
+
+        const balance = 
+            (income.length > 0 ? income[0].total : 0) - 
+            (expenses.length > 0 ? expenses[0].total : 0);
+
+        const buildingWithBalance = { ...building, balance };
+
         const existingApartmentNumbers = await Apartment.find(
             { building_id: building._id, is_active: true },
             { number: 1 }
@@ -29,7 +48,7 @@ const getBuilding = async (req, res) => {
             a => !existingApartmentNumbers.some(existing => existing.number === a)
         );
 
-        return res.status(200).json({ building, apartmentsNull });
+        return res.status(200).json({ building: buildingWithBalance, apartmentsNull });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "אירעה שגיאה בעת שליפת הבניין." });
@@ -62,6 +81,8 @@ const addBuilding = async (req, res) => {
         if (!building) {
             return res.status(500).json({ message: "נכשלה יצירת בניין חדש." });
         }
+
+        building=[...building,{balance:0}]
 
         let apartmentsNull = [];
         for (let i = 0; i < building.apartments_sum; i++) {
