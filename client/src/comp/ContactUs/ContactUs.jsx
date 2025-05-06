@@ -26,7 +26,7 @@ const ContactUsForm = () => {
             return;
         }
 
-        const fullMessage = `${text}\n\nכתובת מייל לחזרה: ${email}`;
+        const fullMessage = `${text}\n\tכתובת מייל לחזרה: ${email}`;
 
         setLoading(true);
         try {
@@ -82,7 +82,7 @@ const ContactUsForm = () => {
                     <br/><br/>
                     <div className="mb-4">
                         <label htmlFor="email" className="block mb-2">כתובת מייל לחזרה</label>
-                        <InputText id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full" />
+                        <InputText id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full" style={{direction:'ltr'}} />
                     </div>
                     <br/><br/>
                     <Button label="שלח" icon="pi pi-send" onClick={handleSendEmail} loading={loading} className="w-full" />

@@ -15,11 +15,9 @@ import './RegisterPage.css';
 
 const RegisterPage = (props) => {
     const [formData, setFormData] = useState({
-        name: '',
         last_name: '',
         mail: '',
         password: '',
-        area: '',
         floor: '',
         entrance: '',
         accepted: false
@@ -37,11 +35,9 @@ const RegisterPage = (props) => {
 
     const resetForm = () => {
         setFormData({
-            name: '',
             last_name: '',
             mail: '',
             password: '',
-            area: '',
             floor: '',
             entrance: '',
             accepted: false
@@ -52,6 +48,9 @@ const RegisterPage = (props) => {
 
     const handleChange = (e) => {
         const { name, value, checked, type } = e.target;
+        if (name === 'mail') {
+            setErrorMessage('');
+        }
         setFormData(prev => ({
             ...prev,
             [name]: type === 'checkbox' ? checked : value
@@ -61,7 +60,6 @@ const RegisterPage = (props) => {
     const validate = () => {
         let newErrors = {};
         if (!selectedNum) newErrors.number = 'יש לבחור מספר דירה';
-        if (!formData.name) newErrors.name = 'יש להזין שם';
         if (!formData.last_name) newErrors.last_name = 'יש להזין שם משפחה';
         if (!formData.mail) newErrors.mail = 'יש להזין מייל';
         if (!formData.password) newErrors.password = 'יש להזין סיסמה';
@@ -80,7 +78,6 @@ const RegisterPage = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        debugger
         const validationErrors = validate();
         setErrors(validationErrors);
         if (Object.keys(validationErrors).length > 0) return;
@@ -93,13 +90,13 @@ const RegisterPage = (props) => {
         };
 
         try {
-            
+
             const res = await axios.post('http://localhost:7000/apartment', data);
             dispatch(updateApartment(res.data.apartment));
             dispatch(setToken(res.data.token));
             dispatch(updateAllApar(res.data.allApartments));
             props.onSuccess ? props.onSuccess()
-            : confirmSuccess();
+                : confirmSuccess();
         } catch (error) {
             setErrorMessage("המייל שהכנסת כבר קיים במערכת'");
         }
@@ -137,12 +134,6 @@ const RegisterPage = (props) => {
                     </div>
 
                     <div className="field">
-                        <label htmlFor="name">שם<span className="required-star">*</span></label>
-                        <InputText id="name" name="name" value={formData.name} onChange={handleChange} className="w-full" />
-                        {errors.name && <small className="p-error">{errors.name}</small>}
-                    </div>
-
-                    <div className="field">
                         <label htmlFor="last_name">שם משפחה<span className="required-star">*</span></label>
                         <InputText id="last_name" name="last_name" value={formData.last_name} onChange={handleChange} className="w-full" />
                         {errors.last_name && <small className="p-error">{errors.last_name}</small>}
@@ -150,7 +141,7 @@ const RegisterPage = (props) => {
 
                     <div className="field">
                         <label htmlFor="mail">מייל<span className="required-star">*</span></label>
-                        <InputText id="mail" name="mail" value={formData.mail} onChange={handleChange} className="w-full" type="email" style={{ direction: 'ltr'}} />
+                        <InputText id="mail" name="mail" value={formData.mail} onChange={handleChange} className="w-full" type="email" style={{ direction: 'ltr' }} />
                         {errors.mail && <small className="p-error">{errors.mail}</small>}
                         {errorMessage && (
                             <div className="error-message">{errorMessage}</div>
@@ -164,10 +155,6 @@ const RegisterPage = (props) => {
                         {errors.password && <small className="p-error">{errors.password}</small>}
                     </div>
 
-                    <div className="field">
-                        <label htmlFor="area">שטח דירה (מ"ר)</label>
-                        <InputText id="area" name="area" value={formData.area} onChange={handleChange} className="w-full" type="number" />
-                    </div>
 
                     <div className="field">
                         <label htmlFor="floor">קומה</label>
@@ -197,7 +184,7 @@ const RegisterPage = (props) => {
                 onHide={handleDialogHide}
                 content={({ headerRef, contentRef, footerRef, message, hide }) => (
                     <div className="flex flex-column align-items-center p-5 surface-overlay border-round gap-1">
-                        <div className="border-circle bg-primary inline-flex justify-content-center align-items-center h-6rem w-6rem -mt-8">
+                        <div className="border-circle bg-primary inline-flex justify-content-center align-items-center h-6rem w-6rem">
                             <i className="pi pi-check-circle" style={{ fontSize: '2.5rem' }}></i>
                         </div>
                         <span className="font-bold text-2xl block mb-2 mt-4" ref={headerRef}>

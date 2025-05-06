@@ -1,29 +1,33 @@
-.error-message {
-  color: #ff4d4d;
-  background-color: #fff3f3;
-  padding: 10px;
-  border: 1px solid #ff4d4d;
-  border-radius: 4px;
-  margin-bottom: 10px;
-  font-size: 14px;
-  text-align: center;
+/* עוטף את כל המסך וממרכז את התוכן */
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+  padding: 1rem;
+  box-sizing: border-box;
+  /* margin: 20px; */
 }
 
+/* הטופס עצמו */
 .login-form {
   background-color: rgb(225, 225, 225);
+  width: 100%;
+  /* max-width: 1200px; */
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
 }
 
-.login-divider {
-  padding: 0;
-  background-color: rgb(225, 225, 225);
+/* למובייל – מערך אנכי */
+@media (max-width: 768px) {
+  .login-form .flex {
+    flex-direction: column !important;
+  }
+
+  .login-divider {
+    display: none !important;
+  }
 }
-
-.login-icon {
-  font-size: 1.5rem;
-  background-color: rgb(225, 225, 225);
-  padding: 0;
-  padding-top: 0%;
-}
-
-
-

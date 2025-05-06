@@ -33,8 +33,8 @@ const getBuilding = async (req, res) => {
             { $group: { _id: null, total: { $sum: "$sum" } } }
         ]);
 
-        const balance = 
-            (income.length > 0 ? income[0].total : 0) - 
+        const balance =
+            (income.length > 0 ? income[0].total : 0) -
             (expenses.length > 0 ? expenses[0].total : 0);
 
         const buildingWithBalance = { ...building, balance };
@@ -82,8 +82,8 @@ const addBuilding = async (req, res) => {
             return res.status(500).json({ message: "נכשלה יצירת בניין חדש." });
         }
 
-        building.balance = 0;
-
+        const balance = 0;
+        const buildingWithBalance = { ...building.toObject?.(), balance }; // במידה ו-building מגיע ממונגו
 
         let apartmentsNull = [];
         for (let i = 0; i < building.apartments_sum; i++) {
@@ -99,7 +99,7 @@ const addBuilding = async (req, res) => {
             a => !existingApartmentNumbers.some(existing => existing.number === a)
         );
 
-        return res.status(201).json({ building, apartmentsNull });
+        return res.status(201).json({ building: buildingWithBalance, apartmentsNull });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "אירעה שגיאה בעת הוספת בניין חדש." });

@@ -10,6 +10,7 @@ import {
     PDFDownloadLink,
 } from '@react-pdf/renderer';
 import { useSelector } from 'react-redux';
+import { Button } from 'primereact/button';
 
 // רישום פונט בעברית
 try {
@@ -86,7 +87,7 @@ const PdfFormGenerator = () => {
                     console.error('❌ שגיאה בהפקת PDF:', error);
                     return 'שגיאה ביצירת PDF';
                 }
-                return loading ? '📦 יוצר קובץ...' : '⬇️ הורד מכתב לדיירים';
+                return <div style={{width:'100%'}}><Button style={{float:'left'}}>{loading ? '📦 יוצר קובץ...' : '⬇️ הורד מכתב לדיירים'}</Button></div>
             }}
         </PDFDownloadLink>
     );

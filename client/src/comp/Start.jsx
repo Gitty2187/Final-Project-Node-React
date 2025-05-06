@@ -6,8 +6,8 @@ const Start = () => {
 
     useEffect(() => {
         apartment ? 
-        window.location.href = "http://localhost:3000/apartment" :
-        window.location.href = "http://localhost:3000/login"
+        window.location.href = "/apartment" :
+        window.location.href = "/login"
     }, []);
 
     return (

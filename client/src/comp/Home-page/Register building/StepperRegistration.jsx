@@ -133,7 +133,7 @@ const StepperRegistration = () => {
           <div>
             <div className="dialog-copy-container">
               <p className="dialog-copy-label">קוד הבניין שלך לכניסת דיירים חדשים:</p>
-              <div className="dialog-copy-row">
+              <div className="dialog-copy-row" style={{textAlign:'center'}}>
                 <Button
                   icon="pi pi-copy"
                   severity="info"
@@ -143,10 +143,10 @@ const StepperRegistration = () => {
                   onClick={copyToClipboard}
                 />
                 <span className="dialog-copy-code">{buildingData.building?.password}</span>
+                <br/>
                 <PdfFormGenerator building={buildingData.building}/>
               </div>
-              <br />
-              <br />
+              <br /><br /><br />
               
               <Button
                 label="מעבר לאתר"
@@ -154,7 +154,9 @@ const StepperRegistration = () => {
                 className="w-12rem"
                 icon="pi pi-angle-double-left"
                 iconPos="right"
+                style={{float:'left'}}
               />
+              <br/>
             </div>
           </div>
         );
@@ -180,7 +182,7 @@ const StepperRegistration = () => {
           <span /> 
         )}
 
-        {activeIndex < steps.length - 1 ? (
+        {activeIndex === 0 ? (
           <Button
             label="הבא"
             icon="pi pi-angle-left"

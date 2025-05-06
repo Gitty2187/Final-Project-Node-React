@@ -111,8 +111,8 @@ const sendApartmentEmail = async (req, res) => {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'y0504169427@gmail.com',
-                pass: 'qyzwcvhjelxgtslj'
+                user: 'yourhomecontrol2025@gmail.com',
+                pass: process.env.MAIL_PASSWORD
             }
         });
 

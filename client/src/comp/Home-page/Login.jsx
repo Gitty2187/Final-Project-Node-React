@@ -79,97 +79,99 @@ const Login = () => {
 
     return (
         <>
-            <form onSubmit={handleSubmit(onSubmit)} className="login-form">
-                <div className="flex flex-column md:flex-row">
-                    <div className="w-full md:w-5 flex flex-column align-items-center justify-content-center gap-4 py-5">
-                        <FloatLabel>
-                            <InputText
-                                id="building_id"
-                                value={password}
-                                onChange={handleBuildingPassChange}
+            <div className="login-wrapper">
+                <form onSubmit={handleSubmit(onSubmit)} className="login-form">
+                    <div className="flex flex-column md:flex-row">
+                        <div className="w-full md:w-5 flex flex-column align-items-center justify-content-center gap-4 py-5">
+                            <FloatLabel>
+                                <InputText
+                                    id="building_id"
+                                    value={password}
+                                    onChange={handleBuildingPassChange}
+                                />
+                                <label htmlFor="building_id">סיסמא של הבנין</label>
+                            </FloatLabel>
+                            {errorMessageRegister && (
+                                <div className="error-message">{errorMessageRegister}</div>
+                            )}
+                            <Button
+                                label="רישום דייר חדש"
+                                icon="pi pi-user-plus"
+                                className="w-12rem mx-auto"
+                                onClick={check_building_password}
+                                severity="secondary"
+                            // type="button"
                             />
-                            <label htmlFor="building_id">סיסמא של הבנין</label>
-                        </FloatLabel>
-                        {errorMessageRegister && (
-                            <div className="error-message">{errorMessageRegister}</div>
-                        )}
-                        <Button
-                            label="רישום דייר חדש"
-                            icon="pi pi-user-plus"
-                            className="w-12rem mx-auto"
-                            onClick={check_building_password}
-                            severity="secondary"
-                        // type="button"
-                        />
 
-                    </div>
+                        </div>
 
-                    <div className="w-full md:w-2">
-                        <Divider layout="vertical" className="hidden md:flex login-divider">
-                            <i className="pi pi-arrow-right-arrow-left login-icon"></i>
-                        </Divider>
+                        <div className="w-full md:w-2">
+                            <Divider layout="vertical" className="hidden md:flex login-divider">
+                                <i className="pi pi-arrow-right-arrow-left login-icon"></i>
+                            </Divider>
 
-                        <Divider layout="horizontal" className="flex md:hidden" align="center">
-                            <i className="pi pi-arrow-right-arrow-left" style={{ fontSize: '1.5rem' }}></i>
-                        </Divider>
-                    </div>
+                            <Divider layout="horizontal" className="flex md:hidden" align="center">
+                                <i className="pi pi-arrow-right-arrow-left" style={{ fontSize: '1.5rem' }}></i>
+                            </Divider>
+                        </div>
 
-                    <div className="w-full md:w-5 flex flex-column align-items-center justify-content-center gap-4 py-5">
-                        <Image src="/logo.png" alt="Image" width="250px" align="center" />
-                        <Button
-                            label="רישום בנין חדש"
-                            icon="pi pi-building"
-                            onClick={() => navigate("/register_building")}
-                            severity="secondary"
-                            className='Button-building'
-                        />
-                    </div>
-
-                    <div className="w-full md:w-2">
-                        <Divider layout="vertical" className="hidden md:flex login-divider">
-                            <i className="pi pi-arrow-right-arrow-left login-icon"></i>
-                        </Divider>
-
-                        <Divider layout="horizontal" className="flex md:hidden" align="center">
-                            <i className="pi pi-arrow-right-arrow-left" style={{ fontSize: '1.5rem' }}></i>
-                        </Divider>
-                    </div>
-
-                    <div className="w-full md:w-5 flex flex-column align-items-center justify-content-center gap-4 py-5">
-                        <FloatLabel>
-                            <InputText
-                                id="mail"
-                                type="email"
-                                {...register("mail", { required: true })}
-                                onChange={(e) => handleInputChange("mail", e.target.value)}
-                                style={{ direction: 'ltr' }}
+                        <div className="w-full md:w-5 flex flex-column align-items-center justify-content-center gap-4 py-5">
+                            <Image src="/logo.png" alt="Image" width="250px" align="center" />
+                            <Button
+                                label="רישום בנין חדש"
+                                icon="pi pi-building"
+                                onClick={() => navigate("/register_building")}
+                                severity="secondary"
+                                className='Button-building'
                             />
-                            <label htmlFor="mail">מייל</label>
-                        </FloatLabel>
+                        </div>
 
-                        <FloatLabel>
-                            <InputText
-                                id="password"
-                                type="password"
-                                {...register("password", { required: true })}
-                                onChange={(e) => handleInputChange("password", e.target.value)}
+                        <div className="w-full md:w-2">
+                            <Divider layout="vertical" className="hidden md:flex login-divider">
+                                <i className="pi pi-arrow-right-arrow-left login-icon"></i>
+                            </Divider>
+
+                            <Divider layout="horizontal" className="flex md:hidden" align="center">
+                                <i className="pi pi-arrow-right-arrow-left" style={{ fontSize: '1.5rem' }}></i>
+                            </Divider>
+                        </div>
+
+                        <div className="w-full md:w-5 flex flex-column align-items-center justify-content-center gap-4 py-5">
+                            <FloatLabel>
+                                <InputText
+                                    id="mail"
+                                    type="email"
+                                    {...register("mail", { required: true })}
+                                    onChange={(e) => handleInputChange("mail", e.target.value)}
+                                    style={{ direction: 'ltr' }}
+                                />
+                                <label htmlFor="mail">מייל</label>
+                            </FloatLabel>
+
+                            <FloatLabel>
+                                <InputText
+                                    id="password"
+                                    type="password"
+                                    {...register("password", { required: true })}
+                                    onChange={(e) => handleInputChange("password", e.target.value)}
+                                />
+                                <label htmlFor="password">סיסמא</label>
+                            </FloatLabel>
+
+                            {errorMessage && (
+                                <div className="error-message-login">{errorMessage}</div>
+                            )}
+                            <Button
+                                label="כניסת דייר רשום"
+                                icon="pi pi-user"
+                                className="w-12rem mx-auto"
+                                type="submit"
+                                severity="secondary"
                             />
-                            <label htmlFor="password">סיסמא</label>
-                        </FloatLabel>
-
-                        {errorMessage && (
-                            <div className="error-message">{errorMessage}</div>
-                        )}
-                        <Button
-                            label="כניסת דייר רשום"
-                            icon="pi pi-user"
-                            className="w-12rem mx-auto"
-                            type="submit"
-                            severity="secondary"
-                        />
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </>
     );
 }

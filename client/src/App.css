@@ -221,4 +221,18 @@ a:hover {
   border-color: rgb(179, 159, 125) !important;
 }
 
+.custom-balance-button.positive {
+  color: green !important;
+  border: 2px solid green !important;
+  background-color: white !important;
+  font-weight: bold;
+}
+
+.custom-balance-button.negative {
+  color: red !important;
+  border: 2px solid red !important;
+  background-color: white !important;
+  font-weight: bold;
+}
+
 
