@@ -1,0 +1,18 @@
+.table-container {
+    border: 1px solid #ccc; /* Frame around the table */
+    border-radius: 8px; /* Rounded corners */
+    padding: 16px; /* Space inside the border */
+    background-color: #f9f9f9; /* Light background color */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    width: 50%;
+}
+
+.table-wrapper {
+    overflow-x: auto; 
+}
+
+h2 {
+    margin-bottom: 10px; /* Space between title and table */
+    font-size: 1.5em; /* Adjust title size */
+    color: #333; /* Title color */
+}

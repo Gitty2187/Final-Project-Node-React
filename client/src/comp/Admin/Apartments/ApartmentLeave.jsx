@@ -3,6 +3,7 @@ import ToastService from "../../Toast/ToastService";
 import { useDispatch, useSelector } from "react-redux";
 import { updateApartment } from "../../../Store/ApartmentSlice";
 import { useEffect } from "react";
+import { updateAllApar } from "../../../Store/AllApartment";
 
 const Leave = (props) => {
     const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);
@@ -21,8 +22,8 @@ const Leave = (props) => {
             });
             if (res.status < 400) {
                 const updateAllApartments = allApartment.filter(a => a._id != props.apartment_id[0])
-                dispatch(updateApartment(updateAllApartments));
-                ToastService.show('success', 'הצלחה', 'משפחת ' + props.lastName + " עזבה", 3000);
+                dispatch(updateAllApar(updateAllApartments));
+                ToastService.show('success', 'הצלחה', 'המשפחה עזבה', 3000);
             }
             else {
                 ToastService.show('error', ' 400 שגיאה', "", 3000);

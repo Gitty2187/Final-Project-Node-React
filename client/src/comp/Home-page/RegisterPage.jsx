@@ -150,7 +150,7 @@ const RegisterPage = (props) => {
 
                     <div className="field">
                         <label htmlFor="mail">מייל<span className="required-star">*</span></label>
-                        <InputText id="mail" name="mail" value={formData.mail} onChange={handleChange} className="w-full" type="email" style={{ direction: 'ltr' }} />
+                        <InputText id="mail" name="mail" value={formData.mail} onChange={handleChange} className="w-full" type="email" style={{ direction: 'ltr'}} />
                         {errors.mail && <small className="p-error">{errors.mail}</small>}
                         {errorMessage && (
                             <div className="error-message">{errorMessage}</div>

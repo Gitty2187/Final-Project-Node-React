@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateAllApar } from '../../../../Store/AllApartment';
 import ToastService from '../../../Toast/ToastService';
+import { updateApartment } from '../../../../Store/ApartmentSlice';
 
 
 const AddSums = (props) => {
@@ -16,6 +17,8 @@ const AddSums = (props) => {
     const dispatch = useDispatch();
     const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);
     const header = props.is_general ? "הוספת תשלום לכלל הדיירים" : "הוספת תשלום לדייר"
+    const apartment = useSelector((myStore) => myStore.apartmentDetails.apartment);
+
     const {
         register,
         handleSubmit,
@@ -42,9 +45,12 @@ const AddSums = (props) => {
 
             props.setSums &&  props.setSums([...props.sums, ...newSum].sort((a, b) => new Date(a.date) - new Date(b.date)));
             dispatch(updateAllApar(res.data.allApartments));
+            const updateApartment1 = res.data.allApartments.filter(a => a._id == apartment._id)
+            dispatch(updateApartment(updateApartment1[0]));            
             props.setVisible(false);
             ToastService.show('success', 'הצלחה', 'תשלום נוסף בהצלחה');
         } catch (e) {
+            console.log(e);
             ToastService.show('error', 'שגיאה', 'נכשל בהוספת התשלום');
         }
     }

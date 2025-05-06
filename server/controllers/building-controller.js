@@ -15,7 +15,7 @@ const getBuilding = async (req, res) => {
         const building = await Building.findOne({ password: password }).lean();
 
         if (!building) {
-            return res.status(404).json({ message: "הבניין לא קיים." });
+            return res.status(401).json({ message: "הבניין לא קיים." });
         }
 
         let apartmentsNull = [];

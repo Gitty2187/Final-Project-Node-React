@@ -123,7 +123,7 @@ const Table = () => {
 
     return (
         <>
-            <DataTable value={filteredSums} tableStyle={{ maxWidth: '50rem', direction: "rtl" }} footerColumnGroup={footerGroup}
+            <DataTable value={filteredSums} tableStyle={{ direction: "rtl" }} footerColumnGroup={footerGroup}
                 dataKey="id" filters={filters} filterDisplay="row" loading={loading} emptyMessage="אין נתונים זמינים להציג"
                 virtualScrollerOptions={{ itemSize: 46 }} >
                 <Column style={{ textAlign: "right", width: "16rem" }} field="date" header="תאריך"
