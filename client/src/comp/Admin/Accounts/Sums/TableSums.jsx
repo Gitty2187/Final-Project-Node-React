@@ -88,7 +88,7 @@ const Table = () => {
     const footerGroup = (
         <ColumnGroup>
             <Row>
-                <Column footer="סך כל התשלומים:" colSpan={4} footerStyle={{ textAlign: 'right' }} />
+                <Column footer="סך כל התשלומים:" colSpan={3} footerStyle={{ textAlign: 'right' }} />
                 <Column footer={sumTotal()} footerStyle={{ textAlign: 'right' }} />
             </Row>
         </ColumnGroup>
@@ -128,11 +128,17 @@ const Table = () => {
                 virtualScrollerOptions={{ itemSize: 46 }} >
                 <Column style={{ textAlign: "right", width: "16rem" }} field="date" header="תאריך"
                     showFilterMenu={false} filter filterElement={dateFilterElement} ></Column>
-                <Column style={{ textAlign: "right", width: "16rem" }} field="type" header="סוג"></Column>
-                <Column style={{ textAlign: "right", width: "16rem" }} field="comment" header="הערה"></Column>
+                <Column style={{ textAlign: "right", width: "16rem" }} field="type" header="עבור"></Column>
                 <Column style={{ textAlign: "right", width: "16rem" }} field="admin_last_name" header="בוצע על ידי"
                     showFilterMenu={false} filter filterElement={adminLastNameFilter} ></Column>
-                <Column style={{ textAlign: "right", width: "16rem" }} field="sum" header="סכום"></Column>
+                <Column
+                    style={{ textAlign: "right", width: "16rem" }}
+                    field="sum"
+                    header="סכום"
+                    body={(rowData) => `${rowData.sum} ש"ח`}
+                />
+                <Column style={{ textAlign: "right", width: "16rem" }} field="comment" header="הערה"></Column>
+
             </DataTable>
             <br />
             {apartment?.is_admin && <Button label="הוספת תשלום לכל הדיירים" rounded style={{ marginLeft: '15px' }} icon="pi pi-plus" onClick={() => { setVisible(true) }} />}

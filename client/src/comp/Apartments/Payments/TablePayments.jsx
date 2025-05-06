@@ -83,7 +83,7 @@ const TablePayments = () => {
     const footerGroup = (
         <ColumnGroup>
             <Row>
-                <Column footer="סך כל התשלומים:" colSpan={4} footerStyle={{ textAlign: 'right' }} />
+                <Column footer="סך כל התשלומים:" colSpan={3} footerStyle={{ textAlign: 'right' }} />
                 <Column footer={sumTotal()} footerStyle={{ textAlign: 'right' }} />
             </Row>
         </ColumnGroup>
@@ -124,10 +124,16 @@ const TablePayments = () => {
                     <Column style={{ textAlign: "right", width: "16rem" }} field="date" header="תאריך"
                         showFilterMenu={false} filter filterElement={dateFilterElement}></Column>
                     <Column style={{ textAlign: "right", width: "16rem" }} field="payment_method" header="אופן התשלום"></Column>
-                    <Column style={{ textAlign: "right", width: "16rem" }} field="comment" header="הערה"></Column>
                     <Column style={{ textAlign: "right", width: "16rem" }} field="admin_last_name" header="בוצע על ידי"
                         showFilterMenu={false} filter filterElement={adminLastNameFilter} showClear></Column>
-                    <Column style={{ textAlign: "right", width: "16rem" }} field="sum" header="סכום"></Column>
+                    <Column
+                        style={{ textAlign: "right", width: "16rem" }}
+                        field="sum"
+                        header="סכום"
+                        body={(rowData) => `${rowData.sum} ש"ח`}
+                    />
+                    <Column style={{ textAlign: "right", width: "16rem" }} field="comment" header="הערה"></Column>
+
                 </DataTable>
             </div>
             <br />

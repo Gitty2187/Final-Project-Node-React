@@ -52,10 +52,10 @@ const SendMail = (props) => {
             setSubject('תזכורת תשלום לדירה');
         }
         if (props.lastName) {
-            setText(`שלום ${props.lastName}<br/>חובך לועד הוא <b>${props.balance}</b> ש"ח. נא להעביר את התשלום בהקדם.`);
+            setText(`שלום ${props.lastName}<br/>חובך לועד הוא <b>${props.debt}</b> ש"ח. נא להעביר את התשלום בהקדם.`);
         }
         setTo(props.selectedApartmentMail);
-    }, [props.balance, props.lastName, props.selectedApartmentMail]);
+    }, [props.debt, props.lastName, props.selectedApartmentMail]);
 
     return (
         <div>

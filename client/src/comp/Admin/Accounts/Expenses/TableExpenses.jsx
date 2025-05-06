@@ -89,7 +89,7 @@ const Table = () => {
     const footerGroup = (
         <ColumnGroup>
             <Row>
-                <Column footer="סך כל ההוצאות:" colSpan={4} footerStyle={{ textAlign: 'right' }} />
+                <Column footer="סך כל ההוצאות:" colSpan={3} footerStyle={{ textAlign: 'right' }} />
                 <Column footer={sumTotal()} footerStyle={{ textAlign: 'right' }} />
             </Row>
         </ColumnGroup>
@@ -127,11 +127,17 @@ const Table = () => {
                     virtualScrollerOptions={{ itemSize: 10 }} >
                     <Column style={{ textAlign: "right", width: "16rem" }} field="date" header="תאריך"
                         showFilterMenu={false} filter filterElement={dateFilterElement}></Column>
-                    <Column style={{ textAlign: "right", width: "16rem" }} field="type" header="סוג"></Column>
-                    <Column style={{ textAlign: "right", width: "16rem" }} field="comment" header="הערה"></Column>
+                    <Column style={{ textAlign: "right", width: "16rem" }} field="type" header="עבור"></Column>
                     <Column style={{ textAlign: "right", width: "16rem" }} field="admin_last_name" header="בוצע על ידי"
                         showFilterMenu={false} filter filterElement={adminLastNameFilter} showClear></Column>
-                    <Column style={{ textAlign: "right", width: "16rem" }} field="sum" header="סכום"></Column>
+                    <Column
+                        style={{ textAlign: "right", width: "16rem" }}
+                        field="sum"
+                        header="סכום"
+                        body={(rowData) => `${rowData.sum} ש"ח`}
+                    />
+                    <Column style={{ textAlign: "right", width: "16rem" }} field="comment" header="הערה"></Column>
+
                 </DataTable>
             case 1:
                 return <DiagramaExspenses expenses={expenses} years={unique_years_to_filter} />;

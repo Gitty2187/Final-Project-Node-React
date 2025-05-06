@@ -52,7 +52,7 @@ const ApartmentSchema = new Schema({
         type:Boolean,
         default:true
     },
-    balance:{
+    debt:{
         type:Number,
         default:0
     }

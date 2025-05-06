@@ -40,17 +40,17 @@ const add = async (req, res) => {
                 continue;
             }
 
-            if (apartment.balance < 0) {
-                if ((-apartment.balance) > apartment_sum.sum) {
+            if (apartment.debt < 0) {
+                if ((-apartment.debt) > apartment_sum.sum) {
                     paid = apartment_sum.sum;
                 } else {
-                    paid = -apartment.balance;
+                    paid = -apartment.debt;
                 }
             } else {
                 paid = 0;
             }
 
-            apartment.balance += apartment_sum.sum;
+            apartment.debt += apartment_sum.sum;
             await apartment.save();
 
             const sum_one = await Apartment_sum_one.create({

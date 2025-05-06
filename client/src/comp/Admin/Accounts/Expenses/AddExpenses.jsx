@@ -7,7 +7,7 @@ import { FloatLabel } from "primereact/floatlabel";
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import ToastService from '../../../Toast/ToastService';
-import { updateBalance, updateBuild } from '../../../../Store/BuildingSlice';
+import { updateBalance } from '../../../../Store/BuildingSlice';
 
 
 const AddExpenses = (props) => {
@@ -61,7 +61,7 @@ const AddExpenses = (props) => {
                         <br />
                         <FloatLabel>
                             <InputText id="type" {...register("type", { required: true })} />
-                            <label htmlFor="type">סוג</label>
+                            <label htmlFor="type">עבור</label>
                         </FloatLabel>
                         <FloatLabel>
                             <InputText id="date" type="date" {...register("date", { required: true })} style={{ width: '15.5rem' }} />

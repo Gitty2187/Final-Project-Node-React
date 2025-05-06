@@ -5,19 +5,18 @@ const Apartment_sum_one = require("../models/Apartment_sum_one-model")
 const add = async (req, res) => {
     const { apartment_id, date, sum, comment, payment_method } = req.body
 
-    if (!apartment_id || !date || !sum || !payment_method) {
-        return res.status(400).json({ message: "חובה להזין את כל הפרמטרים הדרושים" });
-    }
+    if (!apartment_id || !date || !sum || !payment_method)
+        return res.status(401).send("must insert required params")
 
     try {
-        const payment = await Apartment_Payment.create({ 
-            admin_id: req.admin._id, 
-            date, 
-            sum, 
-            comment, 
-            apartment_id, 
-            payment_method, 
-            admin_last_name: req.admin.last_name 
+        const payment = await Apartment_Payment.create({
+            admin_id: req.admin._id,
+            date,
+            sum,
+            comment,
+            apartment_id,
+            payment_method,
+            admin_last_name: req.admin.last_name
         });
 
         let apartment = await Apartment.findById(apartment_id).exec();
@@ -25,27 +24,23 @@ const add = async (req, res) => {
             return res.status(404).json({ message: "הדירה לא נמצאה" });
         }
 
-        apartment.balance = apartment.balance - payment.sum;
-
-        if (apartment.balance > 0) {
-            const debts = await Apartment_sum_one.find({ apartment_id: apartment_id }).sort({ date: 1 });
-
+        apartment.debt = apartment.debt - payment.sum;
+        let sumPay = payment.sum;
+            const debts = await Apartment_sum_one.find({ apartment: apartment_id }).populate('apartment_sum', 'sum').sort({ date: 1 });
             for (const d of debts) {
-                if (d.paid < d.sum) {
-                    const remainingDebt = d.sum - d.paid;
-                    if (remainingDebt <= apartment.balance) {
-                        apartment.balance -= remainingDebt;
-                        d.paid = d.sum;
+                if (d.paid < d.apartment_sum.sum) {
+                    const remainingDebt = d.apartment_sum.sum - d.paid;
+                    if (remainingDebt <= sumPay) {
+                        sumPay -=  remainingDebt;
+                        d.paid = d.apartment_sum.sum;
                     } else {
-                        d.paid += apartment.balance;
-                        apartment.balance = 0;
+                        d.paid += sumPay;
+                        sumPay = 0;
                     }
                     await d.save();
-                    if (apartment.balance === 0) break;
+                    if (sumPay === 0) break;
                 }
             }
-        }
-
         await apartment.save();
 
         // const allApartments = await Apartment.find({ building_id: req.admin.building_id, is_active: true }).sort({ number: 1 });

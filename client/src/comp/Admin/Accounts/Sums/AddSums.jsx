@@ -61,7 +61,7 @@ const AddSums = (props) => {
                     <div className="flex flex-column px-8 py-1 gap-4">
                         <FloatLabel>
                             <InputText id="type" {...register("type", { required: true })} />
-                            <label htmlFor="type">סוג</label>
+                            <label htmlFor="type">עבור</label>
                         </FloatLabel>
                         <FloatLabel>
                             <InputText id="date" type="date" {...register("date", { required: true })} style={{ width: '15.5rem' }} />

@@ -87,7 +87,7 @@ const ApartmentSumTable = () => {
     const footerGroup = (
         <ColumnGroup>
             <Row>
-                <Column footer=" סכום שנותר לתשלום:" colSpan={5} footerStyle={{ textAlign: 'right' }} />
+                <Column footer=" סכום שנותר לתשלום:" colSpan={4} footerStyle={{ textAlign: 'right' }} />
                 <Column footer={filteredsums.reduce((total, sums) => total + calculateRemainingAmount(sums.paymentDetails.sum, sums.amountPaid), 0)} footerStyle={{ textAlign: 'right' }} />
             </Row>
         </ColumnGroup>
@@ -121,11 +121,15 @@ const ApartmentSumTable = () => {
                     virtualScrollerOptions={{ itemSize: 10 }} >
                     <Column style={{ textAlign: "right", width: "16rem" }} field="paymentDetails.date" header="תאריך"
                         showFilterMenu={false} filter filterElement={dateFilterElement}></Column>
-                    <Column style={{ textAlign: "right", width: "16rem" }} field="paymentDetails.type" header="סוג"></Column>
-                    <Column style={{ textAlign: "right", width: "16rem" }} field="paymentDetails.comment" header="הערה"></Column>
+                    <Column style={{ textAlign: "right", width: "16rem" }} field="paymentDetails.type" header="עבור"></Column>
                     <Column style={{ textAlign: "right", width: "16rem" }} field="paymentDetails.admin_last_name" header="בוצע על ידי"
                         showFilterMenu={false} filter filterElement={adminLastNameFilter} showClear></Column>
-                    <Column style={{ textAlign: "right", width: "16rem" }} field="paymentDetails.sum" header="סכום"></Column>
+                    <Column
+                        style={{ textAlign: "right", width: "16rem" }}
+                        field="paymentDetails.sum"
+                        header="סכום"
+                        body={(rowData) => `${rowData.paymentDetails.sum} ש"ח`}
+                    />
                     <Column style={{ textAlign: "right", width: "16rem" }} header="סכום הנותר לתשלום"
                         body={(rowData) => {
                             const remainingAmount = calculateRemainingAmount(rowData.paymentDetails.sum, rowData.amountPaid);
@@ -136,6 +140,8 @@ const ApartmentSumTable = () => {
                             );
                         }}>
                     </Column>
+                    <Column style={{ textAlign: "right", width: "16rem" }} field="paymentDetails.comment" header="הערה"></Column>
+
                 </DataTable>
             </div>
             <br />

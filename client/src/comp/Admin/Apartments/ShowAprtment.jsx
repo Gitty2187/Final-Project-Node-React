@@ -19,14 +19,14 @@ const ShowApartment = () => {
     const [selectedApartmentId, setSelectedApartmentId] = useState(null);
     const [selectedApartmentMail, setSelectedApartmentMail] = useState(null);
     const [selectedApartmentLastName, setSelectedApartmenLastName] = useState(null);
-    const [selectedApartmentBalance, setSelectedApartmenBalance] = useState(null);
+    const [selectedApartmentdebt, setSelectedApartmendebt] = useState(null);
     const [sendMail, setSendMail] = useState(false);
     const [sendMailAllApartmentnts, setSendMailAllApartmentnts] = useState(false);
 
 
 
-    const getSeverity = (balance) => {
-        return balance < 0 ? 'success' : 'danger';
+    const getSeverity = (debt) => {
+        return debt < 0 ? 'success' : 'danger';
     };
 
     const itemTemplate = (data) => {
@@ -84,7 +84,7 @@ const ShowApartment = () => {
                                     return apartments.mail
                                 })}
                             />}
-                        {sendMail && <SendMail sendMail={sendMail} setSendMail={setSendMail} selectedApartmentMail={selectedApartmentMail} lastName={selectedApartmentLastName} balance={selectedApartmentBalance} />}
+                        {sendMail && <SendMail sendMail={sendMail} setSendMail={setSendMail} selectedApartmentMail={selectedApartmentMail} lastName={selectedApartmentLastName} debt={selectedApartmentdebt} />}
                         {visibleLeft && <Leave apartment_id={[selectedApartmentId]} lastName={selectedApartmentLastName} />}
                         {visible && <AddSums visible={visible} setVisible={setVisible} is_general={false} apartments_id={[selectedApartmentId]} />}
                         {visibleSum && <AddPayment visible={visibleSum} setVisible={setVisibleSum} apartment_id={[selectedApartmentId]} />}
@@ -99,13 +99,13 @@ const ShowApartment = () => {
                                 onClick={() => {
                                     setSelectedApartmentMail(data.mail);
                                     setSelectedApartmenLastName(data.last_name);
-                                    setSelectedApartmenBalance(data.balance);
+                                    setSelectedApartmendebt(data.debt);
                                     setSendMail(true);
                                 }}
                             />
                             <div></div>
                         </div>
-                        <Tag value={data.balance < 0 ? `יתרה: ${data.balance} ש"ח` : `חוב: ${Math.abs(data.balance)} ש"ח`} severity={getSeverity(data.balance)} style={{ width: '10rem', fontSize: '1.3rem' }}></Tag>
+                        <Tag value={data.debt < 0 ? `יתרה: ${data.debt} ש"ח` : `חוב: ${Math.abs(data.debt)} ש"ח`} severity={getSeverity(data.debt)} style={{ width: '10rem', fontSize: '1.3rem' }}></Tag>
                     </div>
                 </div>
             </div>
