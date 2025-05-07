@@ -1,7 +1,6 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
-// const Apartment_sum = require('./Apartments_sum-model')
 
 const Apartments_sum_oneSchema = new Schema({
     apartment_sum: {

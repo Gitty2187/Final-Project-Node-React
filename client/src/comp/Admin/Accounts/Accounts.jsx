@@ -13,7 +13,7 @@ const Account = () => {
             <Nav />
             <div className="card scrollpanel-demo">
                 <Button
-                    className={`custom-balance-button ${building?.balance > 0 ? 'negative' : 'positive'}`}
+                    className={`custom-balance-button ${building?.balance < 0 ? 'negative' : 'positive'}`}
                     style={{
                         width: '100%',
                         marginBottom: '2rem',
@@ -27,7 +27,7 @@ const Account = () => {
                     }}
                 >
                     <span>
-                        {building?.balance > 0 ? '❌ חוב' : '✅ יתרה'}: {building?.balance} ₪
+                        {building?.balance < 0 ? '❌ חוב' : '✅ יתרה'}: {building?.balance} ₪
                     </span>
                 </Button>
 

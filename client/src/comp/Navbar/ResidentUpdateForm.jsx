@@ -25,7 +25,6 @@ const ResidentUpdateForm = ({ visible, onHide }) => {
     } = useForm({
         defaultValues: {
             last_name: apartment?.last_name || '',
-            area: typeof apartment?.area === 'number' ? apartment?.area : '',
             floor: typeof apartment?.floor === 'number' ? apartment?.floor : '',
             entrance: apartment?.entrance || ''
         }
@@ -87,16 +86,6 @@ const ResidentUpdateForm = ({ visible, onHide }) => {
                     {errors.last_name && <small className="p-error">{errors.last_name.message}</small>}
                 </div>
 
-                <div className="field">
-                    <label htmlFor="area">שטח הדירה (מ"ר)</label>
-                    <Controller
-                        name="area"
-                        control={control}
-                        render={({ field }) => (
-                            <InputText id="area" {...field} />
-                        )}
-                    />
-                </div>
 
                 <div className="field">
                     <label htmlFor="floor">קומה</label>

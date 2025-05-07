@@ -39,9 +39,7 @@ const ApartmentSchema = new Schema({
         type:Boolean,
         default:false
     },
-    area:{
-        type:Number
-    },
+  
     floor:{
         type:Number
     },

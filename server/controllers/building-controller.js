@@ -1,6 +1,6 @@
 const Building = require("../models/Building-model");
 const Apartment = require("../models/Apartment-model");
-const Apartment_sum = require("../models/Apartments_sum-model");
+const Apartments_sum_one = require("../models/Apartment_sum_one-model");
 const Expenses = require("../models/Expense-model");
 
 
@@ -23,10 +23,21 @@ const getBuilding = async (req, res) => {
             apartmentsNull.push(building.minimum_apartment_number + i);
         }
 
-        const income = await Apartment_sum.aggregate([
-            { $match: { building_id: building._id } },
-            { $group: { _id: null, total: { $sum: "$sum" } } }
-        ]);
+        const income = await Apartments_sum_one.find()
+        .populate({
+            path: "apartment_sum",
+            select: "building_id sum",
+        })
+        .then((apartments) => {
+            const filteredApartments = apartments.filter(
+                (apartment) => apartment.apartment_sum?.building_id.toString() === building._id.toString()
+            );
+
+            const totalPaid = filteredApartments.reduce((sum, apartment) => sum + apartment.apartment_sum.sum, 0);
+
+            return totalPaid;
+        });
+
 
         const expenses = await Expenses.aggregate([
             { $match: { building_id: building._id } },

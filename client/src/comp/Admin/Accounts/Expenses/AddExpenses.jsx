@@ -39,9 +39,7 @@ const AddExpenses = (props) => {
             });
             const updatedExp = [...props.expenses, ...newExp].sort((a, b) => new Date(a.date) - new Date(b.date));
             props.setExpenses(updatedExp);
-            dispatch(updateBalance(building.balance+newExp[0].sum));
-            console.log(newExp[0].sum);
-
+            dispatch(updateBalance(building.balance-newExp[0].sum));
             props.setVisible(false);
             ToastService.show('success', 'הצלחה', 'הוצאה נוספה בהצלחה', 3000); 
         } catch (e) {

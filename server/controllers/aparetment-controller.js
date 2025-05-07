@@ -3,8 +3,9 @@ const Building = require("../models/Building-model");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
-const Apartment_sum = require("../models/Apartments_sum-model");
 const Expenses = require("../models/Expense-model");
+const Apartments_sum_one = require("../models/Apartment_sum_one-model");
+
 
 const login = async (req, res) => {
     const { mail, password } = req.body;
@@ -29,12 +30,24 @@ const login = async (req, res) => {
             : null;
 
         const building = await Building.findById(apartment.building_id).lean();
+        if (!building) {
+            return res.status(404).json({ message: "Building not found." });
+        }
 
+        const income = await Apartments_sum_one.find()
+            .populate({
+                path: "apartment_sum", 
+                select: "building_id sum",
+            })
+            .then((apartments) => {
+                const filteredApartments = apartments.filter(
+                    (apartment) => apartment.apartment_sum?.building_id.toString() === building._id.toString()
+                );
 
-        const income = await Apartment_sum.aggregate([
-            { $match: { building_id: building._id } },
-            { $group: { _id: null, total: { $sum: "$sum" } } }
-        ]);
+                const totalPaid = filteredApartments.reduce((sum, apartment) => sum + apartment.apartment_sum.sum, 0);
+
+                return totalPaid; 
+            });
 
         const expenses = await Expenses.aggregate([
             { $match: { building_id: building._id } },
@@ -42,22 +55,15 @@ const login = async (req, res) => {
         ]);
 
         const balance =
-            (income.length > 0 ? income[0].total : 0) -
-            (expenses.length > 0 ? expenses[0].total : 0);
+            (income || 0) - (expenses.length > 0 ? expenses[0].total : 0);
 
         const buildingWithBalance = { ...building, balance };
 
-
-        if (!building) {
-            return res.status(404).json({ message: "Building not found." });
-        }
-
         delete apartment.password;
-        // delete building.password;
 
         const accessToken = jwt.sign(apartment, process.env.ACCESS_TOKEN_SECRET);
 
-        res.status(200).json({ token: accessToken, apartment, building:buildingWithBalance, allApartments });
+        res.status(200).json({ token: accessToken, apartment, building: buildingWithBalance, allApartments });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Server error during login." });
@@ -155,7 +161,7 @@ const apartmentLeft = async (req, res) => {
 
 const updateApartment = async (req, res) => {
     const { id } = req.params;
-    const { last_name, area, floor, entrance } = req.body;
+    const { last_name, floor, entrance } = req.body;
 
     if (!id) {
         return res.status(400).json({ message: "Missing apartment ID." });
@@ -167,10 +173,9 @@ const updateApartment = async (req, res) => {
             return res.status(404).json({ message: "Apartment not found or inactive." });
         }
 
-        apartment.last_name = last_name ?? apartment.last_name;
-        apartment.area = area ?? apartment.area;
-        apartment.floor = floor ?? apartment.floor;
-        apartment.entrance = entrance ?? apartment.entrance;
+        apartment.last_name = last_name
+        apartment.floor = floor
+        apartment.entrance = entrance
 
         await apartment.save();
 

@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { updateAllApar } from '../../../../Store/AllApartment';
 import ToastService from '../../../Toast/ToastService';
 import { updateApartment } from '../../../../Store/ApartmentSlice';
+import { updateBalance } from '../../../../Store/BuildingSlice';
 
 
 const AddSums = (props) => {
@@ -18,6 +19,7 @@ const AddSums = (props) => {
     const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);
     const header = props.is_general ? "הוספת תשלום לכלל הדיירים" : "הוספת תשלום לדייר"
     const apartment = useSelector((myStore) => myStore.apartmentDetails.apartment);
+    const building = useSelector((store) => store.buildingDetails.building);
 
     const {
         register,
@@ -46,7 +48,10 @@ const AddSums = (props) => {
             props.setSums &&  props.setSums([...props.sums, ...newSum].sort((a, b) => new Date(a.date) - new Date(b.date)));
             dispatch(updateAllApar(res.data.allApartments));
             const updateApartment1 = res.data.allApartments.filter(a => a._id == apartment._id)
-            dispatch(updateApartment(updateApartment1[0]));            
+            dispatch(updateApartment(updateApartment1[0]));
+            console.log("building.balance"+building.balance);
+            console.log(building.balance+(data.sum*props.apartments_id.length));
+            dispatch(updateBalance(building.balance+(data.sum*props.apartments_id.length)));         
             props.setVisible(false);
             ToastService.show('success', 'הצלחה', 'תשלום נוסף בהצלחה');
         } catch (e) {

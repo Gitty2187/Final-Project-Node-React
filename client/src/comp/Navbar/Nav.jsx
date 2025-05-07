@@ -137,7 +137,6 @@ const Navbar = () => {
                 onSubmit={() => setEditDialogVisible(false)}
                 defaultValues={{
                     last_name: apartment?.last_name || '',
-                    area: apartment?.area || 0,
                     floor: apartment?.floor || 0,
                     entrance: apartment?.entrance || '',
                 }}
