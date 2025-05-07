@@ -65,7 +65,7 @@ const ApartmentSumTable = () => {
 
         set_unique_years_to_filter(uniqueYears);
 
-        const uniqueBy = [...new Set(sums.map((ex) => ex.admin_last_name))];
+        const uniqueBy = [...new Set(sums.map((ex) => ex.paymentDetails.admin_last_name))];
         set_unique_by_to_filter(uniqueBy);
 
         const filtered = sums.filter(expense => {
@@ -98,7 +98,6 @@ const ApartmentSumTable = () => {
             onChange={(e) => setSelectedYear(e.value)} options={unique_years_to_filter.map(year => ({ label: year, value: year }))}
             editable placeholder="שנה" className="p-column-filter" style={{ width: '12' }} />)
     }
-
     const adminLastNameFilter = () => {
         return (
             <Dropdown

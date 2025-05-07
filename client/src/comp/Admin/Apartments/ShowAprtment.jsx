@@ -9,6 +9,7 @@ import SendMail from './SendMail';
 import AddPayment from './AddPayment';
 import Leave from './ApartmentLeave';
 import { Tooltip } from 'primereact/tooltip';
+import './ShowAprtment.css'
 
 
 const ShowApartment = () => {
@@ -123,7 +124,8 @@ const ShowApartment = () => {
                 scrollHeight="500px"
                 header="רשימת הדיירים לבנין"
             />
-            <Button label="שלח מייל לכל הדיירים" text raised onClick={() => setSendMailAllApartmentnts(true)} />
+            <br />
+            <Button label="שלח מייל לכל הדיירים" text raised onClick={() => setSendMailAllApartmentnts(true)} style={{float:'left'}}/>
         </div>
     );
 }

@@ -8,7 +8,6 @@ import { useSelector } from "react-redux";
 
 const Home = () => {
     const apartment = useSelector((myStore) => myStore.apartmentDetails.apartment);
-    debugger
     return (<>
         <Nav />
         <div className="card scrollpanel-demo">

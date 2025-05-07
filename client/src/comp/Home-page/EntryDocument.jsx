@@ -22,24 +22,51 @@ try {
     console.error('❌ שגיאה ברישום הפונט:', error);
 }
 
-// עיצוב
+// עיצוב מעודכן
 const styles = StyleSheet.create({
     page: {
         flexDirection: 'column',
         padding: 30,
         fontFamily: 'Rubik',
         direction: 'rtl',
+        backgroundColor: '#f3f4f6',
     },
-    logo: {
-        width: 120,
-        height: 60,
+    card: {
+        backgroundColor: '#ffffff',
+        borderRadius: 15,
+        padding: 20,
         marginBottom: 20,
-        alignSelf: 'center',
+        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+    },
+    title: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#D1BB9B',
+        marginBottom: 15,
+        textAlign: 'center',
     },
     text: {
         fontSize: 14,
         marginBottom: 12,
-        textAlign: 'right',
+        textAlign: 'center',
+        // color: '#333',
+        lineHeight: 1.5,
+    },
+    highlight: {
+        fontWeight: 'bold',
+        // color: '#D1BB9B',
+    },
+    password: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#D1BB9B',
+        textAlign: 'center',
+        marginBottom: 12,
+    },
+    logo: {
+        width: 150,
+        marginVertical: 20,
+        alignSelf: 'center',
     },
 });
 
@@ -47,26 +74,27 @@ const MyDocument = ({ building }) => {
     return (
         <Document>
             <Page size="A4" style={styles.page}>
-                <View>
-
+                <View style={styles.card}>
+                    <Text style={styles.title}>ברוכים הבאים למערכת החדשה!</Text>
                     <Text style={styles.text}>
-                        שלום דיירים יקרים בבניין בכתובת {building?.address || '[לא צוינה כתובת]'}.
+                        שלום דיירים יקרים בבניין בכתובת{' '}
+                        <Text style={styles.highlight}>{building?.address || '[לא צוינה כתובת]'}</Text>.
                     </Text>
                     <Text style={styles.text}>
-                        מהיום אנו עוברים לניהול ועד הבית ע"י מערכת 
+                        מהיום אנו עוברים לניהול ועד הבית ע״י מערכת חדשנית שתשפר את איכות החיים שלכם.
                     </Text>
                     <Image
-                        style={{ width: 150,alignSelf:'center'}}
+                        style={styles.logo}
                         src="/logo.png"
                     />
                     <Text style={styles.text}>
-                        יש להיכנס ולהירשם לבניין.
+                        אנא הירשמו למערכת באמצעות הסיסמה הייחודית לבניין שלכם.
+                    </Text>
+                    <Text style={styles.password}>
+                        סיסמת הבניין: {building?.password || '[לא צוינה סיסמה]'}
                     </Text>
                     <Text style={styles.text}>
-                        הסיסמה של הבניין שלנו: {building?.password || '[לא צוינה סיסמה]'}
-                    </Text>
-                    <Text style={styles.text}>
-                        בהצלחה לכולנו!
+                        אנו מאחלים לכולנו הצלחה ומעבר חלק למערכת החדשה. תודה על שיתוף הפעולה!
                     </Text>
                 </View>
             </Page>
@@ -87,7 +115,23 @@ const PdfFormGenerator = () => {
                     console.error('❌ שגיאה בהפקת PDF:', error);
                     return 'שגיאה ביצירת PDF';
                 }
-                return <div style={{width:'100%'}}><Button style={{float:'left'}}>{loading ? '📦 יוצר קובץ...' : '⬇️ הורד מכתב לדיירים'}</Button></div>
+                return (
+                    <div style={{ width: '100%', textAlign: 'center', marginTop: '20px' }}>
+                        <Button
+                            style={{
+                                backgroundColor: '#4CAF50',
+                                color: '#fff',
+                                padding: '10px 20px',
+                                fontSize: '16px',
+                                borderRadius: '5px',
+                                border: 'none',
+                                cursor: 'pointer',
+                            }}
+                        >
+                            {loading ? '📦 יוצר קובץ...' : '⬇️ הורד מכתב לדיירים'}
+                        </Button>
+                    </div>
+                );
             }}
         </PDFDownloadLink>
     );

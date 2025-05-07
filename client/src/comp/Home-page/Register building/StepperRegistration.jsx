@@ -61,7 +61,7 @@ const StepperRegistration = () => {
 
   const copyToClipboard = () => {
 
-    navigator.clipboard.writeText(buildingData?.password)
+    navigator.clipboard.writeText(buildingData.building?.password)
       .then(() => {
         ToastService.show('success', 'הסיסמה הועתקה בהצלחה', '', 3000);
       })

@@ -27,7 +27,7 @@ const Account = () => {
                     }}
                 >
                     <span>
-                        {building?.balance < 0 ? '❌ חוב' : '✅ יתרה'}: {building?.balance} ₪
+                        {building?.balance < 0 ? 'חוב  לבנין ' : 'יתרה לבנין'}: {building?.balance} ₪
                     </span>
                 </Button>
 
