@@ -134,7 +134,7 @@ const ApartmentSumTable = () => {
                             const remainingAmount = calculateRemainingAmount(rowData.paymentDetails.sum, rowData.amountPaid);
                             return (
                                 <span style={{ color: remainingAmount > 0 ? 'red' : 'green' }}>
-                                    {remainingAmount}
+                                    {remainingAmount} ש"ח
                                 </span>
                             );
                         }}>
