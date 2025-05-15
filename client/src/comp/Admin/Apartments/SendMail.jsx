@@ -13,6 +13,8 @@ const SendMail = (props) => {
     const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);
     const [to, setTo] = useState(props.selectedApartmentMail);
     const [loading, setLoading] = useState(false);
+
+    
     const handleSendEmail = async () => {
         setLoading(true);
         try {

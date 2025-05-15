@@ -67,11 +67,14 @@ const ApartmentSumTable = () => {
 
         const uniqueBy = [...new Set(sums.map((ex) => ex.paymentDetails.admin_last_name))];
         set_unique_by_to_filter(uniqueBy);
-
+        console.log(sums);
+        
         const filtered = sums.filter(expense => {
             const exYear = new Date(expense.paymentDetails.date.split('/').reverse().join('/')).getFullYear();
             const matchesYear = exYear === selectedYear;
-            const matchesAdmin = selectedBy ? expense.admin_last_name === selectedBy : true;
+            console.log(expense.paymentDetails.admin_last_name +" "+selectedBy);
+            
+            const matchesAdmin = selectedBy ? expense.paymentDetails.admin_last_name === selectedBy : true;
 
             return matchesYear && matchesAdmin;
         });
@@ -87,7 +90,7 @@ const ApartmentSumTable = () => {
     const footerGroup = (
         <ColumnGroup>
             <Row>
-                <Column footer=" סכום שנותר לתשלום:" colSpan={4} footerStyle={{ textAlign: 'right' }} />
+                <Column footer=" סכום שנותר לתשלום לשנה זו:" colSpan={4} footerStyle={{ textAlign: 'right' }} />
                 <Column footer={filteredsums.reduce((total, sums) => total + calculateRemainingAmount(sums.paymentDetails.sum, sums.amountPaid), 0)} footerStyle={{ textAlign: 'right' }} />
             </Row>
         </ColumnGroup>
@@ -129,7 +132,7 @@ const ApartmentSumTable = () => {
                         header="סכום"
                         body={(rowData) => `${rowData.paymentDetails.sum} ש"ח`}
                     />
-                    <Column style={{ textAlign: "right", width: "16rem" }} header="סכום הנותר לתשלום"
+                    <Column style={{ textAlign: "right", width: "16rem" }} header=" סכום הנותר לתשלום"
                         body={(rowData) => {
                             const remainingAmount = calculateRemainingAmount(rowData.paymentDetails.sum, rowData.amountPaid);
                             return (
