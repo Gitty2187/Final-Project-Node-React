@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Password } from 'primereact/password';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
@@ -11,6 +11,7 @@ import axios from 'axios';
 import { updateApartment } from '../../Store/ApartmentSlice';
 import { updateAllApar } from '../../Store/AllApartment';
 import { setToken } from '../../Store/Token';
+import ToastService from '../Toast/ToastService';
 import './RegisterPage.css';
 
 const RegisterPage = (props) => {
@@ -90,15 +91,22 @@ const RegisterPage = (props) => {
         };
 
         try {
-
             const res = await axios.post('http://localhost:7000/apartment', data);
             dispatch(updateApartment(res.data.apartment));
             dispatch(setToken(res.data.token));
             dispatch(updateAllApar(res.data.allApartments));
             props.onSuccess ? props.onSuccess()
                 : confirmSuccess();
+
         } catch (error) {
-            setErrorMessage("המייל שהכנסת כבר קיים במערכת'");
+            if (error.status === 500)
+                setErrorMessage("המייל לא תקין");
+            else {
+                if (error.status === 401)
+                    setErrorMessage("המייל שהכנסת כבר קיים במערכת");
+                else
+                    ToastService.show('error', 'שגיאה', 3000);
+            }
         }
     };
 

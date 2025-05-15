@@ -34,8 +34,8 @@ const ShowApartment = () => {
         return (
             <div className="col-30" style={{marginRight:'3rem'}}>
                 <div className="flex flex-row align-items-center p-4 gap-4 border-round">
-                    <div className="flex flex-column gap-2">
-                        <div className="text-2xl text-700" style={{ alignContent: 'center', textAlign: 'center' }}>משפחת  {data.last_name}</div>
+                    <div className="flex flex-column gap-2" style={{minWidth:'14rem',maxWidth:'14rem'}}>
+                        <div className="text-2xl text-700" >משפחת  {data.last_name}</div>
                         <div className="flex flex-row items-center gap-2">
                             <Tooltip target=".user-minus-icon" content="דיווח דייר שעזב" position="top" />
 

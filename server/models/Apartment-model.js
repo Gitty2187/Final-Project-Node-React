@@ -49,10 +49,6 @@ const ApartmentSchema = new Schema({
     is_active:{
         type:Boolean,
         default:true
-    },
-    debt:{
-        type:Number,
-        default:0
     }
 }, {
     timestamps: true

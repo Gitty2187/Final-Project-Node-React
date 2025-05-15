@@ -101,7 +101,6 @@ const logUp = async (req, res) => {
 
         return res.status(201).json({ token: accessToken, apartment: apartmentPayload, allApartments });
     } catch (error) {
-        console.error(error);
         return res.status(500).json({ message: "Server error during signup." });
     }
 };
