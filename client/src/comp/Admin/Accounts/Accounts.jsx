@@ -35,7 +35,7 @@ const Account = () => {
 
                 <div className="flex flex-column md:flex-row gap-5">
                     <div className="table-container">
-                        <h2>חיובים</h2>
+                        <h2>גביות</h2>
                         <div className="table-wrapper">
                             <TableSums />
                         </div>
