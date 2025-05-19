@@ -68,7 +68,7 @@ const ContactUsForm = () => {
             <div className="flex justify-center items-center px-4 sm:px-8 rounded-xl" dir="rtl"  >
                 <div className="w-full max-w-sm surface-card shadow-3 rounded-8xl p-5">
                     <Toast ref={toast} />
-                    <h2 className="text-2xl mb-4 text-center">צור קשר</h2>
+                    <h2 className="text-2xl mb-4 text-center">צור קשר עם מנהל המערכת</h2>
 
                     <div className="mb-3">
                         <label htmlFor="subject" className="block mb-2">נושא</label>
