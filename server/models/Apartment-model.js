@@ -39,7 +39,10 @@ const ApartmentSchema = new Schema({
         type:Boolean,
         default:false
     },
-  
+    debt: {
+    type: Number,
+    default: 0
+},
     floor:{
         type:Number
     },
