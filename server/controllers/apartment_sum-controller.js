@@ -21,15 +21,15 @@ const add = async (req, res) => {
     }
 
     try {
-        const apartment_sum = await Apartment_sum.create({ 
+        const apartment_sum = await Apartment_sum.create({
             admin_last_name: req.admin.last_name,
-            admin_id: req.admin._id, 
-            date, 
-            type, 
-            sum, 
-            comment, 
+            admin_id: req.admin._id,
+            date,
+            type,
+            sum,
+            comment,
             building_id: req.admin.building_id,
-            is_general 
+            is_general
         });
 
         for (let id of apartments_id) {
@@ -106,4 +106,50 @@ const getById = async (req, res) => {
     }
 };
 
-module.exports = { get_all, add, getById };
+const getUnpaidPayments = async (req, res) => {
+
+    try {
+        const payments = await Apartment_sum_one.find({ apartment: req.params.id })
+            .populate('apartment_sum');
+
+        if (!payments || payments.length === 0) {
+            return res.status(204).json({ message: "אין תשלומים לדירה זו." });
+        }
+
+        // סינון תשלומים שטרם שולמו במלואם
+        const unpaidPayments = payments.filter(p => {
+            const totalSum = p.apartment_sum?.sum || 0;
+            return p.paid < totalSum;
+        });
+
+        if (unpaidPayments.length === 0) {
+            return res.status(204).json({ message: "אין תשלומים פתוחים לדירה זו." });
+        }
+
+        // מיון לפי תאריך החיוב
+        const sortedUnpaid = unpaidPayments.sort((a, b) => {
+            return new Date(a.apartment_sum.date) - new Date(b.apartment_sum.date);
+        });
+
+        // החזרת פרטים רלוונטיים
+        const result = sortedUnpaid.map(p => {
+            const totalSum = p.apartment_sum.sum;
+            return {
+                date: p.apartment_sum.date,
+                type: p.apartment_sum.type,
+                amountRemaining: totalSum - p.paid,
+                paidBy: p.apartment_sum.admin_last_name,
+                comment: p.comment || p.apartment_sum.comment || "",
+                createdAt: p.createdAt,
+                updatedAt: p.updatedAt
+            };
+        });
+
+        return res.status(200).json(result);
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "אירעה שגיאה בעת שליפת התשלומים הפתוחים." });
+    }
+};
+module.exports = { get_all, add, getById, getUnpaidPayments };

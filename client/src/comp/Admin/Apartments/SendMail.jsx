@@ -9,12 +9,11 @@ import ToastService from '../../Toast/ToastService';
 
 const SendMail = (props) => {
     const [subject, setSubject] = useState(" ");
-    const [text, setText] = useState(" ")
+    const [text, setText] = useState(" ");
     const ACCESS_TOKEN = useSelector((myStore) => myStore.token.token);
     const [to, setTo] = useState(props.selectedApartmentMail);
     const [loading, setLoading] = useState(false);
 
-    
     const handleSendEmail = async () => {
         setLoading(true);
         try {
@@ -48,16 +47,51 @@ const SendMail = (props) => {
     };
 
     const header = renderHeader();
+    const fetchAndBuildText = async () => {
+        if (!props.id) return;
 
+        try {
+            const res = await axios.get(`http://localhost:7000/apartment_sum/getUnpaidPayments/${props.id}`, {
+                headers: {
+                    Authorization: `Bearer ${ACCESS_TOKEN}`
+                }
+            });
+
+            if (res.status === 200) {
+                debugger
+                const updatedsums = res.data.map((a) => {
+                    const updateDay = new Date(a.date);
+                    return {
+                        ...a,
+
+                        date: `${updateDay.getDate()}/${updateDay.getMonth() + 1}/${updateDay.getFullYear()}`
+
+                    };
+                });
+
+                let totalDebt = 0;
+                let textBuilder = `שלום ${props.lastName},<br/><br/>`;
+                textBuilder += `החוב שיש לועד הוא <b>${props.debt}</b> ש"ח.<br/>`;
+                textBuilder += `להלן פירוט החיובים:<br/><ul>`;
+
+                updatedsums.forEach((sum) => {
+                    textBuilder += `<li>עבור ${sum.type} | תאריך: ${sum.date} | סכום שנותר לתשלום: <b>${sum.amountRemaining}</b> ש"ח</li>`;
+                });
+
+                setText(textBuilder);
+            }
+        } catch (e) {
+            console.log(e);
+            ToastService.show('error', 'שגיאה', 'נכשל בהבאת התשלומים', 3000);
+        }
+    };
     useEffect(() => {
         if (props.lastName) {
             setSubject('תזכורת תשלום לדירה');
-        }
-        if (props.lastName) {
-            setText(`שלום ${props.lastName}<br/>חובך לועד הוא <b>${props.debt}</b> ש"ח. נא להעביר את התשלום בהקדם.`);
+            fetchAndBuildText();
         }
         setTo(props.selectedApartmentMail);
-    }, [props.debt, props.lastName, props.selectedApartmentMail]);
+    }, [props.debt, props.lastName, props.selectedApartmentMail, props.id]);
 
     return (
         <div>
@@ -65,7 +99,7 @@ const SendMail = (props) => {
                 header="שלח מייל"
                 visible={props.sendMail}
                 onHide={() => props.setSendMail(false)}
-                style={{ direction: 'rtl' }} 
+                style={{ direction: 'rtl' }}
             >
                 <div className="email-composer flex flex-column gap-1">
                     <label htmlFor="to" style={{ float: 'right' }}>אל</label>
@@ -75,17 +109,21 @@ const SendMail = (props) => {
                             <i className="pi pi-user"></i>
                         </span>
                     </div>
-                    <br/>
+                    <br />
                     <label htmlFor="subject" style={{ float: 'right' }}>נושא</label>
                     <div className="p-inputgroup flex-1" style={{ direction: 'ltr' }}>
                         <InputText
                             placeholder="הכנס טקסט"
-                            id="subject" style={{ direction: 'rtl' }} value={subject} onChange={(e) => setSubject(e.target.value)} />
+                            id="subject"
+                            style={{ direction: 'rtl' }}
+                            value={subject}
+                            onChange={(e) => setSubject(e.target.value)}
+                        />
                         <span className="p-inputgroup-addon">
                             <i className="pi pi-pencil"></i>
                         </span>
                     </div>
-                    <br/>
+                    <br />
                     <label style={{ float: 'right' }}>תוכן</label>
                     <div className="p-field" style={{ textAlign: 'right' }}>
                         <Editor
@@ -108,7 +146,7 @@ const SendMail = (props) => {
                 </div>
             </Dialog>
         </div>
-    )
-}
+    );
+};
 
 export default SendMail;

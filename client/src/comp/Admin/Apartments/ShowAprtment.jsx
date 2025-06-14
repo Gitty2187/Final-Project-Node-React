@@ -85,7 +85,7 @@ const ShowApartment = () => {
                                     return apartments.mail
                                 })}
                             />}
-                        {sendMail && <SendMail sendMail={sendMail} setSendMail={setSendMail} selectedApartmentMail={selectedApartmentMail} lastName={selectedApartmentLastName} debt={selectedApartmentdebt} />}
+                        {sendMail && <SendMail sendMail={sendMail} setSendMail={setSendMail} selectedApartmentMail={selectedApartmentMail} lastName={selectedApartmentLastName} debt={selectedApartmentdebt} id={selectedApartmentId}/>}
                         {visibleLeft && <Leave apartment_id={[selectedApartmentId]} lastName={selectedApartmentLastName} />}
                         {visible && <AddSums visible={visible} setVisible={setVisible} is_general={false} apartments_id={[selectedApartmentId]} />}
                         {visibleSum && <AddPayment visible={visibleSum} setVisible={setVisibleSum} apartment_id={[selectedApartmentId]} />}
@@ -101,6 +101,7 @@ const ShowApartment = () => {
                                     setSelectedApartmentMail(data.mail);
                                     setSelectedApartmenLastName(data.last_name);
                                     setSelectedApartmendebt(data.debt);
+                                    setSelectedApartmentId(data._id)
                                     setSendMail(true);
                                 }}
                             />

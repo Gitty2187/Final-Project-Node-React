@@ -8,6 +8,7 @@ const apartment_sumController = require("../controllers/apartment_sum-controller
 router.post("/",verifyJWT_admin,apartment_sumController.add)
 router.get("/",verifyJWT_admin,apartment_sumController.get_all)
 router.get("/getById",verifyJWT,apartment_sumController.getById)
+router.get("/getUnpaidPayments/:id",verifyJWT_admin,apartment_sumController.getUnpaidPayments)
 
 
 module.exports = router
