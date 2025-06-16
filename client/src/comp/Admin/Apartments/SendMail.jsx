@@ -58,7 +58,6 @@ const SendMail = (props) => {
             });
 
             if (res.status === 200) {
-                debugger
                 const updatedsums = res.data.map((a) => {
                     const updateDay = new Date(a.date);
                     return {
@@ -69,16 +68,17 @@ const SendMail = (props) => {
                     };
                 });
 
-                let totalDebt = 0;
                 let textBuilder = `שלום ${props.lastName},<br/><br/>`;
-                textBuilder += `החוב שיש לועד הוא <b>${props.debt}</b> ש"ח.<br/>`;
-                textBuilder += `להלן פירוט החיובים:<br/><ul>`;
+                textBuilder += `החוב שיש לועד הוא <b>${props.debt}</b> ש"ח.<br/><br/>`;
+                textBuilder += `להלן פירוט החיובים:<br/><table border="3"><tr><td>סוג</td><td>תאריך</td><td>סכום שנותר לתשלום</td></tr>`;
 
                 updatedsums.forEach((sum) => {
-                    textBuilder += `<li>עבור ${sum.type} | תאריך: ${sum.date} | סכום שנותר לתשלום: <b>${sum.amountRemaining}</b> ש"ח</li>`;
+                    textBuilder += `<tr><td>${sum.type}</td><td>${sum.date}</td><td><b>${sum.amountRemaining}</b> ש"ח</td></tr>`;
                 });
+                textBuilder += `</table><br/>יש להעביר את התשלום בהקדם האפשרי!<br/>`;
 
                 setText(textBuilder);
+
             }
         } catch (e) {
             console.log(e);
@@ -87,7 +87,7 @@ const SendMail = (props) => {
     };
     useEffect(() => {
         if (props.lastName) {
-            setSubject('תזכורת תשלום לדירה');
+            setSubject('תזכורת תשלום לחבון ועד הבית');
             fetchAndBuildText();
         }
         setTo(props.selectedApartmentMail);
@@ -101,7 +101,7 @@ const SendMail = (props) => {
                 onHide={() => props.setSendMail(false)}
                 style={{ direction: 'rtl' }}
             >
-                <div className="email-composer flex flex-column gap-1">
+                <div className="email-composer flex flex-column gap-1" >
                     <label htmlFor="to" style={{ float: 'right' }}>אל</label>
                     <div className="p-inputgroup flex-1" style={{ direction: 'ltr' }}>
                         <InputText placeholder={props.selectedApartmentMail} id="to" value={to} disabled />
