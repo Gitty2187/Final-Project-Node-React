@@ -1,4 +1,5 @@
 const Expenses = require("../models/Expense-model");
+const Building = require("../models/Building-model")
 
 const add = async (req, res) => {
     const { date, type, sum } = req.body;
@@ -20,6 +21,10 @@ const add = async (req, res) => {
         if (!newExpense) {
             return res.status(500).json({ message: "נכשל בהוספת הוצאה." });
         }
+
+        let building = await Building.findById(req.admin.building_id).exec();
+        building.balance -= addExpense.sum;
+        await building.save();
 
         return res.status(201).json([newExpense]);
     } catch (e) {

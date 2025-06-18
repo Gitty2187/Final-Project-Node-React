@@ -1,6 +1,7 @@
 const Apartment_Payment = require("../models/Aparetment_payment-model")
 const Apartment = require("../models/Apartment-model")
 const Apartment_sum_one = require("../models/Apartment_sum_one-model")
+const Building = require("../models/Building-model")
 
 const add = async (req, res) => {
     const { apartment_id, date, sum, comment, payment_method } = req.body
@@ -42,6 +43,10 @@ const add = async (req, res) => {
                 }
             }
         await apartment.save();
+
+        let building = await Building.findById(apartment.building_id).exec();
+        building.balance += payment.sum;
+        await building.save();
 
         // const allApartments = await Apartment.find({ building_id: req.admin.building_id, is_active: true }).sort({ number: 1 });
         return res.status(200).json({ apartment });

@@ -23,32 +23,6 @@ const getBuilding = async (req, res) => {
             apartmentsNull.push(building.minimum_apartment_number + i);
         }
 
-        const income = await Apartments_sum_one.find()
-        .populate({
-            path: "apartment_sum",
-            select: "building_id sum",
-        })
-        .then((apartments) => {
-            const filteredApartments = apartments.filter(
-                (apartment) => apartment.apartment_sum?.building_id.toString() === building._id.toString()
-            );
-
-            const totalPaid = filteredApartments.reduce((sum, apartment) => sum + apartment.apartment_sum.sum, 0);
-
-            return totalPaid;
-        });
-
-
-        const expenses = await Expenses.aggregate([
-            { $match: { building_id: building._id } },
-            { $group: { _id: null, total: { $sum: "$sum" } } }
-        ]);
-
-        const balance =
-            (income.length > 0 ? income[0].total : 0) -
-            (expenses.length > 0 ? expenses[0].total : 0);
-
-        const buildingWithBalance = { ...building, balance };
 
         const existingApartmentNumbers = await Apartment.find(
             { building_id: building._id, is_active: true },
@@ -59,7 +33,7 @@ const getBuilding = async (req, res) => {
             a => !existingApartmentNumbers.some(existing => existing.number === a)
         );
 
-        return res.status(200).json({ building: buildingWithBalance, apartmentsNull });
+        return res.status(200).json({ building, apartmentsNull });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "אירעה שגיאה בעת שליפת הבניין." });
@@ -93,8 +67,6 @@ const addBuilding = async (req, res) => {
             return res.status(500).json({ message: "נכשלה יצירת בניין חדש." });
         }
 
-        const balance = 0;
-        const buildingWithBalance = { ...building.toObject?.(), balance }; // במידה ו-building מגיע ממונגו
 
         let apartmentsNull = [];
         for (let i = 0; i < building.apartments_sum; i++) {
@@ -110,7 +82,7 @@ const addBuilding = async (req, res) => {
             a => !existingApartmentNumbers.some(existing => existing.number === a)
         );
 
-        return res.status(201).json({ building: buildingWithBalance, apartmentsNull });
+        return res.status(201).json({ building, apartmentsNull });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "אירעה שגיאה בעת הוספת בניין חדש." });

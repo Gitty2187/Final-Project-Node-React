@@ -10,7 +10,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { updateAllApar } from '../../../../Store/AllApartment';
 import ToastService from '../../../Toast/ToastService';
 import { updateApartment } from '../../../../Store/ApartmentSlice';
-import { updateBalance } from '../../../../Store/BuildingSlice';
 
 
 const AddSums = (props) => {
@@ -49,9 +48,9 @@ const AddSums = (props) => {
             dispatch(updateAllApar(res.data.allApartments));
             const updateApartment1 = res.data.allApartments.filter(a => a._id == apartment._id)
             dispatch(updateApartment(updateApartment1[0]));
-            console.log("building.balance"+building.balance);
-            console.log(building.balance+(data.sum*props.apartments_id.length));
-            dispatch(updateBalance(building.balance+(data.sum*props.apartments_id.length)));         
+            // console.log("building.balance"+building.balance);
+            // console.log(building.balance+(data.sum*props.apartments_id.length));
+            // dispatch(updateBalance(building.balance+(data.sum*props.apartments_id.length)));         
             props.setVisible(false);
             ToastService.show('success', 'הצלחה', 'תשלום נוסף בהצלחה');
         } catch (e) {

@@ -18,6 +18,10 @@ const BuildingSchema = new Schema({
         type:Number,
         required:true,
         min:1
+    },
+    balance:{
+        type:Number,
+        default:0
     }
 }, {
     timestamps: true

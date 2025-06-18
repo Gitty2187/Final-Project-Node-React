@@ -34,7 +34,7 @@ const AddPayment = (props) => {
     } = useForm();
 
     const onSubmit = async (data) => {
-        data = { ...data, apartment_id: props.apartment_id ,payment_method:payment_method.key}
+        data = { ...data, apartment_id: props.apartment_id, payment_method: payment_method.key }
         try {
             const res = await axios.post('http://localhost:7000/payments', data, {
                 headers: {
@@ -42,7 +42,14 @@ const AddPayment = (props) => {
                 }
             });
             dispatch(updateAllApar(allApartment.map((n) => (n._id === res.data.apartment._id ? res.data.apartment : n))));
-            dispatch(updateBalance(building.balance+data.sum));
+            const numericBalance = Number(building.balance);
+            const numericSum = Number(data.sum);
+            console.log(typeof numericSum, numericSum); // תוודאי שהוא number ולא NaN
+            const total = numericBalance + numericSum;
+            console.log("סה״כ:", total);
+            ;
+
+            dispatch(updateBalance(Number(building.balance) + Number(data.sum)));
             props.setVisible(false);
             ToastService.show('success', 'הצלחה', 'תשלום נוסף בהצלחה');
         } catch (e) {
